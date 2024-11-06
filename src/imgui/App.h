@@ -1,15 +1,15 @@
 #pragma once
-#include "IApp.h"
-#include "Map.h"
+#include "../IApp.h"
+#include "../Map.h"
 #include <GLFW/glfw3.h>
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-class ImGuiApp : public IApp {
+class App : public IApp {
 public:
-    ImGuiApp(int grid_size, int square_size);
-    ~ImGuiApp() override;
+    App(int grid_size, int square_size);
+    ~App() override;
 
     bool init() override;
     void run() override;

@@ -1,11 +1,11 @@
 #include "Field.h"
 
-Field::Field() : isActive(false) {}
+Field::Field() {}
 
-void Field::draw(ImDrawList* draw_list, const ImVec2& p_min, const ImVec2& p_max) const {
-    ImU32 color = IM_COL32(179, 179, 179, 255);
-    draw_list->AddRectFilled(p_min, p_max, color);
+void Field::draw(IDraw* context, const Point& min, const Point& max) const {
+    unsigned int color = 0xFFB3B3B3;
+    context->DrawFilledRect(min, max, color);
 
-    ImU32 border_color = IM_COL32(0, 0, 0, 255);
-    draw_list->AddRect(p_min, p_max, border_color);
+    unsigned int border_color = 0xFF000000;
+    context->DrawRect(min, max, border_color);
 }

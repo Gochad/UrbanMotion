@@ -1,7 +1,7 @@
 #pragma once
 #include "Field.h"
+#include "IDraw.h"
 #include <vector>
-#include "imgui.h"
 
 class Map {
 public:
@@ -12,5 +12,5 @@ public:
 
     Map(int w, int h, int square_size);
 
-    void draw();
+    void draw(IDraw* context);
 };

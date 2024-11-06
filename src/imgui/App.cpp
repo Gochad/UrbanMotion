@@ -1,17 +1,18 @@
-#include "ImGuiApp.h"
+#include "App.h"
+#include "Draw.h"
 
-ImGuiApp::ImGuiApp(int grid_size, int square_size)
+App::App(int grid_size, int square_size)
     : grid_size(grid_size), 
     window_size(grid_size * square_size), 
     map(grid_size, grid_size, square_size), 
     window(nullptr), 
     is_initialized(false) {}
 
-ImGuiApp::~ImGuiApp() {
+App::~App() {
     shutdown();
 }
 
-bool ImGuiApp::init() {
+bool App::init() {
     if (!glfwInit()) return false;
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
@@ -36,7 +37,7 @@ bool ImGuiApp::init() {
     return true;
 }
 
-void ImGuiApp::run() {
+void App::run() {
     if (!is_initialized) return;
 
     while (!glfwWindowShouldClose(window)) {
@@ -46,7 +47,10 @@ void ImGuiApp::run() {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        map.draw();
+        ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
+        Draw imgui_context(draw_list);
+
+        map.draw(&imgui_context);
 
         ImGui::Render();
         int display_w, display_h;
@@ -60,7 +64,7 @@ void ImGuiApp::run() {
     }
 }
 
-void ImGuiApp::shutdown() {
+void App::shutdown() {
     if (is_initialized) {
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
@@ -72,5 +76,5 @@ void ImGuiApp::shutdown() {
 }
 
 IApp* IApp::Create() {
-    return new ImGuiApp(10, 50);
+    return new App(10, 50);
 }
