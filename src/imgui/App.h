@@ -1,6 +1,6 @@
 #pragma once
 #include "../IApp.h"
-#include "../Map.h"
+#include "../IMap.h"
 #include <GLFW/glfw3.h>
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -19,6 +19,6 @@ private:
     GLFWwindow* window;
     int grid_size;
     int window_size;
-    Map map;
+    IMap* map;
     bool is_initialized;
 };

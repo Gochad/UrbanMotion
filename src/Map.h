@@ -1,16 +1,17 @@
 #pragma once
+#include "IMap.h"
+#include "imgui/Draw.h"
 #include "Field.h"
-#include "IDraw.h"
 #include <vector>
 
-class Map {
+class Map : public IMap {
 public:
+    Map(int width, int height, int squareSize);
+    void draw(IDraw* context) override;
+
+private:
     int width;
     int height;
-    const int square_size;
+    int square_size;
     std::vector<std::vector<Field>> grid;
-
-    Map(int w, int h, int square_size);
-
-    void draw(IDraw* context);
 };

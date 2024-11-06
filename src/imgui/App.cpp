@@ -1,14 +1,16 @@
 #include "App.h"
 #include "Draw.h"
+#include "../Map.h"
 
 App::App(int grid_size, int square_size)
-    : grid_size(grid_size), 
-    window_size(grid_size * square_size), 
-    map(grid_size, grid_size, square_size), 
-    window(nullptr), 
-    is_initialized(false) {}
+    : grid_size(grid_size),
+      window_size(grid_size * square_size),
+      map(new Map(grid_size, grid_size, square_size)),
+      window(nullptr),
+      is_initialized(false) {}
 
 App::~App() {
+    delete map;
     shutdown();
 }
 
@@ -50,7 +52,7 @@ void App::run() {
         ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
         Draw imgui_context(draw_list);
 
-        map.draw(&imgui_context);
+        map->draw(&imgui_context);
 
         ImGui::Render();
         int display_w, display_h;
@@ -78,3 +80,4 @@ void App::shutdown() {
 IApp* IApp::Create() {
     return new App(10, 50);
 }
+
