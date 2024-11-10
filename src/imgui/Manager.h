@@ -5,6 +5,7 @@
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
+#include "../texture/Manager.h"
 
 class Manager {
 public:
@@ -19,6 +20,7 @@ public:
 
 private:
     GLFWwindow* window;
+    Texture::Manager textureManager;
 };
 
 #endif // MANAGER_H

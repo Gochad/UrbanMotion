@@ -14,15 +14,17 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
     git \
     cmake \
     libgl1-mesa-dev \
+    libglfw3-dev \
     xorg-dev \
     libxinerama-dev \
     libxcursor-dev \
     libxi-dev \
-    libglfw3-dev \
     mesa-common-dev \
     libglu1-mesa-dev \
     ca-certificates \
-    python3 && \
+    python3 \
+    mesa-utils \
+    libx11-dev && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

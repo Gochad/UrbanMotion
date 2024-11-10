@@ -1,18 +1,7 @@
-#include <GLFW/glfw3.h>                 // GLFW header
-#include "stb_image.h"                  // stb_image for image loading
-#include <iostream>
-
-#include "Manager.h"                    // Manager class header
-#include <imgui.h>                      // ImGui core
-#include <backends/imgui_impl_glfw.h>   // ImGui GLFW backend
-#include <backends/imgui_impl_opengl3.h>// ImGui OpenGL backend
-
-#ifdef __APPLE__
-#include <OpenGL/glext.h>
-#else
-#include <GL/glext.h>
-#endif
-
+#include "Manager.h"
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
 
 Manager::Manager(GLFWwindow* window) : window(window) {}
 
@@ -40,52 +29,22 @@ void Manager::beginFrame() {
     ImGui::NewFrame();
 }
 
-GLuint LoadTexture(const char* filename) {
-    int width, height, nrChannels;
-    unsigned char* data = stbi_load(filename, &width, &height, &nrChannels, 0);
-    GLuint textureID;
-
-    if (data) {
-        glGenTextures(1, &textureID);
-        glBindTexture(GL_TEXTURE_2D, textureID);
-        
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        GLenum format = nrChannels == 4 ? GL_RGBA : GL_RGB;
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        // glGenerateMipmap(GL_TEXTURE_2D);
-        
-        stbi_image_free(data);
-    } else {
-        std::cerr << "Failed to load texture: " << filename << std::endl;
-        stbi_image_free(data);
-        return 0;
-    }
-
-    return textureID;
-}
-
-void ShowTextureWindow() {
-    GLuint grassTexture = LoadTexture("../textures/grass.png");
-    GLuint roadTexture = LoadTexture("../textures/road.png");
-    GLuint buildingTexture = LoadTexture("../textures/building.png");
+void ShowTextureWindow(Texture::Manager& textureManager) {
+    GLuint grassTexture = textureManager.loadTexture("../textures/grass.png");
+    GLuint roadTexture = textureManager.loadTexture("../textures/road.png");
+    GLuint buildingTexture = textureManager.loadTexture("../textures/building.png");
     
     ImGui::Begin("Tile Textures");
 
     ImGui::Image((void*)(intptr_t)grassTexture, ImVec2(64, 64));
-
     ImGui::Image((void*)(intptr_t)roadTexture, ImVec2(64, 64));
-
     ImGui::Image((void*)(intptr_t)buildingTexture, ImVec2(64, 64));
 
     ImGui::End();
 }
 
 void Manager::endFrame() {
-    ShowTextureWindow();
+    ShowTextureWindow(textureManager);
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
