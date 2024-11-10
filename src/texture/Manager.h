@@ -12,20 +12,26 @@
 #include <GL/glext.h>
 #endif
 
+#define TEXTURE_MAP std::unordered_map<ID, int>
+
 namespace Texture {
+    enum class ID {
+        Grass,
+        Road,
+        Building,
+        CrossRoads,
+        Curve,
+        Intersection
+    };
+
     class Manager {
     public:
         Manager();
         ~Manager();
 
-        GLuint loadTexture(const std::string& filename);
-
-        GLuint getTexture(const std::string& name);
-
+        int loadTexture(const std::string& filename);
+        TEXTURE_MAP loadTextures();
         void clear();
-
-    private:
-        std::unordered_map<std::string, GLuint> textures;
     };
 }
 

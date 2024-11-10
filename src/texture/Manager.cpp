@@ -6,15 +6,10 @@ namespace Texture {
     Manager::Manager() {}
 
     Manager::~Manager() {
-        clear();
+        std::cout << "All textures cleared." << std::endl;
     }
 
-    GLuint Manager::loadTexture(const std::string& filename) {
-        if (textures.find(filename) != textures.end()) {
-            std::cout << "Texture " << filename << " already loaded, returning cached texture." << std::endl;
-            return textures[filename];
-        }
-
+    int Manager::loadTexture(const std::string& filename) {
         int width, height, nrChannels;
         unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
         GLuint textureID = 0;
@@ -35,8 +30,6 @@ namespace Texture {
 
             stbi_image_free(data);
 
-            textures[filename] = textureID;
-
             std::cout << "Texture " << filename << " loaded successfully with ID: " << textureID << std::endl;
         } else {
             std::cerr << "Failed to load texture: " << filename << std::endl;
@@ -45,20 +38,16 @@ namespace Texture {
         return textureID;
     }
 
-    GLuint Manager::getTexture(const std::string& name) {
-        if (textures.find(name) != textures.end()) {
-            return textures[name];
-        } else {
-            std::cerr << "Texture " << name << " not found!" << std::endl;
-            return 0;
-        }
-    }
+    TEXTURE_MAP Manager::loadTextures() {
+        TEXTURE_MAP textures;
 
-    void Manager::clear() {
-        for (auto& pair : textures) {
-            glDeleteTextures(1, &pair.second);
-        }
-        textures.clear();
-        std::cout << "All textures cleared." << std::endl;
+        textures[ID::Grass] = loadTexture("../textures/grass.png");
+        textures[ID::Road] = loadTexture("../textures/road.png");
+        textures[ID::Building] = loadTexture("../textures/building.png");
+        textures[ID::Curve] = loadTexture("../textures/curve.png");
+        textures[ID::Intersection] = loadTexture("../textures/intersection.png");
+        textures[ID::CrossRoads] = loadTexture("../textures/crossroads.png");
+
+        return textures;
     }
 }

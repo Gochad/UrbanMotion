@@ -13,6 +13,6 @@ private:
     int width;
     int height;
     int square_size;
-    int textureID;
+    std::unordered_map<Texture::ID, int> textureMap;
     std::vector<std::vector<Field>> grid;
 };
