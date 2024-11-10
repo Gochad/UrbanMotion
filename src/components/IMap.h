@@ -1,5 +1,4 @@
-#pragma once
-#include "IDraw.h"
+#include "../imgui/IDraw.h"
 
 class IMap {
 public:

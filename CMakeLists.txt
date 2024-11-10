@@ -35,8 +35,8 @@ add_executable(UrbanMotion
     main.cpp
     src/imgui/Manager.cpp
     src/imgui/Window.cpp
-    src/Map.cpp
-    src/Field.cpp
+    src/components/Map.cpp
+    src/components/Field.cpp
     src/App.cpp
     ${IMGUI_SOURCES}
     ${GLAD_SOURCES}

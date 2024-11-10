@@ -1,5 +1,4 @@
 #include "Map.h"
-#include "IDraw.h"
 
 Map::Map(int w, int h, int square_size) 
     : width(w), height(h), square_size(square_size), grid(h, std::vector<Field>(w)) {}

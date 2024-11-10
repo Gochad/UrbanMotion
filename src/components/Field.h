@@ -1,5 +1,5 @@
-#include "IDraw.h"
-#include "imgui/Point.h"
+#include "../imgui/IDraw.h"
+#include "../imgui/Point.h"
 
 class Field {
 public:

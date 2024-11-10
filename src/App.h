@@ -3,7 +3,7 @@
 
 #include "imgui/Window.h"
 #include "imgui/Manager.h"
-#include "Map.h"
+#include "components/Map.h"
 
 class App {
 public:

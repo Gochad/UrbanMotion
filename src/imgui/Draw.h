@@ -1,5 +1,5 @@
 #pragma once
-#include "../IDraw.h"
+#include "IDraw.h"
 #include <imgui.h>
 
 class Draw : public IDraw {
