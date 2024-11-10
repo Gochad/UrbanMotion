@@ -1,0 +1,35 @@
+name: Build and Run with Docker
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker.io
+        sudo systemctl enable --now docker
+
+    - name: Build Docker image
+      run: |
+        docker build -t urbanmotion .
+
+    - name: Run UrbanMotion in Docker
+      run: |
+        docker run --rm urbanmotion
+
+    - name: Clean up
+      run: |
+        docker rmi urbanmotion

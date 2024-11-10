@@ -6,7 +6,13 @@
 #include <imgui.h>                      // ImGui core
 #include <backends/imgui_impl_glfw.h>   // ImGui GLFW backend
 #include <backends/imgui_impl_opengl3.h>// ImGui OpenGL backend
+
+#ifdef __APPLE__
 #include <OpenGL/glext.h>
+#else
+#include <GL/glext.h>
+#endif
+
 
 Manager::Manager(GLFWwindow* window) : window(window) {}
 
@@ -50,7 +56,7 @@ GLuint LoadTexture(const char* filename) {
 
         GLenum format = nrChannels == 4 ? GL_RGBA : GL_RGB;
         glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        // glGenerateMipmap(GL_TEXTURE_2D);
         
         stbi_image_free(data);
     } else {

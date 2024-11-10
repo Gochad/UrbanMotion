@@ -50,7 +50,6 @@ add_executable(UrbanMotion
     src/components/Field.cpp
     src/App.cpp
     ${IMGUI_SOURCES}
-    ${GLAD_SOURCES}
 )
 
 target_include_directories(UrbanMotion PRIVATE 
