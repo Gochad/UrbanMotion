@@ -11,6 +11,7 @@ namespace Texture {
 
     GLuint Manager::loadTexture(const std::string& filename) {
         if (textures.find(filename) != textures.end()) {
+            std::cout << "Texture " << filename << " already loaded, returning cached texture." << std::endl;
             return textures[filename];
         }
 
@@ -28,13 +29,15 @@ namespace Texture {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
             GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
-            glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 
+            glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
             glGenerateMipmap(GL_TEXTURE_2D);
 
             stbi_image_free(data);
 
             textures[filename] = textureID;
+
+            std::cout << "Texture " << filename << " loaded successfully with ID: " << textureID << std::endl;
         } else {
             std::cerr << "Failed to load texture: " << filename << std::endl;
         }
@@ -45,8 +48,10 @@ namespace Texture {
     GLuint Manager::getTexture(const std::string& name) {
         if (textures.find(name) != textures.end()) {
             return textures[name];
+        } else {
+            std::cerr << "Texture " << name << " not found!" << std::endl;
+            return 0;
         }
-        return 0;
     }
 
     void Manager::clear() {
@@ -54,5 +59,6 @@ namespace Texture {
             glDeleteTextures(1, &pair.second);
         }
         textures.clear();
+        std::cout << "All textures cleared." << std::endl;
     }
 }

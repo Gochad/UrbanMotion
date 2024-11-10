@@ -13,5 +13,6 @@ private:
     int width;
     int height;
     int square_size;
+    int textureID;
     std::vector<std::vector<Field>> grid;
 };

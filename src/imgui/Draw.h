@@ -16,16 +16,11 @@ public:
         draw_list_->AddRect(ImVec2(min.x, min.y), ImVec2(max.x, max.y), color);
     }
 
-    void DrawTexture(const Point& min, const Point& max) {
-        Texture::Manager textureManager;
-        GLuint buildingTexture = textureManager.loadTexture("../textures/building.png");
-
-        glBindTexture(GL_TEXTURE_2D, buildingTexture);
-
+    void DrawTexture(const Point& min, const Point& max, int textureid) override {
         draw_list_->AddImage(
-            (void*)(intptr_t)(buildingTexture),
-            ImVec2(min.x, min.y),
-            ImVec2(max.x, max.y)
+            reinterpret_cast<void*>(static_cast<intptr_t>(textureid)),
+            ImVec2(min.x, min.y),    // Top-left corner
+            ImVec2(max.x, max.y)     // Bottom-right corner
         );
     }
 
