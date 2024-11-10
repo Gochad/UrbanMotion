@@ -7,6 +7,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(FetchContent)
 
 FetchContent_Declare(
+    stb
+    GIT_REPOSITORY https://github.com/nothings/stb.git
+    GIT_TAG origin/master
+)
+FetchContent_MakeAvailable(stb)
+
+add_library(stb_image INTERFACE)
+target_include_directories(stb_image INTERFACE ${stb_SOURCE_DIR})
+target_compile_definitions(stb_image INTERFACE STB_IMAGE_IMPLEMENTATION)
+
+FetchContent_Declare(
     glfw
     GIT_REPOSITORY https://github.com/glfw/glfw.git
     GIT_TAG 3.3.8
@@ -46,8 +57,9 @@ target_include_directories(UrbanMotion PRIVATE
     ${imgui_SOURCE_DIR} 
     ${imgui_SOURCE_DIR}/backends 
     ${glad_SOURCE_DIR}/include
+    ${stb_SOURCE_DIR}
 )
 
 target_compile_definitions(UrbanMotion PRIVATE IMGUI_IMPL_OPENGL_LOADER_GLAD)
 
-target_link_libraries(UrbanMotion PRIVATE glfw OpenGL::GL)
+target_link_libraries(UrbanMotion PRIVATE glfw OpenGL::GL stb_image)
