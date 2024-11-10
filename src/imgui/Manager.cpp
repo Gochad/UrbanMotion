@@ -29,23 +29,7 @@ void Manager::beginFrame() {
     ImGui::NewFrame();
 }
 
-void ShowTextureWindow(Texture::Manager& textureManager) {
-    GLuint grassTexture = textureManager.loadTexture("../textures/grass.png");
-    GLuint roadTexture = textureManager.loadTexture("../textures/road.png");
-    GLuint buildingTexture = textureManager.loadTexture("../textures/building.png");
-    
-    ImGui::Begin("Tile Textures");
-
-    ImGui::Image((void*)(intptr_t)grassTexture, ImVec2(64, 64));
-    ImGui::Image((void*)(intptr_t)roadTexture, ImVec2(64, 64));
-    ImGui::Image((void*)(intptr_t)buildingTexture, ImVec2(64, 64));
-
-    ImGui::End();
-}
-
 void Manager::endFrame() {
-    ShowTextureWindow(textureManager);
-
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
