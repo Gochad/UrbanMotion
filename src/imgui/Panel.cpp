@@ -21,9 +21,17 @@ void Panel::draw() {
     if (!textures.empty()) {
         for (int i = 0; i < textures.size(); ++i) {
             ImGui::PushID(i);
+            
             if (ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(textures[i])), ImVec2(50, 50))) {
                 selectedTextureIndex = i;
             }
+
+            if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
+                ImGui::SetDragDropPayload("TEXTURE_INDEX", &i, sizeof(int));
+                ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(textures[i])), ImVec2(50, 50));
+                ImGui::EndDragDropSource();
+            }
+
             ImGui::PopID();
 
             if (i < textures.size() - 1) {
