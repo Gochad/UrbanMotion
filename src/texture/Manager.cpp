@@ -37,8 +37,8 @@ namespace Texture {
         return textureID;
     }
 
-    TEXTURE_MAP Manager::loadTextures() {
-        TEXTURE_MAP textures;
+    MAP Manager::loadTextures() {
+        MAP textures;
 
         textures[ID::Building] = loadTexture("../textures/building.png");
         textures[ID::Grass] = loadTexture("../textures/grass.png");

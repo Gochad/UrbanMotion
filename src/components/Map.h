@@ -1,12 +1,13 @@
 #pragma once
-#include "../imgui/Draw.h"
-#include "Field.h"
 #include <vector>
+#include "Field.h"
+#include "../imgui/Draw.h"
+#include "../texture/Manager.h"
 #include "../filestorage/MapFile.cpp"
 
 class Map {
 public:
-    Map(int width, int height, int squareSize);
+    Map(int width, int height, int squareSize, Texture::MAP textures);
     void draw(IDraw* context);
     void edit(IDraw* context, Point mousePosition);
     void showChangeTilePanel(IDraw* context, int selectedX, int selectedY);
@@ -18,7 +19,7 @@ private:
     int selectedX = -1;
     int selectedY = -1;
     bool isEditing = false;
-    std::unordered_map<Texture::ID, int> textureMap;
+    Texture::MAP textureMap;
     std::vector<std::vector<Field>> grid;
 
     MapFile file;

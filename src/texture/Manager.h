@@ -12,8 +12,6 @@
 #include <GL/glext.h>
 #endif
 
-#define TEXTURE_MAP std::unordered_map<ID, int>
-
 namespace Texture {
     enum class ID {
         Building,
@@ -31,13 +29,15 @@ namespace Texture {
         Curve4,
     };
 
+    using MAP = std::unordered_map<ID, int>;
+
     class Manager {
     public:
         Manager();
         ~Manager();
 
         int loadTexture(const std::string& filename);
-        TEXTURE_MAP loadTextures();
+        MAP loadTextures();
         void clear();
     };
 }

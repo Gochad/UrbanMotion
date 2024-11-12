@@ -21,6 +21,7 @@ private:
     Window* appWindow;
     Manager* imguiManager;
     Map* map;
+    Panel* panel;
 };
 
 #endif // APP_H

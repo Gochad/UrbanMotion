@@ -1,10 +1,8 @@
 #include "Map.h"
-#include "../texture/Manager.h"
 
-Map::Map(int w, int h, int square_size) 
+Map::Map(int w, int h, int square_size, Texture::MAP textures) 
     : width(w), height(h), square_size(square_size), grid(h, std::vector<Field>(w)), file("1") {
-        Texture::Manager* textureManager = new Texture::Manager;
-        this->textureMap = textureManager->loadTextures();
+        this->textureMap = textures;
     }
 
 void Map::draw(IDraw* context) {

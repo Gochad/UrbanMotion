@@ -1,6 +1,5 @@
 #include "App.h"
 #include <iostream>
-#include "imgui/Panel.h"
 
 App::App(int grid_size, int square_size)
     : grid_size(grid_size), square_size(square_size),
@@ -18,7 +17,18 @@ bool App::init() {
     imguiManager = new Manager(appWindow->getWindow());
     if (!imguiManager->init()) return false;
 
-    map = new Map(grid_size, grid_size, square_size);
+    panel = new Panel(appWindow->width, 100, appWindow->height - 100);
+
+    Texture::Manager* textureManager = new Texture::Manager;
+    std::unordered_map<Texture::ID, int> textureMap = textureManager->loadTextures();
+    std::vector<Texture::ID> textureIDs;
+    for (const auto& pair : textureMap) {
+        textureIDs.push_back(pair.first);
+    }
+
+    panel->setTextures(textureIDs);
+
+    map = new Map(grid_size, grid_size, square_size, textureMap);
 
     is_initialized = true;
     return true;
@@ -35,8 +45,7 @@ void App::run() {
 
         map->draw(&imgui_context);
 
-        Panel bottomPanel = Panel(appWindow->width, 100, appWindow->height - 100);
-        bottomPanel.draw();
+        panel->draw();
 
         imguiManager->endFrame();
 
