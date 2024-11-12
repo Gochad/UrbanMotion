@@ -8,13 +8,13 @@ public:
     Window(int width, int height);
     ~Window();
 
+    int width, height;
+
     bool init();
     void renderFrame();
     void shutdown();
     GLFWwindow* getWindow() const;
-
 private:
-    int width, height;
     GLFWwindow* window;
 };
 

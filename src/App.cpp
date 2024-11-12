@@ -1,5 +1,6 @@
 #include "App.h"
 #include <iostream>
+#include "imgui/Panel.h"
 
 App::App(int grid_size, int square_size)
     : grid_size(grid_size), square_size(square_size),
@@ -11,7 +12,7 @@ App::~App() {
 }
 
 bool App::init() {
-    appWindow = new Window(grid_size * square_size, grid_size * square_size);
+    appWindow = new Window(grid_size * square_size, grid_size * square_size + 100);
     if (!appWindow->init()) return false;
 
     imguiManager = new Manager(appWindow->getWindow());
@@ -33,6 +34,9 @@ void App::run() {
         Draw imgui_context(draw_list);
 
         map->draw(&imgui_context);
+
+        Panel bottomPanel = Panel(appWindow->width, 100, appWindow->height - 100);
+        bottomPanel.draw();
 
         imguiManager->endFrame();
 

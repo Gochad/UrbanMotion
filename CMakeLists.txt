@@ -46,6 +46,7 @@ add_executable(UrbanMotion
     main.cpp
     src/imgui/Manager.cpp
     src/imgui/Window.cpp
+    src/imgui/Panel.cpp
     src/components/Map.cpp
     src/components/Field.cpp
     src/filestorage/Handler.cpp
