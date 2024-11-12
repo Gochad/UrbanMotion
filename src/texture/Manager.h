@@ -16,12 +16,19 @@
 
 namespace Texture {
     enum class ID {
-        Grass,
-        Road,
         Building,
-        CrossRoads,
-        Curve,
-        Intersection
+        Grass,
+        Intersection,
+        Road1,
+        Road2,
+        Crossroad1,
+        Crossroad2,
+        Crossroad3,
+        Crossroad4,
+        Curve1,
+        Curve2,
+        Curve3,
+        Curve4,
     };
 
     class Manager {

@@ -48,6 +48,9 @@ add_executable(UrbanMotion
     src/imgui/Window.cpp
     src/components/Map.cpp
     src/components/Field.cpp
+    src/filestorage/Handler.cpp
+    src/filestorage/MapFile.cpp
+    src/filestorage/mapper.cpp
     src/texture/Manager.cpp
     src/App.cpp
     ${IMGUI_SOURCES}

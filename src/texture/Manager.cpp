@@ -40,12 +40,22 @@ namespace Texture {
     TEXTURE_MAP Manager::loadTextures() {
         TEXTURE_MAP textures;
 
-        textures[ID::Grass] = loadTexture("../textures/grass.png");
-        textures[ID::Road] = loadTexture("../textures/road.png");
         textures[ID::Building] = loadTexture("../textures/building.png");
-        textures[ID::Curve] = loadTexture("../textures/curve.png");
+        textures[ID::Grass] = loadTexture("../textures/grass.png");
         textures[ID::Intersection] = loadTexture("../textures/intersection.png");
-        textures[ID::CrossRoads] = loadTexture("../textures/crossroads.png");
+
+        textures[ID::Road1] = loadTexture("../textures/road1.png");
+        textures[ID::Road2] = loadTexture("../textures/road2.png");
+
+        textures[ID::Crossroad1] = loadTexture("../textures/crossroads1.png");
+        textures[ID::Crossroad2] = loadTexture("../textures/crossroads2.png");
+        textures[ID::Crossroad3] = loadTexture("../textures/crossroads3.png");
+        textures[ID::Crossroad4] = loadTexture("../textures/crossroads4.png");
+
+        textures[ID::Curve1] = loadTexture("../textures/curve1.png");
+        textures[ID::Curve2] = loadTexture("../textures/curve2.png");
+        textures[ID::Curve3] = loadTexture("../textures/curve3.png");
+        textures[ID::Curve4] = loadTexture("../textures/curve4.png");
 
         return textures;
     }

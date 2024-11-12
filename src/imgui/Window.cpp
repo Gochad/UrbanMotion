@@ -1,5 +1,6 @@
 #include "Window.h"
 #include <imgui_impl_opengl3.h>
+#include <iostream>
 
 Window::Window(int width, int height) : width(width), height(height), window(nullptr) {}
 
