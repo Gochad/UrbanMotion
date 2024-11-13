@@ -21,6 +21,7 @@ private:
     Window* appWindow;
     Manager* imguiManager;
     Map* map;
+    MapFile* mapfile;
     Panel* panel;
 };
 

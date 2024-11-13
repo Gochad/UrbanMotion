@@ -4,7 +4,7 @@
 App::App(int grid_size, int square_size)
     : grid_size(grid_size), square_size(square_size),
       appWindow(nullptr), imguiManager(nullptr), map(nullptr),
-      is_initialized(false) {}
+      is_initialized(false), mapfile(nullptr) {}
 
 App::~App() {
     shutdown();
@@ -28,7 +28,9 @@ bool App::init() {
 
     panel->setTextures(textureIDs);
 
-    map = new Map(grid_size, grid_size, square_size, textureMap);
+    mapfile = new MapFile("1");
+
+    map = new Map(grid_size, grid_size, square_size, mapfile, textureMap);
 
     is_initialized = true;
     return true;
@@ -45,12 +47,39 @@ void App::run() {
 
         map->draw(&imgui_context);
 
-        panel->draw();
+        panel->draw([this]() { mapfile->saveMap(); });
+
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+        ImGui::Begin("DropTargetWindow", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
+                                                   ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
+                                                   ImGuiWindowFlags_NoBringToFrontOnFocus |
+                                                   ImGuiWindowFlags_NoBackground);
+
+        ImGui::InvisibleButton("FullScreenDropTarget", ImGui::GetIO().DisplaySize);
+
+        ImVec2 mapPos(0, 0);
+        int square_size = 50;  
+
+        if (ImGui::BeginDragDropTarget()) {
+            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TEXTURE_INDEX")) {
+                int textureIndex = *(const int*)payload->Data;
+
+                ImVec2 mousePos = ImGui::GetMousePos();
+
+                int gridX = static_cast<int>((mousePos.x - mapPos.x) / square_size);
+                int gridY = static_cast<int>((mousePos.y - mapPos.y) / square_size);
+
+                map->showChangeTilePanel(&imgui_context, gridX, gridY, static_cast<Texture::ID>(textureIndex));
+            }
+            ImGui::EndDragDropTarget();
+        }
+        ImGui::End();
 
         imguiManager->endFrame();
-
         appWindow->renderFrame();
     }
+
 }
 
 void App::shutdown() {

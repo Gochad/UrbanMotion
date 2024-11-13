@@ -7,10 +7,10 @@
 
 class Map {
 public:
-    Map(int width, int height, int squareSize, Texture::MAP textures);
+    Map(int width, int height, int squareSize, MapFile* mapfile, Texture::MAP textures);
     void draw(IDraw* context);
     void edit(IDraw* context, Point mousePosition);
-    void showChangeTilePanel(IDraw* context, int selectedX, int selectedY);
+    void showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Texture::ID id);
 
 private:
     int width;
@@ -22,5 +22,5 @@ private:
     Texture::MAP textureMap;
     std::vector<std::vector<Field>> grid;
 
-    MapFile file;
+    MapFile* file;
 };

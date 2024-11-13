@@ -19,8 +19,8 @@ public:
     void DrawTexture(const Point& min, const Point& max, int textureid) override {
         draw_list_->AddImage(
             reinterpret_cast<void*>(static_cast<intptr_t>(textureid)),
-            ImVec2(min.x, min.y),    // Top-left corner
-            ImVec2(max.x, max.y)     // Bottom-right corner
+            ImVec2(min.x, min.y),
+            ImVec2(max.x, max.y)
         );
     }
 
