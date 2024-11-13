@@ -4,43 +4,44 @@
 Panel::Panel(int width, int height, int yOffset)
     : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0) {}
 
-void Panel::setTextures(const std::vector<Texture::ID>& textures) {
-    this->textures = textures;
+void Panel::setTextureRange(int range) {
+    this->textureRange = range;
 }
 
 int Panel::getSelectedTexture() const {
     return selectedTextureIndex;
 }
-
-void Panel::draw() {
+void Panel::draw(std::function<void()> onSaveClick) {
     ImGui::SetNextWindowPos(ImVec2(0, yOffset));
     ImGui::SetNextWindowSize(ImVec2(width, height));
 
-    ImGui::Begin("Bottom Panel", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+    ImGui::Begin("Editor panel", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
 
-    if (!textures.empty()) {
-        for (int i = 0; i < textures.size(); ++i) {
-            ImGui::PushID(i);
-            
-            if (ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(textures[i])), ImVec2(50, 50))) {
-                selectedTextureIndex = i;
-            }
+    if (ImGui::Button("Save")) {
+        onSaveClick();
+    }
 
-            if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
-                ImGui::SetDragDropPayload("TEXTURE_INDEX", &i, sizeof(int));
-                ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(textures[i])), ImVec2(50, 50));
-                ImGui::EndDragDropSource();
-            }
+    ImGui::SameLine();
 
-            ImGui::PopID();
-
-            if (i < textures.size() - 1) {
-                ImGui::SameLine();
-            }
+    for (int i = 1; i <= textureRange; ++i) {
+        ImGui::PushID(i);
+        
+        if (ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(i)), ImVec2(50, 50))) {
+            selectedTextureIndex = i;
         }
 
-        ImGui::Text("Selected Texture: %d", selectedTextureIndex);
+        if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
+            int payloadIndex = i;
+            ImGui::SetDragDropPayload("TEXTURE_INDEX", &payloadIndex, sizeof(int));
+            ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(i)), ImVec2(50, 50));
+    
+            ImGui::EndDragDropSource();
+        }
+
+        ImGui::PopID();
+        ImGui::SameLine();
     }
+    
 
     ImGui::End();
 }

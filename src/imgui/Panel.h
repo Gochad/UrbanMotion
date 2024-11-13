@@ -11,13 +11,13 @@ public:
     void draw(std::function<void()>);
     int getSelectedTexture() const;
 
-    void setTextures(const std::vector<Texture::ID>& textures);
+    void setTextureRange(int range);
 
 private:
     int width;
     int height;
     int yOffset;
 
-    std::vector<Texture::ID> textures;
+    int textureRange;
     int selectedTextureIndex;
 };

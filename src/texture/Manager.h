@@ -3,7 +3,7 @@
 
 #include <GLFW/glfw3.h>  
 #include <string>
-#include <unordered_map>
+#include <map>
 #include <iostream>
 
 #ifdef __APPLE__
@@ -14,7 +14,7 @@
 
 namespace Texture {
     enum class ID {
-        Building,
+        Building = 1,
         Grass,
         Intersection,
         Road1,
@@ -29,7 +29,7 @@ namespace Texture {
         Curve4,
     };
 
-    using MAP = std::unordered_map<ID, int>;
+    using MAP = std::map<ID, int>;
 
     class Manager {
     public:

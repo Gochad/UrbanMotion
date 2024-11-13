@@ -20,13 +20,10 @@ bool App::init() {
     panel = new Panel(appWindow->width, 100, appWindow->height - 100);
 
     Texture::Manager* textureManager = new Texture::Manager;
-    std::unordered_map<Texture::ID, int> textureMap = textureManager->loadTextures();
-    std::vector<Texture::ID> textureIDs;
-    for (const auto& pair : textureMap) {
-        textureIDs.push_back(pair.first);
-    }
+    std::map<Texture::ID, int> textureMap = textureManager->loadTextures();
+    auto lastElement = *textureMap.rbegin();
 
-    panel->setTextures(textureIDs);
+    panel->setTextureRange(static_cast<int>(lastElement.first));
 
     mapfile = new MapFile("1");
 

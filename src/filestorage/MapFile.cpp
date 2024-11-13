@@ -50,7 +50,7 @@ public:
 
 
     void saveMap() {
-        std::cout << "kurwa to sie zapisuje " << std::endl;
+        std::cout << "we saved the map" << std::endl;
         fileHandler.save(filename, data);
     }
 };
