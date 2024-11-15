@@ -8,7 +8,7 @@ int main() {
     App app(grid_size, square_size);
 
     if (!app.init()) {
-        std::cerr << "Failed to initialize the application.\n";
+        std::cerr << "Failed to initialize the application.";
         return -1;
     }
 
