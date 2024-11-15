@@ -27,7 +27,7 @@ bool App::init() {
 
     mapfile = new MapFile("1");
 
-    map = new Map(grid_size, grid_size, square_size, mapfile, textureMap);
+    map = new Map(grid_size, grid_size, square_size, mapfile->loadMap());
 
     is_initialized = true;
     return true;
