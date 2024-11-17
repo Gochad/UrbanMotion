@@ -1,8 +1,8 @@
 #include "DropTargetWindow.h"
 #include <iostream>
 
-DropTargetWindow::DropTargetWindow(Map* map, Panel* panel, MapFile* mapfile, int square_size)
-    : map(map), panel(panel), mapfile(mapfile), square_size(square_size) {}
+DropTargetWindow::DropTargetWindow(IMap* map, int square_size)
+    : map(map), square_size(square_size) {}
 
 void DropTargetWindow::render(Draw* imgui_context) {
     ImGui::SetNextWindowPos(ImVec2(0, 0));

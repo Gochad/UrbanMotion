@@ -28,7 +28,7 @@ bool App::init() {
     mapfile = new MapFile("1");
 
     map = new Map(grid_size, grid_size, square_size, mapfile->loadMap());
-    dropTargetWindow = new DropTargetWindow(map, panel, mapfile, square_size);
+    dropTargetWindow = new DropTargetWindow(map, square_size);
 
     is_initialized = true;
     return true;
