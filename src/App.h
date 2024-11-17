@@ -3,6 +3,7 @@
 
 #include "imgui/Window.h"
 #include "imgui/Manager.h"
+#include "imgui/DropTargetWindow.h"
 #include "components/Map.h"
 
 class App {
@@ -23,6 +24,7 @@ private:
     Map* map;
     MapFile* mapfile;
     Panel* panel;
+    DropTargetWindow* dropTargetWindow;
 };
 
 #endif // APP_H

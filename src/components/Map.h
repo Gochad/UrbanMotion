@@ -3,7 +3,7 @@
 #include "Fields.h"
 #include "../imgui/Draw.h"
 #include "../texture/Manager.h"
-#include "../filestorage/MapFile.cpp"
+#include "../filestorage/MapFile.h"
 
 using FieldMatrix = std::vector<std::vector<std::shared_ptr<Field>>>;
 
