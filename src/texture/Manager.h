@@ -17,16 +17,9 @@ namespace Texture {
         Building = 1,
         Grass,
         Intersection,
-        Road1,
-        Road2,
-        Crossroad1,
-        Crossroad2,
-        Crossroad3,
-        Crossroad4,
-        Curve1,
-        Curve2,
-        Curve3,
-        Curve4,
+        Road,
+        Crossroad,
+        Curve,
     };
 
     using MAP = std::map<ID, int>;

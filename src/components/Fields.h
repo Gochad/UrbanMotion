@@ -9,9 +9,10 @@
 class Field {
 public:
     Field();
-    Field(int id);
+    Field(int id, int rotationDegrees);
 
     int textureID;
+    int rotation;
 
     void draw(IDraw* context, const Point& min, const Point& max) const;
 };

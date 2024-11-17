@@ -31,6 +31,13 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(imgui)
 
+FetchContent_Declare(
+    glm
+    GIT_REPOSITORY https://github.com/g-truc/glm.git
+    GIT_TAG 0.9.9.8
+)
+FetchContent_MakeAvailable(glm)
+
 set(IMGUI_SOURCES
     ${imgui_SOURCE_DIR}/imgui.cpp
     ${imgui_SOURCE_DIR}/imgui_draw.cpp
@@ -66,4 +73,4 @@ target_include_directories(UrbanMotion PRIVATE
 
 target_compile_definitions(UrbanMotion PRIVATE IMGUI_IMPL_OPENGL_LOADER_GLAD)
 
-target_link_libraries(UrbanMotion PRIVATE glfw OpenGL::GL stb_image)
+target_link_libraries(UrbanMotion PRIVATE glfw OpenGL::GL stb_image glm)
