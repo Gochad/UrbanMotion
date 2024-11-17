@@ -2,7 +2,6 @@
 
 template <typename T>
 std::shared_ptr<Field> createField(Texture::ID textureID, int rotation) {
-    std::cout << "robimy T " << typeid(T).name() << " z texture id: " << static_cast<int>(textureID) << " i rotation: " << rotation << std::endl;
     return std::make_shared<T>(static_cast<int>(textureID), rotation);
 }
 
