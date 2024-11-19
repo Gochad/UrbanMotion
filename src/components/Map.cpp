@@ -18,7 +18,7 @@ void Map::showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Text
     Point min(selectedX * square_size, selectedY * square_size);
     Point max((selectedX + 1) * square_size, (selectedX + 1) * square_size);
 
-    grid[selectedY][selectedX]->textureID = static_cast<int>(id);
+    grid[selectedY][selectedX]->textureID = id;
     grid[selectedY][selectedX]->draw(context, min, max);
 }
 

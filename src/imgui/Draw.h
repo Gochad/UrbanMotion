@@ -12,7 +12,7 @@ private:
 public:
     Draw(ImDrawList* draw_list) : draw_list_(draw_list) {}
 
-    void DrawTexture(const Point& min, const Point& max, int textureid, int rotationDegrees) override {
+    void DrawTexture(const Point& min, const Point& max, Texture::ID textureid, int rotationDegrees) override {
         ImVec2 center = ImVec2((min.x + max.x) / 2.0f, (min.y + max.y) / 2.0f);
 
         ImVec2 halfSize = ImVec2((max.x - min.x) / 2.0f, (max.y - min.y) / 2.0f);
@@ -32,8 +32,8 @@ public:
 
         ImVec2 transformedCorners[4];
         for (int i = 0; i < 4; ++i) {
-            glm::vec2 rotated = rotationMatrix * corners[i];  // Obróć
-            transformedCorners[i] = ImVec2(rotated.x + center.x, rotated.y + center.y);  // Przesuń do globalnych współrzędnych
+            glm::vec2 rotated = rotationMatrix * corners[i];
+            transformedCorners[i] = ImVec2(rotated.x + center.x, rotated.y + center.y);
         }
 
         ImVec2 uvs[4] = {
@@ -41,7 +41,7 @@ public:
             ImVec2(1.0f, 0.0f),
             ImVec2(1.0f, 1.0f),
             ImVec2(0.0f, 1.0f)
-        };
+        };        
 
         draw_list_->AddImageQuad(
             reinterpret_cast<void*>(static_cast<intptr_t>(textureid)),
@@ -50,3 +50,4 @@ public:
         );
     }
 };
+

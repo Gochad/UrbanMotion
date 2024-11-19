@@ -32,23 +32,35 @@ FieldMatrix MapFile::loadMap() {
     return fieldMatrix;
 }
 
+
+struct FieldKey {
+    int textureID;
+    int rotation;
+
+    bool operator==(const FieldKey& other) const {
+        return textureID == other.textureID && rotation == other.rotation;
+    }
+};
+
+struct FieldKeyHash {
+    std::size_t operator()(const FieldKey& key) const {
+        return std::hash<int>()(key.textureID) ^ (std::hash<int>()(key.rotation) << 1);
+    }
+};
+
 void MapFile::saveMap() {
     data.clear();
-
-    std::unordered_map<int, char> reverseMapper;
-    for (const auto& pair : FromFileToFields) {
-        auto field = pair.second();
-        reverseMapper[field->textureID] = pair.first;
-    }
 
     for (const auto& row : fieldMatrix) {
         std::string rowString;
         for (const auto& field : row) {
-            auto it = reverseMapper.find(field->textureID);
-            if (it != reverseMapper.end()) {
+            auto key = std::make_pair(field->textureID, field->rotation);
+
+            auto it = FromFieldsToFile.find(key);
+            if (it != FromFieldsToFile.end()) {
                 rowString += it->second;
             } else {
-                throw std::runtime_error("Texture ID not found in reverseMapper");
+                throw std::runtime_error("Texture ID and rotation not found in ReverseMapper");
             }
         }
         data.push_back(rowString);
