@@ -55,6 +55,7 @@ add_executable(UrbanMotion
     src/imgui/Window.cpp
     src/imgui/Panel.cpp
     src/imgui/DropTargetWindow.cpp
+    src/imgui/WelcomeScreen.cpp
     src/components/Map.cpp
     src/components/Fields.cpp
     src/filestorage/Handler.cpp
