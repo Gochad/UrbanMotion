@@ -4,11 +4,35 @@
 App::App(int grid_size, int square_size)
     : grid_size(grid_size), square_size(square_size),
       appWindow(nullptr), imguiManager(nullptr), map(nullptr),
-      is_initialized(false), mapfile(nullptr), dropTargetWindow(nullptr) {}
+      is_initialized(false), mapfile(nullptr), dropTargetWindow(nullptr),
+      is_map_selected(false), selected_map_id("") {}
+
 
 App::~App() {
     shutdown();
 }
+
+void App::renderMapSelectionPanel() {
+    ImGui::SetNextWindowSize(ImVec2(300, 200));
+    ImGui::SetNextWindowPos(ImVec2((appWindow->width - 300) / 2, (appWindow->height - 200) / 2));
+
+    ImGui::Begin("Select a Map", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+
+    ImGui::Text("Available Maps:");
+    ImGui::Separator();
+
+    const std::vector<std::string> available_maps = {"1", "2", "3"};
+
+    for (const auto& map_id : available_maps) {
+        if (ImGui::Button(("Load Map " + map_id).c_str())) {
+            selected_map_id = map_id;
+            is_map_selected = true;
+        }
+    }
+
+    ImGui::End();
+}
+
 
 bool App::init() {
     appWindow = new Window(grid_size * square_size, grid_size * square_size + 100);
@@ -40,20 +64,30 @@ void App::run() {
     while (!imguiManager->shouldClose()) {
         imguiManager->beginFrame();
 
-        ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
-        Draw imgui_context(draw_list);
+        if (!is_map_selected) {
+            renderMapSelectionPanel();
 
-        map->draw(&imgui_context);
+            if (is_map_selected) {
+                mapfile = new MapFile(selected_map_id);
+                map = new Map(grid_size, grid_size, square_size, mapfile->loadMap());
+                dropTargetWindow = new DropTargetWindow(map, square_size);
+            }
+        } else {
+            ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
+            Draw imgui_context(draw_list);
 
-        panel->draw([this]() { mapfile->saveMap(); });
+            map->draw(&imgui_context);
 
-        dropTargetWindow->render(&imgui_context);
+            panel->draw([this]() { mapfile->saveMap(); });
+
+            dropTargetWindow->render(&imgui_context);
+        }
 
         imguiManager->endFrame();
         appWindow->renderFrame();
     }
-
 }
+
 
 void App::shutdown() {
     if (is_initialized) {
