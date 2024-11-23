@@ -40,13 +40,14 @@ namespace Texture {
     MAP Manager::loadTextures() {
         MAP textures;
 
-        textures[ID::Building] = loadTexture("../textures/building.png");
-        textures[ID::Grass] = loadTexture("../textures/grass.png");
-        textures[ID::Intersection] = loadTexture("../textures/intersection.png");
+        std::string path = "../textures/";
 
-        textures[ID::Road] = loadTexture("../textures/road.png");
-        textures[ID::Crossroad] = loadTexture("../textures/crossroad.png");
-        textures[ID::Curve] = loadTexture("../textures/curve.png");
+        textures[ID::Building] = loadTexture(path + "building.png");
+        textures[ID::Grass] = loadTexture(path + "grass.png");
+        textures[ID::Intersection] = loadTexture(path + "intersection.png");
+        textures[ID::Road] = loadTexture(path + "road.png");
+        textures[ID::Crossroad] = loadTexture(path + "crossroad.png");
+        textures[ID::Curve] = loadTexture(path + "curve.png");
 
         return textures;
     }
