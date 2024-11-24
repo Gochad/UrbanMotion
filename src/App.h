@@ -6,18 +6,16 @@
 #include "imgui/DropTargetWindow.h"
 #include "imgui/WelcomeScreen.h"
 #include "components/Map.h"
+#include <memory>
 
 class App {
 private:
     int grid_size;
     int square_size;
-    Window* appWindow;
-    Manager* imguiManager;
-    Map* map;
-    MapFile* mapfile;
-    Panel* panel;
-    DropTargetWindow* dropTargetWindow;
-    WelcomeScreen* welcomeScreen;
+    std::unique_ptr<Window> appWindow;
+    std::unique_ptr<Manager> imguiManager;
+    std::unique_ptr<Map> map;
+    std::unique_ptr<MapFile> mapfile;
 
     bool is_initialized;
 
