@@ -39,7 +39,6 @@ namespace Texture {
 
     MAP Manager::loadTextures() {
         MAP textures;
-
         std::string path = "../textures/";
 
         textures[ID::Building] = loadTexture(path + "building.png");

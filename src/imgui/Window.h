@@ -4,6 +4,7 @@
 #include "Panel.h"
 #include "WelcomeScreen.h"
 #include "DropTargetWindow.h"
+#include "../components/Map.h"
 #include <GLFW/glfw3.h>
 #include <memory>
 
@@ -22,6 +23,7 @@ public:
     Panel* getPanel() const;
     WelcomeScreen* getWelcomeScreen() const;
     DropTargetWindow* getDropTargetWindow() const;
+    void setMap(Map* map);
     void setDropTargetWindow(std::unique_ptr<DropTargetWindow> newDrop);
 
     void renderWelcomeScreen();
@@ -33,6 +35,7 @@ private:
     std::unique_ptr<Panel> panel;
     std::unique_ptr<WelcomeScreen> welcomeScreen;
     std::unique_ptr<DropTargetWindow> dropTargetWindow;
+    Map* map;
 
     std::function<void(const std::string&)> mapInitializationCallback;
 };

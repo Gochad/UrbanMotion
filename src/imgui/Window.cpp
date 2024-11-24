@@ -49,15 +49,23 @@ void Window::renderWelcomeScreen() {
     }
 }
 
+void Window::setMap(Map* newMap) {
+    map = newMap;
+}
+
 void Window::renderMapAndPanel() {
+    ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
+    Draw imgui_context(draw_list);
+    if (map) {
+        map->draw(&imgui_context);
+    }
+
     if (dropTargetWindow) {
-        ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
-        Draw imgui_context(draw_list);
         dropTargetWindow->render(&imgui_context);
     }
 
     if (panel) {
-        panel->draw([]() { std::cout << "Save Map" << std::endl; });
+        panel->draw([]() { std::cout << "Save map" << std::endl; });
     }
 }
 

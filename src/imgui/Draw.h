@@ -41,7 +41,7 @@ public:
             ImVec2(1.0f, 0.0f),
             ImVec2(1.0f, 1.0f),
             ImVec2(0.0f, 1.0f)
-        };        
+        };    
 
         draw_list_->AddImageQuad(
             reinterpret_cast<void*>(static_cast<intptr_t>(textureid)),

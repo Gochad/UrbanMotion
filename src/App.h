@@ -18,6 +18,7 @@ private:
     std::unique_ptr<MapFile> mapfile;
 
     bool is_initialized;
+    bool map_initialized;
 
     void initializeMap(const std::string& map_id);
 
