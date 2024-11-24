@@ -12,6 +12,7 @@ using FieldMatrix = std::vector<std::vector<std::shared_ptr<Field>>>;
 class Map : public IMap {
 public:
     Map(int width, int height, int squareSize, FieldMatrix matrix);
+    Map(int width, int height, int square_size);
     void draw(IDraw* context);
     void edit(IDraw* context, Point mousePosition);
     void showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Texture::ID id) override;

@@ -20,8 +20,14 @@ bool App::init() {
 
     appWindow->setMapInitializationCallback([this](const std::string& map_id) {
         try {
-            initializeMap(map_id);
+            if (map_id == "new") {
+                map = std::make_unique<Map>(grid_size, grid_size, square_size);
+            } else {
+                initializeMap(map_id);
+            }
             map_initialized = true;
+            appWindow->setMap(map.get());
+
         } catch (const std::exception& e) {
             std::cerr << "Failed to initialize map: " << e.what() << std::endl;
         }

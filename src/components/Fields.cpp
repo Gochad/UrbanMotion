@@ -1,6 +1,7 @@
 #include "Fields.h"
 
-Field::Field() {}
+Field::Field() : textureID(Texture::ID::Default){}
+
 Field::Field(Texture::ID id, int rotationDegrees)
         : textureID(id), rotation(rotationDegrees) {}
 

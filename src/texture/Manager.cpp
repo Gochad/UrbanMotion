@@ -47,6 +47,7 @@ namespace Texture {
         textures[ID::Road] = loadTexture(path + "road.png");
         textures[ID::Crossroad] = loadTexture(path + "crossroad.png");
         textures[ID::Curve] = loadTexture(path + "curve.png");
+        textures[ID::Default] = loadTexture(path + "default.png");
 
         return textures;
     }

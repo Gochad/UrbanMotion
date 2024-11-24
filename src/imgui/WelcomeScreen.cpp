@@ -22,6 +22,12 @@ void WelcomeScreen::render(
     ImGui::Text("Available Maps:");
     ImGui::Separator();
 
+    if (ImGui::Button("Create new map")) {
+        selected_map_id = "new";
+        map_selected = true;
+        onMapSelected(selected_map_id);
+    }
+
     for (const auto& map_id : available_maps) {
         if (ImGui::Button(("Load Map " + map_id).c_str())) {
             selected_map_id = map_id;
