@@ -15,6 +15,7 @@ public:
     void draw(IDraw* context);
     void edit(IDraw* context, Point mousePosition);
     void showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Texture::ID id) override;
+    int getSquareSize() override;
 
 private:
     int width;

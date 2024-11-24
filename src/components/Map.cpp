@@ -22,3 +22,7 @@ void Map::showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Text
     grid[selectedY][selectedX]->draw(context, min, max);
 }
 
+int Map::getSquareSize() {
+    return square_size;
+}
+

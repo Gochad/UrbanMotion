@@ -11,9 +11,6 @@ App::~App() {
 void App::initializeMap(const std::string& map_id) {
     mapfile = std::make_unique<MapFile>(map_id);
     map = std::make_unique<Map>(grid_size, grid_size, square_size, mapfile->loadMap());
-
-    std::cout << "mapa: " << map << std::endl;
-
     appWindow->setMap(map.get()); 
 }
 
@@ -25,8 +22,6 @@ bool App::init() {
         try {
             initializeMap(map_id);
             map_initialized = true;
-            appWindow->setDropTargetWindow(
-               std::make_unique<DropTargetWindow>(map.get(), square_size));
         } catch (const std::exception& e) {
             std::cerr << "Failed to initialize map: " << e.what() << std::endl;
         }
