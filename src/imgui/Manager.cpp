@@ -12,11 +12,21 @@ Manager::~Manager() {
 bool Manager::init() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    if (!ImGui_ImplGlfw_InitForOpenGL(window, true)) return false;
-    if (!ImGui_ImplOpenGL3_Init("#version 150")) return false;
+
+    if (!ImGui_ImplGlfw_InitForOpenGL(window, true)) {
+        std::cerr << "Failed to initialize ImGui GLFW backend" << std::endl;
+        return false;
+    }
+    if (!ImGui_ImplOpenGL3_Init("#version 150")) {
+        std::cerr << "Failed to initialize ImGui OpenGL backend" << std::endl;
+        return false;
+    }
+
     ImGui::StyleColorsDark();
+
     return true;
 }
+
 
 bool Manager::shouldClose() const {
     return glfwWindowShouldClose(window);

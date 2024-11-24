@@ -20,6 +20,7 @@ namespace Texture {
         Road,
         Crossroad,
         Curve,
+        Default
     };
 
     using MAP = std::map<ID, int>;

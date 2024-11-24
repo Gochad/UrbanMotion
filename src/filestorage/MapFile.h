@@ -18,6 +18,7 @@ private:
     FieldMatrix fieldMatrix;
 
 public:
+    MapFile();
     MapFile(const std::string& mapID);
     ~MapFile();
 

@@ -1,18 +1,20 @@
 #include "Window.h"
 #include <imgui_impl_opengl3.h>
 #include <iostream>
+#include <imgui_impl_glfw.h>
 
-Window::Window(int width, int height) : width(width), height(height), window(nullptr) {}
+Window::Window(int width, int height)
+    : width(width), height(height), window(nullptr) {}
 
 Window::~Window() {
-    if (window) {
-        glfwDestroyWindow(window);
-        glfwTerminate();
-    }
+    shutdown();
 }
 
 bool Window::init() {
-    if (!glfwInit()) return false;
+    if (!glfwInit()) {
+        std::cerr << "Failed to initialize GLFW!" << std::endl;
+        return false;
+    }
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
@@ -21,13 +23,65 @@ bool Window::init() {
 
     window = glfwCreateWindow(width, height, "Urban Motion", NULL, NULL);
     if (!window) {
+        std::cerr << "Failed to create GLFW window!" << std::endl;
         glfwTerminate();
         return false;
     }
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
+
+    panel = std::make_unique<Panel>(width, 100, height - 100);
+    welcomeScreen = std::make_unique<WelcomeScreen>(std::vector<std::string>{"1", "2", "3"});
+    dropTargetWindow = nullptr;
+
     return true;
 }
+
+void Window::setMapInitializationCallback(std::function<void(const std::string&)> callback) {
+    mapInitializationCallback = callback;
+}
+
+void Window::renderWelcomeScreen() {
+    if (welcomeScreen) {
+        welcomeScreen->render(width, height, [this](const std::string& map_id) {
+            mapInitializationCallback(map_id);
+            
+            this->setDropTargetWindow(
+               std::make_unique<DropTargetWindow>(map));
+        });
+    }
+}
+
+void Window::setMap(Map* newMap) {
+    map = newMap;
+}
+
+void Window::renderMapAndPanel() {
+    ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
+    Draw imgui_context(draw_list);
+    if (map) {
+        map->draw(&imgui_context);
+    }
+
+    if (dropTargetWindow) {
+        dropTargetWindow->render(&imgui_context);
+    }
+
+    if (panel) {
+        panel->draw([]() { std::cout << "Save map" << std::endl; });
+    }
+}
+
+void Window::renderFrame(bool mapInitialized) {
+    if (!mapInitialized) {
+        renderWelcomeScreen();
+    } else {
+        renderMapAndPanel();
+    }
+
+    glfwSwapBuffers(window);
+}
+
 
 void Window::shutdown() {
     if (window) {
@@ -35,19 +89,28 @@ void Window::shutdown() {
         glfwTerminate();
         window = nullptr;
     }
-}
 
-void Window::renderFrame() {
-    int display_w, display_h;
-    glfwGetFramebufferSize(window, &display_w, &display_h);
-    glViewport(0, 0, display_w, display_h);
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-    glfwSwapBuffers(window);
+    panel.reset();
+    welcomeScreen.reset();
+    dropTargetWindow.reset();
 }
 
 GLFWwindow* Window::getWindow() const {
     return window;
+}
+
+Panel* Window::getPanel() const {
+    return panel.get();
+}
+
+WelcomeScreen* Window::getWelcomeScreen() const {
+    return welcomeScreen.get();
+}
+
+DropTargetWindow* Window::getDropTargetWindow() const {
+    return dropTargetWindow.get();
+}
+
+void Window::setDropTargetWindow(std::unique_ptr<DropTargetWindow> newDrop) {
+    dropTargetWindow = std::move(newDrop);
 }

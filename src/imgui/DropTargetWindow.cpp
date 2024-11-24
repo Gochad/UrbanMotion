@@ -1,8 +1,8 @@
 #include "DropTargetWindow.h"
 #include <iostream>
 
-DropTargetWindow::DropTargetWindow(Map* map, Panel* panel, MapFile* mapfile, int square_size)
-    : map(map), panel(panel), mapfile(mapfile), square_size(square_size) {}
+DropTargetWindow::DropTargetWindow(IMap* map)
+    : map(map) {}
 
 void DropTargetWindow::render(Draw* imgui_context) {
     ImGui::SetNextWindowPos(ImVec2(0, 0));
@@ -25,8 +25,8 @@ void DropTargetWindow::render(Draw* imgui_context) {
 
             ImVec2 mousePos = ImGui::GetMousePos();
 
-            int gridX = static_cast<int>((mousePos.x - mapPos.x) / square_size);
-            int gridY = static_cast<int>((mousePos.y - mapPos.y) / square_size);
+            int gridX = static_cast<int>((mousePos.x - mapPos.x) / map->getSquareSize());
+            int gridY = static_cast<int>((mousePos.y - mapPos.y) / map->getSquareSize());
 
             map->showChangeTilePanel(imgui_context, gridX, gridY, static_cast<Texture::ID>(textureIndex));
         }
