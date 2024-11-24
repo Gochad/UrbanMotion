@@ -9,8 +9,14 @@ App::~App() {
 }
 
 void App::initializeMap(const std::string& map_id) {
-    mapfile = std::make_unique<MapFile>(map_id);
-    map = std::make_unique<Map>(grid_size, grid_size, square_size, mapfile->loadMap());
+    if (map_id == "new") {
+        mapfile = std::make_unique<MapFile>();
+        map = std::make_unique<Map>(grid_size, grid_size, square_size);
+    } else {
+        mapfile = std::make_unique<MapFile>(map_id);
+        map = std::make_unique<Map>(grid_size, grid_size, square_size, mapfile->loadMap());
+    }
+
     appWindow->setMap(map.get()); 
 }
 
@@ -20,14 +26,8 @@ bool App::init() {
 
     appWindow->setMapInitializationCallback([this](const std::string& map_id) {
         try {
-            if (map_id == "new") {
-                map = std::make_unique<Map>(grid_size, grid_size, square_size);
-            } else {
-                initializeMap(map_id);
-            }
+            initializeMap(map_id);
             map_initialized = true;
-            appWindow->setMap(map.get());
-
         } catch (const std::exception& e) {
             std::cerr << "Failed to initialize map: " << e.what() << std::endl;
         }
