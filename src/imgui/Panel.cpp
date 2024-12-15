@@ -1,5 +1,6 @@
 #include "Panel.h"
 #include <iostream>
+#include "../filestorage/mapper.h"
 
 Panel::Panel(int width, int height, int yOffset)
     : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0) {}
@@ -11,6 +12,7 @@ void Panel::setTextureRange(int range) {
 int Panel::getSelectedTexture() const {
     return selectedTextureIndex;
 }
+
 void Panel::draw(std::function<void()> onSaveClick) {
     ImGui::SetNextWindowPos(ImVec2(0, yOffset));
     ImGui::SetNextWindowSize(ImVec2(width, height));
@@ -21,27 +23,18 @@ void Panel::draw(std::function<void()> onSaveClick) {
         onSaveClick();
     }
 
-    ImGui::SameLine();
+    for (const auto& entry : FromFileToFields) {
+        char key = entry.first;
+        auto field = entry.second();
 
-    for (int i = 1; i <= textureRange; ++i) {
-        ImGui::PushID(i);
-        
-        if (ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(i)), ImVec2(50, 50))) {
-            selectedTextureIndex = i;
-        }
+        ImGui::PushID(key);
 
-        if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
-            int payloadIndex = i;
-            ImGui::SetDragDropPayload("TEXTURE_INDEX", &payloadIndex, sizeof(int));
-            ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(i)), ImVec2(50, 50));
-    
-            ImGui::EndDragDropSource();
+        if (ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(field->getTextureID())), ImVec2(50, 50))) {
+            selectedTextureIndex = static_cast<int>(key);
         }
 
         ImGui::PopID();
-        ImGui::SameLine();
     }
-    
 
     ImGui::End();
 }
