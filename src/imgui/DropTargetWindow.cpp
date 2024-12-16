@@ -1,6 +1,8 @@
 #include "DropTargetWindow.h"
 #include <iostream>
 
+#include "../filestorage/mapper.h"
+
 DropTargetWindow::DropTargetWindow(Map* map, Panel* panel, MapFile* mapfile, int square_size)
     : map(map), panel(panel), mapfile(mapfile), square_size(square_size) {}
 
@@ -20,15 +22,20 @@ void DropTargetWindow::render(Draw* imgui_context) {
     ImVec2 mapPos(0, 0);
 
     if (ImGui::BeginDragDropTarget()) {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TEXTURE_INDEX")) {
-            int textureIndex = *(const int*)payload->Data;
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FIELD_TYPE")) {
+            char fieldType = *(const char*)payload->Data;
 
             ImVec2 mousePos = ImGui::GetMousePos();
 
             int gridX = static_cast<int>((mousePos.x - mapPos.x) / square_size);
             int gridY = static_cast<int>((mousePos.y - mapPos.y) / square_size);
 
-            map->showChangeTilePanel(imgui_context, gridX, gridY, static_cast<Texture::ID>(textureIndex));
+            auto it = FromFileToFields.find(fieldType);
+            if (it != FromFileToFields.end()) {
+                map->showChangeTilePanel(imgui_context, gridX, gridY, FromFileToFields.at(fieldType)());
+            } else {
+                throw std::runtime_error(std::string("Unknown field type: ") + fieldType);
+            }
         }
         ImGui::EndDragDropTarget();
     }

@@ -23,17 +23,28 @@ void Panel::draw(std::function<void()> onSaveClick) {
         onSaveClick();
     }
 
-    for (const auto& entry : FromFileToFields) {
-        char key = entry.first;
-        auto field = entry.second();
+    ImGui::SameLine();
 
-        ImGui::PushID(key);
+    for (const auto& [key, fieldFactory] : FromFileToFields) {
+        auto field = fieldFactory();
+        int textureID = field->getTextureID();
+        ImGui::PushID(textureID);
+        
+        if (ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(textureID)), ImVec2(50, 50))) {
+            selectedTextureIndex = key;
+        }
 
-        if (ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(field->getTextureID())), ImVec2(50, 50))) {
-            selectedTextureIndex = static_cast<int>(key);
+        if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
+            char payloadKey = key;
+            ImGui::SetDragDropPayload("FIELD_TYPE", &payloadKey, sizeof(char));
+            
+            ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(textureID)), ImVec2(50, 50));
+
+            ImGui::EndDragDropSource();
         }
 
         ImGui::PopID();
+        ImGui::SameLine();
     }
 
     ImGui::End();
