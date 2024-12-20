@@ -1,7 +1,6 @@
 #include "Panel.h"
 #include <iostream>
 #include "../filestorage/mapper.h"
-#include "TransformTexture.h"
 #include <cmath>
 
 Panel::Panel(int width, int height, int yOffset)
