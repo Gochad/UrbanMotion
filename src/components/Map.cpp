@@ -14,11 +14,11 @@ void Map::draw(IDraw* context) {
     }
 }
 
-void Map::showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Texture::ID id) {
+void Map::showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Field* field) {
     Point min(selectedX * square_size, selectedY * square_size);
     Point max((selectedX + 1) * square_size, (selectedX + 1) * square_size);
 
-    grid[selectedY][selectedX]->textureID = static_cast<int>(id);
+    grid[selectedY][selectedX] = std::make_shared<Field>(*field);
     grid[selectedY][selectedX]->draw(context, min, max);
 }
 

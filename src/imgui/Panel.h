@@ -9,7 +9,6 @@ class Panel {
 public:
     Panel(int width, int height, int yOffset);
     void draw(std::function<void()>);
-    int getSelectedTexture() const;
 
     void setTextureRange(int range);
 

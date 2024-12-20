@@ -32,8 +32,8 @@ public:
 
         ImVec2 transformedCorners[4];
         for (int i = 0; i < 4; ++i) {
-            glm::vec2 rotated = rotationMatrix * corners[i];  // Obróć
-            transformedCorners[i] = ImVec2(rotated.x + center.x, rotated.y + center.y);  // Przesuń do globalnych współrzędnych
+            glm::vec2 rotated = rotationMatrix * corners[i];
+            transformedCorners[i] = ImVec2(rotated.x + center.x, rotated.y + center.y);
         }
 
         ImVec2 uvs[4] = {

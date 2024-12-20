@@ -12,7 +12,7 @@ public:
     Map(int width, int height, int squareSize, FieldMatrix matrix);
     void draw(IDraw* context);
     void edit(IDraw* context, Point mousePosition);
-    void showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Texture::ID id);
+    void showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Field* field);
 
 private:
     int width;
