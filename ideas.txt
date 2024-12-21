@@ -1,2 +1,0 @@
-1. map navigate panel on app starting
-2. add inheritance on Field -> Building, Grass, Curve (change approach with multiple textures files to one file and rotate) etc
