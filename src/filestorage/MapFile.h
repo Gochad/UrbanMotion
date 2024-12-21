@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <functional> 
 #include <memory>
 #include <unordered_map>
 #include "Handler.h"
