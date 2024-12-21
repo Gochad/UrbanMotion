@@ -5,7 +5,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include "../texture/Manager.h"
-#include "TransformTexture.h"
 
 class Draw : public IDraw {
 private:
@@ -17,15 +16,24 @@ public:
         ImVec2 center = ImVec2((min.x + max.x) / 2.0f, (min.y + max.y) / 2.0f);
         ImVec2 halfSize = ImVec2((max.x - min.x) / 2.0f, (max.y - min.y) / 2.0f);
 
+        glm::vec2 corners[4] = {
+            glm::vec2(-halfSize.x, -halfSize.y),
+            glm::vec2(halfSize.x, -halfSize.y),
+            glm::vec2(halfSize.x, halfSize.y),
+            glm::vec2(-halfSize.x, halfSize.y)
+        };
+
+        float rotationRadians = glm::radians(static_cast<float>(rotationDegrees));
+        glm::mat2 rotationMatrix = glm::mat2(
+            glm::vec2(std::cos(rotationRadians), -std::sin(rotationRadians)),
+            glm::vec2(std::sin(rotationRadians), std::cos(rotationRadians))
+        );
+
         ImVec2 transformedCorners[4];
-<<<<<<< HEAD
         for (int i = 0; i < 4; ++i) {
             glm::vec2 rotated = rotationMatrix * corners[i];
             transformedCorners[i] = ImVec2(rotated.x + center.x, rotated.y + center.y);
         }
-=======
-        TransformTexture(center, halfSize, rotationDegrees, transformedCorners);
->>>>>>> 260567d4b9fdf0c4ee2d7f1b61dbda08e14683fb
 
         ImVec2 uvs[4] = {
             ImVec2(0.0f, 0.0f),
