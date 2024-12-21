@@ -14,7 +14,7 @@ using FieldMatrix = std::vector<std::vector<std::shared_ptr<Field>>>;
 class MapFile {
 private:
     std::string filename;
-    Handler fileHandler;
+    Handler<std::string> fileHandler;
     std::vector<std::string> data;
     FieldMatrix fieldMatrix;
 
