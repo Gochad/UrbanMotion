@@ -2,8 +2,7 @@
 #include <iostream>
 #include "../filestorage/mapper.h"
 #include <cmath>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "RotationTransform.h"
 
 Panel::Panel(int width, int height, int yOffset)
     : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0) {
@@ -40,26 +39,9 @@ void Panel::draw(std::function<void()> onSaveClick) {
 
         ImVec2 cursorPos = ImGui::GetCursorScreenPos();
         ImVec2 center = ImVec2(cursorPos.x + size.x * 0.5f, cursorPos.y + size.y * 0.5f);
-        ImVec2 halfSize = ImVec2(size.x * 0.5f, size.y * 0.5f);
 
-        glm::vec2 corners[4] = {
-            glm::vec2(-halfSize.x, -halfSize.y),
-            glm::vec2(halfSize.x, -halfSize.y),
-            glm::vec2(halfSize.x, halfSize.y),
-            glm::vec2(-halfSize.x, halfSize.y)
-        };
-
-        float rotationRadians = glm::radians(static_cast<float>(field->rotation));
-        glm::mat2 rotationMatrix = glm::mat2(
-            glm::vec2(std::cos(rotationRadians), -std::sin(rotationRadians)),
-            glm::vec2(std::sin(rotationRadians), std::cos(rotationRadians))
-        );
-
-        ImVec2 transformedVertices[4];
-        for (int i = 0; i < 4; ++i) {
-            glm::vec2 rotated = rotationMatrix * corners[i];
-            transformedVertices[i] = ImVec2(rotated.x + center.x, rotated.y + center.y);
-        }
+        RotationTransform transform(center, size, field->rotation);
+        auto transformedVertices = transform.getTransformedVertices();
 
         ImVec2 uv[4] = {
             ImVec2(0.0f, 0.0f),
