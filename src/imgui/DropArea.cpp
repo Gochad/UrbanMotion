@@ -4,7 +4,6 @@ DropArea::DropArea(const char* payloadType)
     : payloadType(payloadType) {}
 
 void DropArea::draw() {
-
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
     ImGui::Begin("DropTargetWindow", NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |

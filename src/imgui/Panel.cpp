@@ -2,6 +2,8 @@
 #include <iostream>
 #include "../filestorage/mapper.h"
 #include <cmath>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 Panel::Panel(int width, int height, int yOffset)
     : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0) {}
@@ -25,37 +27,44 @@ void Panel::draw(std::function<void()> onSaveClick) {
     for (const auto& [key, fieldFactory] : FromFileToFields) {
         auto field = fieldFactory();
         int textureID = field->getTextureID();
-        ImGui::PushID(textureID);
+        ImGui::PushID((std::to_string(key)).c_str());
 
         float angle = field->rotation * M_PI / 180.0f;
         float cos_a = cosf(angle);
         float sin_a = sinf(angle);
 
-        ImVec2 center = ImVec2(0.5f, 0.5f);
+        ImVec2 size = ImVec2(50, 50);
 
-        ImVec2 corners[4] = {
-            ImVec2(-0.5f, -0.5f),
-            ImVec2(0.5f, -0.5f),
-            ImVec2(0.5f, 0.5f),
-            ImVec2(-0.5f, 0.5f)
+        ImVec2 uv[4] = {
+            ImVec2(0.0f, 0.0f),
+            ImVec2(1.0f, 0.0f),
+            ImVec2(1.0f, 1.0f),
+            ImVec2(0.0f, 1.0f)
         };
 
-        ImVec2 uv[4];
-        for (int i = 0; i < 4; i++) {
-            uv[i].x = center.x + cos_a * corners[i].x - sin_a * corners[i].y;
-            uv[i].y = center.y + sin_a * corners[i].x + cos_a * corners[i].y;
+        switch (field->rotation) {
+            case 90:
+                std::swap(uv[0], uv[1]);
+                std::swap(uv[2], uv[3]);
+                break;
+            case 180:
+                std::swap(uv[0], uv[2]);
+                std::swap(uv[1], uv[3]);
+                break;
+            case 270:
+                std::swap(uv[0], uv[3]);
+                std::swap(uv[1], uv[2]);
+                break;
         }
-
-        ImVec2 size = ImVec2(50, 50);
 
         ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(textureID)), size, uv[0], uv[2]);
 
         if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
             Field* copiedField = field.get();
 
-            ImGui::SetDragDropPayload("FIELD", copiedField, sizeof(Field));
+            ImGui::SetDragDropPayload("FIELD", copiedField, sizeof(Field*));
 
-            ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(field->getTextureID())), size, uv[0], uv[2]);
+            ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(textureID)), size, uv[0], uv[2]);
 
             ImGui::EndDragDropSource();
         }
