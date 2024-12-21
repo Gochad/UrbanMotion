@@ -2,33 +2,39 @@
 #include <iostream>
 
 App::App(int grid_size, int square_size)
-    : grid_size(grid_size), square_size(square_size),
-      appWindow(nullptr), imguiManager(nullptr), map(nullptr),
-      is_initialized(false), mapfile(nullptr), dropTargetWindow(nullptr) {}
+    : grid_size(grid_size), square_size(square_size), is_initialized(false) {}
 
 App::~App() {
     shutdown();
 }
 
+void App::initializeMap(const std::string& map_id) {
+    if (map_id == "new") {
+        mapfile = std::make_unique<MapFile>();
+        map = std::make_unique<Map>(grid_size, grid_size, square_size);
+    } else {
+        mapfile = std::make_unique<MapFile>(map_id);
+        map = std::make_unique<Map>(grid_size, grid_size, square_size, mapfile->loadMap());
+    }
+
+    appWindow->setMap(map.get()); 
+}
+
 bool App::init() {
-    appWindow = new Window(grid_size * square_size, grid_size * square_size + 100);
+    appWindow = std::make_unique<Window>(grid_size * square_size, grid_size * square_size + 100);
     if (!appWindow->init()) return false;
 
-    imguiManager = new Manager(appWindow->getWindow());
+    appWindow->setMapInitializationCallback([this](const std::string& map_id) {
+        try {
+            initializeMap(map_id);
+            map_initialized = true;
+        } catch (const std::exception& e) {
+            std::cerr << "Failed to initialize map: " << e.what() << std::endl;
+        }
+    });
+
+    imguiManager = std::make_unique<Manager>(appWindow->getWindow());
     if (!imguiManager->init()) return false;
-
-    panel = new Panel(appWindow->width, 100, appWindow->height - 100);
-
-    Texture::Manager* textureManager = new Texture::Manager;
-    std::map<Texture::ID, int> textureMap = textureManager->loadTextures();
-    auto lastElement = *textureMap.rbegin();
-
-    panel->setTextureRange(static_cast<int>(lastElement.first));
-
-    mapfile = new MapFile("1");
-
-    map = new Map(grid_size, grid_size, square_size, mapfile->loadMap());
-    dropTargetWindow = new DropTargetWindow(map, panel, mapfile, square_size);
 
     is_initialized = true;
     return true;
@@ -40,31 +46,18 @@ void App::run() {
     while (!imguiManager->shouldClose()) {
         imguiManager->beginFrame();
 
-        ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
-        Draw imgui_context(draw_list);
-
-        map->draw(&imgui_context);
-
-        panel->draw([this]() { mapfile->saveMap(); });
-
-        dropTargetWindow->render(&imgui_context);
+        appWindow->renderFrame(map_initialized);
 
         imguiManager->endFrame();
-        appWindow->renderFrame();
     }
-
 }
 
 void App::shutdown() {
     if (is_initialized) {
-        delete map;
-        delete mapfile;
-        delete panel;
-        delete dropTargetWindow;
-
-        delete imguiManager;
-        delete appWindow;
-
+        map.reset();
+        mapfile.reset();
+        imguiManager.reset();
+        appWindow.reset();
         is_initialized = false;
     }
 }

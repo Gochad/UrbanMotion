@@ -17,6 +17,13 @@ public:
     void beginFrame();
     void endFrame();
     void shutdown();
+    void renderMapSelectionPanel(
+        const std::vector<std::string>& available_maps,
+        std::function<void(const std::string&)> onMapSelected);
+
+    void renderMap(
+        std::function<void()> drawCallback, 
+        std::function<void()> saveCallback);
 
 private:
     GLFWwindow* window;

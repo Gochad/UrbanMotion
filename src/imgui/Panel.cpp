@@ -6,7 +6,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 Panel::Panel(int width, int height, int yOffset)
-    : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0) {}
+    : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0) {
+        Texture::Manager* textureManager = new Texture::Manager;
+        std::map<Texture::ID, int> textureMap = textureManager->loadTextures();
+        auto lastElement = *textureMap.rbegin();
+        this->setTextureRange(static_cast<int>(lastElement.first));
+    }
 
 void Panel::setTextureRange(int range) {
     this->textureRange = range;
