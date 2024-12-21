@@ -16,7 +16,6 @@ public:
     int rotation;
 
     void draw(IDraw* context, const Point& min, const Point& max) const;
-    int getTextureID() const;
 };
 
 class Building : public Field {

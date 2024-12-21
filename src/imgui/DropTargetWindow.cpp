@@ -1,5 +1,6 @@
 #include "DropTargetWindow.h"
 #include <iostream>
+#include "../components/Fields.h"
 
 DropTargetWindow::DropTargetWindow(IMap* map)
     : map(map) {}

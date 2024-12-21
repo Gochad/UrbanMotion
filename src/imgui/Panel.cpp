@@ -31,7 +31,7 @@ void Panel::draw(std::function<void()> onSaveClick) {
 
     for (const auto& [key, fieldFactory] : FromFileToFields) {
         auto field = fieldFactory();
-        int textureID = field->getTextureID();
+        Texture::ID textureID = field->textureID;
         ImGui::PushID((std::to_string(key)).c_str());
 
         float angle = field->rotation * M_PI / 180.0f;

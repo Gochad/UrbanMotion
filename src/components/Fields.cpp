@@ -9,6 +9,3 @@ void Field::draw(IDraw* context, const Point& min, const Point& max) const {
     context->DrawTexture(min, max, this->textureID, this->rotation);
 }
 
-int Field::getTextureID() const {
-    return this->textureID;
-}
