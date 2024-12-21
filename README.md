@@ -1,9 +1,15 @@
-# AbstractProgrammingProject
-repo for my AbstractProgrammingProject for JU classes
+# UrbanMotion
+AbstractProgrammingProject
 
-## How to run it
-1. `docker build -t cpp_project .`
-2. `docker run --rm cpp_project`
+Techniques:
+- [ ] abstract classes and interfaces
+- [ ] polymorphism
+- [ ] templates and generic programming
+- [ ] template metaprogramming - TMP
+- [ ] concepts and constraints
+- [ ] compile-time computations
+- [ ] static polymorphism - CRTP
+- [ ] type traits and SFINAE
 
 ## how to run locally
 1. `mkdir build`
