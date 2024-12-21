@@ -5,7 +5,7 @@
 MapFile::MapFile() {
     filename = "map" + fileHandler.getNextAvailableFile() + ".txt";
 
-    std::cout << "Nowy plik mapy: " << filename << std::endl;
+    std::cout << "New filemap " << filename << std::endl;
 }
 
 MapFile::MapFile(const std::string& mapID) {
