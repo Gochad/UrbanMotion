@@ -21,6 +21,7 @@ void Panel::draw(std::function<void()> onSaveClick) {
     ImGui::SetNextWindowSize(ImVec2(width, height));
 
     ImGui::Begin("Editor panel", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
+    ImGui::BeginChild("TileList", ImVec2(0, 70), false, ImGuiWindowFlags_HorizontalScrollbar);
 
     if (ImGui::Button("Save")) {
         onSaveClick();
@@ -75,5 +76,6 @@ void Panel::draw(std::function<void()> onSaveClick) {
         ImGui::SameLine();
     }
 
+    ImGui::EndChild();
     ImGui::End();
 }
