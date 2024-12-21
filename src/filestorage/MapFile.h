@@ -24,4 +24,5 @@ public:
 
     FieldMatrix loadMap();
     void saveMap();
+    void setFieldMatrix(const FieldMatrix& newFieldMatrix);
 };

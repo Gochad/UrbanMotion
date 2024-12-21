@@ -75,3 +75,7 @@ void MapFile::saveMap() {
     fileHandler.save(filename, data);
     std::cout << "Map has been saved to " << filename << std::endl;
 }
+
+void MapFile::setFieldMatrix(const FieldMatrix& newFieldMatrix) {
+    fieldMatrix = newFieldMatrix;
+}

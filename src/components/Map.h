@@ -18,6 +18,8 @@ public:
     void showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Field* field) override;
     int getSquareSize() override;
 
+    FieldMatrix getFieldMatrix();
+
 private:
     int width;
     int height;

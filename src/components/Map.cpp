@@ -40,3 +40,6 @@ int Map::getSquareSize() {
     return square_size;
 }
 
+ FieldMatrix Map::getFieldMatrix() {
+    return grid;
+}
