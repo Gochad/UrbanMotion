@@ -54,5 +54,11 @@ public:
         : Field(Texture::ID::Curve, rotationDegrees) {}
 };
 
+class Default : public Field {
+public:
+   Default(int rotationDegrees = 0)
+        : Field(Texture::ID::Default, rotationDegrees) {}
+};
+
 
 #endif // FIELDS_H

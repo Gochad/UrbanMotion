@@ -1,6 +1,10 @@
 #ifndef MANAGER_H
 #define MANAGER_H
 
+#include <vector>
+#include <string>
+#include <functional> 
+
 #include <GLFW/glfw3.h>
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>

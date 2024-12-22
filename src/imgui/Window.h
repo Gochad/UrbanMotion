@@ -30,6 +30,8 @@ public:
     void renderMapAndPanel();
 
     void setMapInitializationCallback(std::function<void(const std::string&)> callback);
+    void setMapSaveCallback(std::function<void()> callback);
+
 private:
     GLFWwindow* window;
     std::unique_ptr<Panel> panel;
@@ -38,6 +40,7 @@ private:
     Map* map;
 
     std::function<void(const std::string&)> mapInitializationCallback;
+    std::function<void()> mapSaveCallback;
 };
 
 #endif // WINDOW_H
