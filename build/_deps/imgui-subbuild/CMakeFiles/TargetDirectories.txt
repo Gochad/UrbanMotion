@@ -1,0 +1,3 @@
+/Users/ala.biezychudek/Code/zendesk/AbstraC/UrbanMotion/build/_deps/imgui-subbuild/CMakeFiles/imgui-populate.dir
+/Users/ala.biezychudek/Code/zendesk/AbstraC/UrbanMotion/build/_deps/imgui-subbuild/CMakeFiles/edit_cache.dir
+/Users/ala.biezychudek/Code/zendesk/AbstraC/UrbanMotion/build/_deps/imgui-subbuild/CMakeFiles/rebuild_cache.dir
