@@ -28,7 +28,10 @@ namespace Texture {
             glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 
             stbi_image_free(data);
-
+               if(textureID == 8 || textureID == 9 || textureID == 10) {
+                    glEnable(GL_BLEND);
+                    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                }
             std::cout << "Texture " << filename << " loaded successfully with ID: " << textureID << std::endl;
         } else {
             std::cerr << "Failed to load texture: " << filename << std::endl;
@@ -48,7 +51,14 @@ namespace Texture {
         textures[ID::Crossroad] = loadTexture(path + "crossroad.png");
         textures[ID::Curve] = loadTexture(path + "curve.png");
         textures[ID::Default] = loadTexture(path + "default.png");
+        textures[ID::Car] = loadTexture(path + "car.png");
+        textures[ID::Bike] = loadTexture(path + "bike.png");
+        textures[ID::Motorcycle] = loadTexture(path + "motorcycle.png");
 
         return textures;
+    }
+    std::ostream& operator<<(std::ostream& os, const ID& id) {
+        os << static_cast<int>(id); // Assuming you want to print the integer value of the enum
+        return os;
     }
 }

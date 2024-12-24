@@ -21,7 +21,8 @@ public:
     MapFile();
     MapFile(const std::string& mapID);
     ~MapFile();
-
+    int vehicleCount = 0;
     FieldMatrix loadMap();
     void saveMap();
+    int counter = 0;
 };

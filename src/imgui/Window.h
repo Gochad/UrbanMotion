@@ -2,6 +2,7 @@
 #define WINDOW_H
 
 #include "Panel.h"
+#include "GameScreen.h"
 #include "WelcomeScreen.h"
 #include "DropTargetWindow.h"
 #include "../components/Map.h"
@@ -13,7 +14,7 @@ public:
     Window(int width, int height);
     ~Window();
 
-    int width, height;
+    int width, height, vehicleCount;
 
     bool init();
     void renderFrame(bool mapInitialized);
@@ -28,11 +29,14 @@ public:
 
     void renderWelcomeScreen();
     void renderMapAndPanel();
+    void renderGameScreen();
 
     void setMapInitializationCallback(std::function<void(const std::string&)> callback);
+    void setCounter(int value);
 private:
     GLFWwindow* window;
     std::unique_ptr<Panel> panel;
+    std::unique_ptr<GameScreen> gameScreen;
     std::unique_ptr<WelcomeScreen> welcomeScreen;
     std::unique_ptr<DropTargetWindow> dropTargetWindow;
     Map* map;

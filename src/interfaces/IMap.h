@@ -6,6 +6,6 @@ class IMap {
 public:
     virtual ~IMap() = default;
 
-    virtual void showChangeTilePanel(IDraw* context, int x, int y, Texture::ID textureId) = 0;
+    virtual int showChangeTilePanel(IDraw* context, int x, int y, Texture::ID textureId) = 0;
     virtual int getSquareSize() = 0;
 };
