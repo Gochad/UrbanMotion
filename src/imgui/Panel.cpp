@@ -7,7 +7,6 @@
 Panel::Panel(int width, int height, int yOffset)
     : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0), mapSaved(false), finalMapSaved(false) { 
         Texture::Manager* textureManager = new Texture::Manager;
-        std::cout << "Panel constructor" << std::endl;
         std::map<Texture::ID, int> textureMap = textureManager->loadTextures();
         auto lastElement = *textureMap.rbegin();
         this->setTextureRange(static_cast<int>(lastElement.first));
@@ -31,7 +30,7 @@ void Panel::draw(std::function<void()> onSaveClick, Map* map) {
 
     if (ImGui::Button("Save Map")) {
         onSaveClick();
-        mapSaved = true; // Set the flag to true when the map is saved
+        mapSaved = true;
     }
     
     ImGui::NewLine();
@@ -60,7 +59,6 @@ void Panel::draw(std::function<void()> onSaveClick, Map* map) {
             ImGui::SameLine();
         }
     } else {
-        // If the map has been saved, display a message or other UI elements if necessary
         ImGui::Text("Map has been saved. Vehicles are now visible.");
     }
 
@@ -89,11 +87,9 @@ void Panel::draw(std::function<void()> onSaveClick, Map* map) {
             ImGui::SameLine();
         }
 
-        // Add the new button here
-        ImGui::NewLine(); // Add some space before the button
+        ImGui::NewLine();
         if (ImGui::Button("Final look, start the game")) {
         finalMapSaved = true;
-            std::cout << "Starting the game with selected vehicles..." << std::endl;
         }
     }
 

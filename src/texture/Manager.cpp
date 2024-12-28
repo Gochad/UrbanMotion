@@ -28,10 +28,7 @@ namespace Texture {
             glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 
             stbi_image_free(data);
-               if(textureID == 8 || textureID == 9 || textureID == 10) {
-                    glEnable(GL_BLEND);
-                    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-                }
+
             std::cout << "Texture " << filename << " loaded successfully with ID: " << textureID << std::endl;
         } else {
             std::cerr << "Failed to load texture: " << filename << std::endl;

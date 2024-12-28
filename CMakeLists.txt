@@ -59,7 +59,6 @@ add_executable(UrbanMotion
     src/imgui/WelcomeScreen.cpp
     src/components/Map.cpp
     src/components/Fields.cpp
-    src/components/VehicleInMap.cpp
     src/components/ListOfVehicle.cpp
     src/filestorage/Handler.cpp
     src/filestorage/MapFile.cpp

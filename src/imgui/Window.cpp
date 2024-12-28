@@ -35,7 +35,8 @@ bool Window::init() {
     panel = std::make_unique<Panel>(width, 200, height - 200);
     welcomeScreen = std::make_unique<WelcomeScreen>(std::vector<std::string>{"1", "2", "3"});
     dropTargetWindow = nullptr;
-    gameScreen = std::make_unique<GameScreen>(width, 200, height - 200);
+    gameScreen = std::make_unique<GameScreen>(width, 200, height - 200, map);
+
     return true;
 }
 
@@ -80,9 +81,17 @@ void Window::renderGameScreen() {
         map->draw(&imgui_context);
     }
 
-    if (gameScreen) {
+//        gameScreen = std::make_unique<GameScreen>(width, 200, height - 200, map);
+
+        gameScreen->setListOfVehicle(map->listOfVehicle);
+//        gameScreen->getListOfVehicle().setGrid(map->getGrid());
+//        std::cout<<"GameMap grid:: "<< gameScreen->map->getGrid().size()<<std::endl;  
+//        std::cout<<"Map grid:: "<< map->getGrid().size()<<std::endl;  
+              
         gameScreen->draw([]() { std::cout << "Game started" << std::endl; }, map);
-    }
+        map->draw(&imgui_context);
+
+    
 }
 void Window::renderFrame(bool mapInitialized) {
     if (!mapInitialized) {

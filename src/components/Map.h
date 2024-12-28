@@ -7,7 +7,6 @@
 #include "../filestorage/MapFile.h"
 #include "../interfaces/IMap.h"
 #include "ListOfVehicle.h"
-#include "VehicleInMap.h"
 
 using FieldMatrix = std::vector<std::vector<std::shared_ptr<Field>>>;
 
@@ -20,7 +19,11 @@ public:
     void draw(IDraw* context);
     void edit(IDraw* context, Point mousePosition);
     int showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Texture::ID id) override;
+    void setGrid(FieldMatrix newGrid);
     int getSquareSize() override;
+    ListOfVehicle listOfVehicle;
+    FieldMatrix getGrid();
+        FieldMatrix grid;
 
 private:
     int width;
@@ -30,6 +33,4 @@ private:
     int selectedY = -1;
     bool isEditing = false;
     std::vector<Field*> elements;
-    FieldMatrix grid;
-    ListOfVehicle listOfVehicle;
 };
