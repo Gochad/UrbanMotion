@@ -5,7 +5,7 @@
 MapFile::MapFile() {
     filename = "map" + fileHandler.getNextAvailableFile() + ".txt";
 
-    std::cout << "Nowy plik mapy: " << filename << std::endl;
+    std::cout << "New filemap " << filename << std::endl;
 }
 
 MapFile::MapFile(const std::string& mapID) {
@@ -74,4 +74,8 @@ void MapFile::saveMap() {
 
     fileHandler.save(filename, data);
     std::cout << "Map has been saved to " << filename << std::endl;
+}
+
+void MapFile::setFieldMatrix(const FieldMatrix& newFieldMatrix) {
+    fieldMatrix = newFieldMatrix;
 }

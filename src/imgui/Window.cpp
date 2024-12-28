@@ -41,6 +41,10 @@ void Window::setMapInitializationCallback(std::function<void(const std::string&)
     mapInitializationCallback = callback;
 }
 
+void Window::setMapSaveCallback(std::function<void()> callback) {
+   mapSaveCallback = callback;
+}
+
 void Window::renderWelcomeScreen() {
     if (welcomeScreen) {
         welcomeScreen->render(width, height, [this](const std::string& map_id) {
@@ -68,7 +72,9 @@ void Window::renderMapAndPanel() {
     }
 
     if (panel) {
-        panel->draw([]() { std::cout << "Save map" << std::endl; });
+        panel->draw([this]() { 
+            mapSaveCallback();
+        });
     }
 }
 

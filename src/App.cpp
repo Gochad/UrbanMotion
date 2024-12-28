@@ -33,6 +33,10 @@ bool App::init() {
         }
     });
 
+    appWindow->setMapSaveCallback([this]() {
+        mapfile->setFieldMatrix(map->getFieldMatrix());
+    });
+
     imguiManager = std::make_unique<Manager>(appWindow->getWindow());
     if (!imguiManager->init()) return false;
 
