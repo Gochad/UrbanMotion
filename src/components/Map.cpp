@@ -5,6 +5,7 @@
 Map::Map(int w, int h, int square_size, FieldMatrix matrix) 
     : width(w), height(h), square_size(square_size), grid(matrix) {}
 
+
 Map::Map(int width, int height, int square_size)
     : width(width), height(height), square_size(square_size) {
     grid.resize(height);
@@ -23,17 +24,13 @@ void Map::draw(IDraw* context) {
         for (int x = 0; x < width; x++) {
             Point min(x * square_size, y * square_size);
             Point max((x + 1) * square_size, (y + 1) * square_size);
-//            if(grid[x][y]->textureID == Texture::ID::Car || grid[x][y]->textureID == Texture::ID::Bike || grid[x][y]->textureID == Texture::ID::Motorcycle) {
-//                VehicleInMap vehicle(grid[y][x]->textureID, x, y);
-//                listOfVehicle.addVehicle(vehicle);
-//            }
+
             grid[y][x]->draw(context, min, max);
         }
     }
 }
 
 int Map::showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Field* field, Texture::ID id) {
-   std::cout<<"Show Change Tile Panel"<<std::endl;  
     Point min(selectedX * square_size, selectedY * square_size);
     Point max((selectedX + 1) * square_size, (selectedY + 1) * square_size);
     if ((id == Texture::ID::Car || id == Texture::ID::Bike || id == Texture::ID::Motorcycle) && 

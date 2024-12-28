@@ -51,6 +51,7 @@ void Window::renderWelcomeScreen() {
     if (welcomeScreen) {
         welcomeScreen->render(width, height, [this](const std::string& map_id) {
             mapInitializationCallback(map_id);
+            
             this->setDropTargetWindow(
                std::make_unique<DropTargetWindow>(map));
         });

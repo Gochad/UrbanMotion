@@ -132,7 +132,6 @@ public:
     }
 };
 
-// Define other Field subclasses
 class Building : public Field {
 public:
     Building(int rotationDegrees = 0)

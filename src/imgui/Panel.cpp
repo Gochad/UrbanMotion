@@ -8,7 +8,7 @@
 #include "RotationTransform.h"
 
 Panel::Panel(int width, int height, int yOffset)
-    : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0), mapSaved(false), finalMapSaved(false) { 
+    : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0) {
         Texture::Manager* textureManager = new Texture::Manager;
         std::map<Texture::ID, int> textureMap = textureManager->loadTextures();
         auto lastElement = *textureMap.rbegin();
@@ -120,7 +120,6 @@ void Panel::draw(std::function<void()> onSaveClick, Map* map) {
         }
     }
         ImGui::EndChild();
-
 
     ImGui::End();
 }

@@ -41,6 +41,8 @@ FieldMatrix MapFile::loadMap() {
 
     return fieldMatrix;
 }
+
+
 struct FieldKey {
     int textureID;
     int rotation;
