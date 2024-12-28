@@ -20,6 +20,7 @@ MapFile::MapFile(const std::string& mapID) {
 MapFile::~MapFile() {
     saveMap();
 }
+#include <typeinfo>
 
 FieldMatrix MapFile::loadMap() {
     for (const auto& row : data) {
@@ -27,7 +28,10 @@ FieldMatrix MapFile::loadMap() {
         for (char cell : row) {
             auto it = FromFileToFields.find(cell);
             if (it != FromFileToFields.end()) {
-                fieldRow.push_back(it->second());
+                auto field = it->second();
+
+
+                fieldRow.push_back(field);
             } else {
                 throw std::runtime_error(std::string("Unknown field type: ") + cell);
             }
@@ -37,8 +41,6 @@ FieldMatrix MapFile::loadMap() {
 
     return fieldMatrix;
 }
-
-
 struct FieldKey {
     int textureID;
     int rotation;

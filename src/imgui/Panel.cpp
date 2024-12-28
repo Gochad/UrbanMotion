@@ -1,11 +1,14 @@
 #include "Panel.h"
 #include <iostream>
+#include <map>
+#include "imgui.h"
+#include "../components/Map.h"
 #include "../filestorage/mapper.h"
 #include <cmath>
 #include "RotationTransform.h"
 
 Panel::Panel(int width, int height, int yOffset)
-    : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0) {
+    : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0), mapSaved(false), finalMapSaved(false) { 
         Texture::Manager* textureManager = new Texture::Manager;
         std::map<Texture::ID, int> textureMap = textureManager->loadTextures();
         auto lastElement = *textureMap.rbegin();
@@ -16,7 +19,13 @@ void Panel::setTextureRange(int range) {
     this->textureRange = range;
 }
 
-void Panel::draw(std::function<void()> onSaveClick) {
+int Panel::getSelectedTexture() const {
+    return selectedTextureIndex;
+}
+bool Panel::isFinalMapSaved() const {
+    return finalMapSaved;
+}
+void Panel::draw(std::function<void()> onSaveClick, Map* map) {
     ImGui::SetNextWindowPos(ImVec2(0, yOffset));
     ImGui::SetNextWindowSize(ImVec2(width, height));
 
@@ -25,11 +34,12 @@ void Panel::draw(std::function<void()> onSaveClick) {
 
     if (ImGui::Button("Save")) {
         onSaveClick();
+        mapSaved = true;
     }
+        ImDrawList* drawList = ImGui::GetWindowDrawList();
 
-    ImGui::SameLine();
-
-    ImDrawList* drawList = ImGui::GetWindowDrawList();
+    ImGui::NewLine();
+    if (!mapSaved) {
 
     for (const auto& [key, fieldFactory] : FromFileToFields) {
         auto field = fieldFactory();
@@ -75,7 +85,42 @@ void Panel::draw(std::function<void()> onSaveClick) {
         ImGui::PopID();
         ImGui::SameLine();
     }
+    } else {
+        ImGui::Text("Map has been saved. Vehicles are now visible.");
+    }
 
-    ImGui::EndChild();
+    ImGui::Separator();
+
+    // Render vehicles only if the map has been saved
+    if (mapSaved) {
+        ImGui::Text("Vehicles");
+
+        Texture::ID vehicleTextures[] = { Texture::ID::Car, Texture::ID::Bike, Texture::ID::Motorcycle };
+        for (Texture::ID id : vehicleTextures) {
+            int textureIndex = static_cast<int>(id);
+            ImGui::PushID(textureIndex);
+
+            if (ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(textureIndex)), ImVec2(50, 50))) {
+                selectedTextureIndex = textureIndex;
+            }
+
+            if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
+                ImGui::SetDragDropPayload("TEXTURE_INDEX", &textureIndex, sizeof(int));
+                ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(textureIndex)), ImVec2(50, 50));
+                ImGui::EndDragDropSource();
+            }
+
+            ImGui::PopID();
+            ImGui::SameLine();
+        }
+
+        ImGui::NewLine();
+        if (ImGui::Button("Final look, start the game")) {
+        finalMapSaved = true;
+        }
+    }
+        ImGui::EndChild();
+
+
     ImGui::End();
 }

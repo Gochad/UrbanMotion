@@ -20,7 +20,10 @@ namespace Texture {
         Road,
         Crossroad,
         Curve,
-        Default
+        Default,
+        Car,
+        Bike,
+        Motorcycle
     };
 
     using MAP = std::map<ID, int>;
@@ -34,6 +37,8 @@ namespace Texture {
         MAP loadTextures();
         void clear();
     };
+        std::ostream& operator<<(std::ostream& os, const ID& id);
+
 }
 
 #endif // TEXTURE_MANAGER_H

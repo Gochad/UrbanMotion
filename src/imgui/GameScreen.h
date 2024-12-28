@@ -6,12 +6,11 @@
 #include "../texture/Manager.h"
 #include "../components/Map.h" 
 
-class Panel {
+class GameScreen {
 public:
-    Panel(int width, int height, int yOffset); // Removed mapSaved parameter
+    GameScreen(int width, int height, int yOffset);
     void draw(std::function<void()>, Map* map);
     int getSelectedTexture() const;
-    bool isFinalMapSaved() const;
 
     void setTextureRange(int range);
 
@@ -22,6 +21,4 @@ private:
 
     int textureRange;
     int selectedTextureIndex;
-    bool mapSaved;
-    bool finalMapSaved;
 };

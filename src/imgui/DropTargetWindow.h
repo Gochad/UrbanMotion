@@ -6,9 +6,10 @@
 class DropTargetWindow {
 private:
     IMap* map;
+    int innerCounter = 0;
 
 public:
     DropTargetWindow(IMap* map);
 
-    void render(Draw* imgui_context);
+    void render(Draw* imgui_context, int vehicleCount);
 };
