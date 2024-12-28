@@ -2,7 +2,6 @@
 #define FIELDS_H
 
 #include <iostream>
-#include <memory>
 #include "../imgui/IDraw.h"
 #include "../imgui/Point.h"
 #include "../texture/Manager.h"
@@ -133,6 +132,7 @@ public:
     }
 };
 
+// Define other Field subclasses
 class Building : public Field {
 public:
     Building(int rotationDegrees = 0)
@@ -168,12 +168,10 @@ public:
     Curve(int rotationDegrees = 0)
         : Field(Texture::ID::Curve, rotationDegrees) {}
 };
-
 class Default : public Field {
 public:
    Default(int rotationDegrees = 0)
         : Field(Texture::ID::Default, rotationDegrees) {}
 };
-
 
 #endif // FIELDS_H

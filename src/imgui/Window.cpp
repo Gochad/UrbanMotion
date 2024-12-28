@@ -36,7 +36,6 @@ bool Window::init() {
     welcomeScreen = std::make_unique<WelcomeScreen>(std::vector<std::string>{"1", "2", "3"});
     dropTargetWindow = nullptr;
     gameScreen = std::make_unique<GameScreen>(width, 200, height - 200, map);
-
     return true;
 }
 

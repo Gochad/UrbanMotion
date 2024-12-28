@@ -19,7 +19,6 @@ public:
     Map(int width, int height, int square_size);
     void draw(IDraw* context);
     void edit(IDraw* context, Point mousePosition);
-    int showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Texture::ID id) override;
     void setGrid(FieldMatrix newGrid);
     int showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Field* field, Texture::ID id) override;
     int getSquareSize() override;
