@@ -52,21 +52,9 @@ int Map::showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Field
             grid[selectedY][selectedX]->setMotorcycle(true, *std::dynamic_pointer_cast<Motorcycle>(vehicle));
         }
         listOfVehicle.addVehicle(vehicle);
-        std::cout<<"Vehicle size: "<<listOfVehicle.size()<<std::endl;
     } else {
         grid[selectedY][selectedX]->textureID = id;
     }
-    
-//        vehicle->setPosition(Point(selectedX, selectedY));
-//       
-//        vehicle->setID(id);
-//        std::cout << "Vehicle added with texture ID: " << vehicle->textureID << std::endl;
-//        Vehicle v =    VehicleInMap(id, selectedY, selectedX);
-//        listOfVehicle.addVehicle(v); // Assuming you still want to add to listOfVehicle
-//        grid[selectedY][selectedX]->setOccupied(true, v); // Pass the pointer
-
-    
-//    std::cout << "Texture ID: " << grid[selectedY][selectedX]->textureID << std::endl;
     grid[selectedY][selectedX]->draw(context, min, max);
     return 1;
 }

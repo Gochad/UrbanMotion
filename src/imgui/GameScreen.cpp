@@ -32,7 +32,6 @@ void GameScreen::draw(std::function<void()> onSaveClick, Map* map) {
     ImGui::SetNextWindowSize(ImVec2(width, height));
     ImGui::Begin("Game Screen");
     for (const auto& vehicle : listOfVehicle.get()) {
-    std::cout<<"position id: "<<vehicle->getX()<<std::endl;
         ImGui::Text("Vehicle ID: %d", vehicle->getID());
         ImGui::Text("Position: (%d, %d)", vehicle->getX(), vehicle->getY());
 

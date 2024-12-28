@@ -30,7 +30,7 @@ void DropTargetWindow::render(Draw* imgui_context, int vehicleCount) {
                 int gridY = static_cast<int>((mousePos.y - mapPos.y) / map->getSquareSize());
                 map->showChangeTilePanel(imgui_context, gridX, gridY, field, static_cast<Texture::ID>(textureIndex));
 
-            map->showChangeTilePanel(imgui_context, gridX, gridY, static_cast<Texture::ID>(textureIndex));
+            map->showChangeTilePanel(imgui_context, gridX, gridY, field,  static_cast<Texture::ID>(textureIndex));
         }
         ImGui::EndDragDropTarget();
     }
