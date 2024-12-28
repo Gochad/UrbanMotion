@@ -12,12 +12,25 @@ class Vehicle; // Declare Vehicle first
 
 class Vehicle {
 public:
-    Vehicle(Texture::ID id, int rotationDegrees = 0)
-        : textureID(id), rotation(rotationDegrees) {}
+    Vehicle() : textureID(Texture::ID::Default), x(0), y(0), rotation(0) {}
+    Vehicle(Texture::ID id, int selectedX, int selectedY, int rotationDegrees = 0)
+        : textureID(id), x(selectedX), y(selectedY), rotation(rotationDegrees) {}
 
     virtual ~Vehicle() = default; // Ensure proper cleanup for derived classes
 
-    virtual void move() = 0; // Pure virtual function for movement
+    virtual void move() = 0;
+    void moveUp(){
+        x--;
+    }
+    void moveDown(){
+        x++;
+    }
+    void moveLeft(){
+        y--;
+    }
+    void moveRight(){
+        y++;
+    }
     void setPosition(const Point& pos) {
         position = pos;
     }
@@ -25,24 +38,31 @@ public:
     void setID(Texture::ID id) {
         textureID = id;
     }
+    Texture::ID getID() const {
+        return textureID;
+    }
 
     Point getPosition() const {
         return position;
     }
-
-    Texture::ID getID() const {
-        return textureID;
+    int getX() const {
+        return x;
     }
+    int getY() const {
+        return y;
+    }
+
     Point position;
     Texture::ID textureID;
     int rotation;
+    int x, y;
 };
 
 // Define derived classes of Vehicle
 class Car : public Vehicle {
 public:
-    Car(int rotationDegrees = 0)
-        : Vehicle(Texture::ID::Car, rotationDegrees) {}
+    Car(int x, int y, int rotationDegrees = 0)
+        : Vehicle(Texture::ID::Car, x, y, rotationDegrees) {}
 
     void move() override {
         std::cout << "Car is moving" << std::endl;
@@ -51,8 +71,8 @@ public:
 
 class Bike : public Vehicle {
 public:
-    Bike(int rotationDegrees = 0)
-        : Vehicle(Texture::ID::Default, rotationDegrees) {}
+    Bike(int x, int y, int rotationDegrees = 0)
+        : Vehicle(Texture::ID::Default, x, y, rotationDegrees) {}
 
     void move() override {
         std::cout << "Bike is moving" << std::endl;
@@ -61,8 +81,8 @@ public:
 
 class Motorcycle : public Vehicle {
 public:
-    Motorcycle(int rotationDegrees = 0)
-        : Vehicle(Texture::ID::Default, rotationDegrees) {}
+    Motorcycle(int x, int y, int rotationDegrees = 0)
+        : Vehicle(Texture::ID::Default, x, y, rotationDegrees) {}
 
     void move() override {
         std::cout << "Motorcycle is moving" << std::endl;
@@ -73,21 +93,25 @@ class Field {
 public:
     virtual ~Field() = default;
 
-    Texture::ID idVehicle; // Store the vehicle texture ID
-    bool hasVehicle = false; // Indicates if there's a vehicle on the field
+    Field() 
+        : textureID(Texture::ID::Default), rotation(0), 
+          car(0, 0), bike(0, 0), motorcycle(0, 0) {}
+
+    Field(Texture::ID id, int rotationDegrees = 0) 
+        : textureID(id), rotation(rotationDegrees), 
+          car(0, 0), bike(0, 0), motorcycle(0, 0) {}
+
+    Texture::ID idVehicle;
+    bool hasVehicle = false;
     Car car;
     Bike bike;
     Motorcycle motorcycle;
-
-    Field(); // Default constructor
-    Field(Texture::ID id, int rotationDegrees = 0); // Constructor with parameters
 
     Texture::ID textureID;
     int rotation;
 
     void draw(IDraw* context, const Point& min, const Point& max) const;
 
-    // Getter and Setter for hasVehicle and vehicle
     bool isOccupied() const {
         return hasVehicle;
     }
@@ -95,17 +119,17 @@ public:
     void setCar(bool occupied, const Car& v) {
         hasVehicle = occupied;
         idVehicle = Texture::ID::Car;
-        car = v; // Set the vehicle if occupied
+        car = v;
     }
     void setBike(bool occupied, const Bike& v) {
         hasVehicle = occupied;
         idVehicle = Texture::ID::Bike;
-        bike = v; // Set the vehicle if occupied
+        bike = v;
     }
     void setMotorcycle(bool occupied, const Motorcycle& v) {
         hasVehicle = occupied;
         idVehicle = Texture::ID::Motorcycle;
-        motorcycle = v; // Set the vehicle if occupied
+        motorcycle = v;
     }
 };
 

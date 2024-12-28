@@ -28,6 +28,7 @@ namespace Texture {
             glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 
             stbi_image_free(data);
+
             std::cout << "Texture " << filename << " loaded successfully with ID: " << textureID << std::endl;
         } else {
             std::cerr << "Failed to load texture: " << filename << std::endl;

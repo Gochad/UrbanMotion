@@ -3,17 +3,22 @@
 
 #include <vector>
 #include <memory>
-#include "VehicleInMap.h" // Include the Vehicle header
+#include "Fields.h"
+
+using FieldMatrix = std::vector<std::vector<std::shared_ptr<Field>>>;
 
 class ListOfVehicle {
 public:
-    void addVehicle(const VehicleInMap& vehicle);
+    void addVehicle(std::shared_ptr<Vehicle> vehicle); // Ensure this matches the implementation
     void removeVehicle(int x, int y);
     void printAllVehicles() const;
     size_t size() const;
-        std::vector<std::shared_ptr<VehicleInMap>> vehicles;
+    const std::vector<std::shared_ptr<Vehicle>>& get() const;
+    void setGrid(FieldMatrix newGrid);
+    FieldMatrix grid;
 
 private:
+    std::vector<std::shared_ptr<Vehicle>> vehicles; // Keep vehicles as shared pointers
 };
 
 #endif // End of the include guard

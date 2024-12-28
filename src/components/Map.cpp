@@ -5,7 +5,6 @@
 Map::Map(int w, int h, int square_size, FieldMatrix matrix) 
     : width(w), height(h), square_size(square_size), grid(matrix) {}
 
-
 Map::Map(int width, int height, int square_size)
     : width(width), height(height), square_size(square_size) {
     grid.resize(height);
@@ -36,8 +35,10 @@ void Map::draw(IDraw* context) {
 int Map::showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Field* field, Texture::ID id) {
     Point min(selectedX * square_size, selectedY * square_size);
     Point max((selectedX + 1) * square_size, (selectedY + 1) * square_size);
+    std::cout<<"OJ OJ"<<std::endl;
     if (grid[selectedY][selectedX]->textureID == Texture::ID::Car || grid[selectedY][selectedX]->textureID == Texture::ID::Bike || grid[selectedY][selectedX]->textureID == Texture::ID::Motorcycle) {
         listOfVehicle.removeVehicle(selectedY, selectedX);
+//     TODO: DOKONYCZ   grid[selectedY][selectedX]->setOccupied(false); // Clear the occupancy
     }
     if ((id == Texture::ID::Car || id == Texture::ID::Bike || id == Texture::ID::Motorcycle) && listOfVehicle.size() >= 3) {
         std::cout << "You can't add more than 3 vehicles" << std::endl;
@@ -65,12 +66,11 @@ int Map::showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Field
     }else{
         grid[selectedY][selectedX]->textureID = id;
     }
-    grid[selectedY][selectedX] = std::make_shared<Field>(*field);
+    
     std::cout << "Texture ID: " << grid[selectedY][selectedX]->textureID << std::endl;
     grid[selectedY][selectedX]->draw(context, min, max);
     return 1;
 }
-
 int Map::getSquareSize() {
     return square_size;
 }
