@@ -30,7 +30,7 @@ void Panel::draw(std::function<void()> onSaveClick, Map* map) {
     ImGui::SetNextWindowSize(ImVec2(width, height));
 
     ImGui::Begin("Editor panel", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
-    ImGui::BeginChild("TileList", ImVec2(0, 70), false, ImGuiWindowFlags_HorizontalScrollbar);
+    ImGui::BeginChild("TileList", ImVec2(0, 200), false, ImGuiWindowFlags_HorizontalScrollbar);
 
     if (ImGui::Button("Save")) {
         onSaveClick();
@@ -74,9 +74,8 @@ void Panel::draw(std::function<void()> onSaveClick, Map* map) {
         ImGui::InvisibleButton("Tile", size);
 
         if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
-            Field* copiedField = field.get();
-            ImGui::SetDragDropPayload("FIELD", copiedField, sizeof(Field*));
-
+            auto copiedField = field.get();
+            ImGui::SetDragDropPayload("FIELD", copiedField, sizeof(decltype(copiedField)));
             ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(textureID)), size, uv[0], uv[2]);
 
             ImGui::EndDragDropSource();

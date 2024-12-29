@@ -8,3 +8,4 @@ void Field::draw(IDraw* context, const Point& min, const Point& max) const {
         context->DrawTexture(min, max, vehicleTextureID, this->rotation);
     }
 }
+

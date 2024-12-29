@@ -20,7 +20,6 @@ MapFile::MapFile(const std::string& mapID) {
 MapFile::~MapFile() {
     saveMap();
 }
-#include <typeinfo>
 
 FieldMatrix MapFile::loadMap() {
     for (const auto& row : data) {
@@ -28,10 +27,7 @@ FieldMatrix MapFile::loadMap() {
         for (char cell : row) {
             auto it = FromFileToFields.find(cell);
             if (it != FromFileToFields.end()) {
-                auto field = it->second();
-
-
-                fieldRow.push_back(field);
+                fieldRow.push_back(it->second());
             } else {
                 throw std::runtime_error(std::string("Unknown field type: ") + cell);
             }

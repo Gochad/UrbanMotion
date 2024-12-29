@@ -7,7 +7,6 @@
 #include "../filestorage/MapFile.h"
 #include "../interfaces/IMap.h"
 #include "ListOfVehicle.h"
-#include "VehicleInMap.h"
 
 using FieldMatrix = std::vector<std::vector<std::shared_ptr<Field>>>;
 
@@ -24,7 +23,7 @@ public:
     int getSquareSize() override;
     ListOfVehicle listOfVehicle;
     FieldMatrix getGrid();
-        FieldMatrix grid;
+    FieldMatrix grid;
 
     FieldMatrix getFieldMatrix();
 

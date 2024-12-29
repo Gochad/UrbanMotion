@@ -6,8 +6,7 @@
 #include "../imgui/Point.h"
 #include "../texture/Manager.h"
 
-// Forward declaration of classes
-class Vehicle; // Declare Vehicle first
+class Vehicle;
 
 class Vehicle {
 public:
@@ -15,7 +14,7 @@ public:
     Vehicle(Texture::ID id, int selectedX, int selectedY, int rotationDegrees = 0)
         : textureID(id), x(selectedX), y(selectedY), rotation(rotationDegrees) {}
 
-    virtual ~Vehicle() = default; // Ensure proper cleanup for derived classes
+    virtual ~Vehicle() = default;
 
     virtual void move() = 0;
     void moveUp(){
@@ -169,8 +168,8 @@ public:
 };
 class Default : public Field {
 public:
-   Default(int rotationDegrees = 0)
-        : Field(Texture::ID::Default, rotationDegrees) {}
+    Default(int rotationDegrees = 0)
+        : Field<VehicleBase>(Texture::ID::Default, rotationDegrees) {}
 };
 
 #endif // FIELDS_H

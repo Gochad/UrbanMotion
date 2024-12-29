@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <functional> 
 #include <memory>
 #include <unordered_map>
 #include "Handler.h"
@@ -21,9 +22,8 @@ public:
     MapFile();
     MapFile(const std::string& mapID);
     ~MapFile();
-    int vehicleCount = 0;
+
     FieldMatrix loadMap();
     void saveMap();
-    int counter = 0;
     void setFieldMatrix(const FieldMatrix& newFieldMatrix);
 };

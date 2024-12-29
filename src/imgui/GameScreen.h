@@ -15,6 +15,8 @@ public:
 
     void setTextureRange(int range);
     void setListOfVehicle(ListOfVehicle listOfVehicle);
+    void setPositionWithoutVehicle(Texture::ID id, int x, int y, Map* map);
+    void setPositionWithVehicle(Texture::ID id, int x, int y, Map* map);
     ListOfVehicle getListOfVehicle();
     Map* map;
 

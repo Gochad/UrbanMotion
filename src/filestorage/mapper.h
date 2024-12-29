@@ -3,7 +3,6 @@
 #include <utility>
 #include "../texture/Manager.h"
 #include "../components/Fields.h"
-#include <functional>
 
 struct pair_hash {
     template <class T1, class T2>

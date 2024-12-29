@@ -85,13 +85,7 @@ void Window::renderGameScreen() {
         map->draw(&imgui_context);
     }
 
-//        gameScreen = std::make_unique<GameScreen>(width, 200, height - 200, map);
-
-        gameScreen->setListOfVehicle(map->listOfVehicle);
-//        gameScreen->getListOfVehicle().setGrid(map->getGrid());
-//        std::cout<<"GameMap grid:: "<< gameScreen->map->getGrid().size()<<std::endl;  
-//        std::cout<<"Map grid:: "<< map->getGrid().size()<<std::endl;  
-              
+        gameScreen->setListOfVehicle(map->listOfVehicle);              
         gameScreen->draw([]() { std::cout << "Game started" << std::endl; }, map);
         map->draw(&imgui_context);
 
@@ -105,7 +99,6 @@ void Window::renderFrame(bool mapInitialized) {
     } else {
         renderGameScreen();
     }
-
     glfwSwapBuffers(window);
 }
 
