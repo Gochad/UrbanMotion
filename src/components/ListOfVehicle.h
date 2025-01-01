@@ -1,4 +1,4 @@
-#ifndef LIST_OF_VEHICLE_H // Start of the include guard
+#ifndef LIST_OF_VEHICLE_H
 #define LIST_OF_VEHICLE_H
 
 #include <vector>

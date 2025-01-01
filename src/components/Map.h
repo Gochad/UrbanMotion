@@ -34,5 +34,4 @@ private:
     int selectedX = -1;
     int selectedY = -1;
     bool isEditing = false;
-    std::vector<Field*> elements;
 };

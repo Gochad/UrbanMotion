@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <memory>
+#include <vector>
 #include "../imgui/IDraw.h"
 #include "../imgui/Point.h"
 #include "../texture/Manager.h"
@@ -19,9 +20,11 @@ public:
     void moveDown();
     void moveLeft();
     void moveRight();
-    void setPosition(const Point&);
-    void setID(Texture::ID);
-    Texture::ID getID() const;
+    void setPosition(const Point& pos);
+
+    void setID(Texture::ID id);
+    Texture::ID getID() const; 
+
     Point getPosition() const;
     int getX() const;
     int getY() const;
@@ -62,7 +65,7 @@ public:
 
     Texture::ID idVehicle;
     bool hasVehicle = false;
-    std::unique_ptr<Vehicle> vehicle;
+    std::shared_ptr<Vehicle> vehicle;
     Texture::ID textureID;
     int rotation;
 
@@ -73,61 +76,45 @@ public:
     void setVehicle(bool occupied, std::shared_ptr<Vehicle> vehicle);
 };
 
-template<typename T>
-class Street : public Field {
-public:
-    Street(Texture::ID id, int rotationDegrees = 0)
-        : Field(id, rotationDegrees) {}
-};
-
-template<typename T>
-class NonStreet : public Field {
-public:
-    NonStreet(Texture::ID id, int rotationDegrees = 0)
-        : Field(id, rotationDegrees) {}
-
-};
-
-// Przykłady konkretnych pól
-class Road : public Street<Road> {
-public:
-    Road(int rotationDegrees = 0)
-        : Street(Texture::ID::Road, rotationDegrees) {}
-};
-
-class Crossroad : public Street<Crossroad> {
-public:
-    Crossroad(int rotationDegrees = 0)
-        : Street(Texture::ID::Crossroad, rotationDegrees) {}
-};
-
-class Grass : public NonStreet<Grass> {
-public:
-    Grass(int rotationDegrees = 0)
-        : NonStreet(Texture::ID::Grass, rotationDegrees) {}
-};
-
-class Building : public NonStreet<Building> {
+class Building : public Field {
 public:
     Building(int rotationDegrees = 0)
-        : NonStreet(Texture::ID::Building, rotationDegrees) {}
+        : Field(Texture::ID::Building, rotationDegrees) {}
 };
 
-class Intersection : public Street<Crossroad>  {
+class Grass : public Field {
+public:
+    Grass(int rotationDegrees = 0)
+        : Field(Texture::ID::Grass, rotationDegrees) {}
+};
+
+class Intersection : public Field {
 public:
     Intersection(int rotationDegrees = 0)
-        : Street(Texture::ID::Intersection, rotationDegrees) {}
+        : Field(Texture::ID::Intersection, rotationDegrees) {}
 };
 
-class Curve : public Street<Crossroad>  {
+class Road : public Field {
+public:
+    Road(int rotationDegrees = 0)
+        : Field(Texture::ID::Road, rotationDegrees) {}
+};
+
+class Crossroad : public Field {
+public:
+    Crossroad(int rotationDegrees = 0)
+        : Field(Texture::ID::Crossroad, rotationDegrees) {}
+};
+
+class Curve : public Field {
 public:
     Curve(int rotationDegrees = 0)
-        : Street(Texture::ID::Curve, rotationDegrees) {}
+        : Field(Texture::ID::Curve, rotationDegrees) {}
 };
 
-class Default :public NonStreet<Grass> {
+class Default : public Field {
 public:
     Default(int rotationDegrees = 0)
-        : NonStreet(Texture::ID::Default, rotationDegrees) {}
+        : Field(Texture::ID::Default, rotationDegrees) {}
 };
 #endif // FIELDS_H
