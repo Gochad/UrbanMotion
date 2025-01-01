@@ -1,5 +1,8 @@
 #include "Panel.h"
 #include <iostream>
+#include <map>
+#include "imgui.h"
+#include "../components/Map.h"
 #include "../filestorage/mapper.h"
 #include <cmath>
 #include "RotationTransform.h"
@@ -16,20 +19,27 @@ void Panel::setTextureRange(int range) {
     this->textureRange = range;
 }
 
-void Panel::draw(std::function<void()> onSaveClick) {
+int Panel::getSelectedTexture() const {
+    return selectedTextureIndex;
+}
+bool Panel::isFinalMapSaved() const {
+    return finalMapSaved;
+}
+void Panel::draw(std::function<void()> onSaveClick, Map* map) {
     ImGui::SetNextWindowPos(ImVec2(0, yOffset));
     ImGui::SetNextWindowSize(ImVec2(width, height));
 
     ImGui::Begin("Editor panel", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);
-    ImGui::BeginChild("TileList", ImVec2(0, 70), false, ImGuiWindowFlags_HorizontalScrollbar);
+    ImGui::BeginChild("TileList", ImVec2(0, 200), false, ImGuiWindowFlags_HorizontalScrollbar);
 
     if (ImGui::Button("Save")) {
         onSaveClick();
+        mapSaved = true;
     }
+        ImDrawList* drawList = ImGui::GetWindowDrawList();
 
-    ImGui::SameLine();
-
-    ImDrawList* drawList = ImGui::GetWindowDrawList();
+    ImGui::NewLine();
+    if (!mapSaved) {
 
     for (const auto& [key, fieldFactory] : FromFileToFields) {
         auto field = fieldFactory();
@@ -64,9 +74,8 @@ void Panel::draw(std::function<void()> onSaveClick) {
         ImGui::InvisibleButton("Tile", size);
 
         if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
-            Field* copiedField = field.get();
-            ImGui::SetDragDropPayload("FIELD", copiedField, sizeof(Field*));
-
+            auto copiedField = field.get();
+            ImGui::SetDragDropPayload("FIELD", copiedField, sizeof(decltype(copiedField)));
             ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(textureID)), size, uv[0], uv[2]);
 
             ImGui::EndDragDropSource();
@@ -75,7 +84,41 @@ void Panel::draw(std::function<void()> onSaveClick) {
         ImGui::PopID();
         ImGui::SameLine();
     }
+    } else {
+        ImGui::Text("Map has been saved. Vehicles are now visible.");
+    }
 
-    ImGui::EndChild();
+    ImGui::Separator();
+
+    // Render vehicles only if the map has been saved
+    if (mapSaved) {
+        ImGui::Text("Vehicles");
+
+        Texture::ID vehicleTextures[] = { Texture::ID::Car, Texture::ID::Bike, Texture::ID::Motorcycle };
+        for (Texture::ID id : vehicleTextures) {
+            int textureIndex = static_cast<int>(id);
+            ImGui::PushID(textureIndex);
+
+            if (ImGui::ImageButton(reinterpret_cast<void*>(static_cast<intptr_t>(textureIndex)), ImVec2(50, 50))) {
+                selectedTextureIndex = textureIndex;
+            }
+
+            if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
+                ImGui::SetDragDropPayload("TEXTURE_INDEX", &textureIndex, sizeof(int));
+                ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(textureIndex)), ImVec2(50, 50));
+                ImGui::EndDragDropSource();
+            }
+
+            ImGui::PopID();
+            ImGui::SameLine();
+        }
+
+        ImGui::NewLine();
+        if (ImGui::Button("Final look, start the game")) {
+        finalMapSaved = true;
+        }
+    }
+        ImGui::EndChild();
+
     ImGui::End();
 }

@@ -18,8 +18,7 @@ std::unordered_map<char, std::function<std::shared_ptr<Field>()>> FromFileToFiel
     {'J', createField<Curve>},
     {'K', createField<Curve, 90>},
     {'L', createField<Curve, 180>},
-    {'M', createField<Curve, 270>},
-    {'N', createField<Default>}
+    {'M', createField<Curve, 270>}
 };
 
 
@@ -36,6 +35,5 @@ std::unordered_map<std::pair<Texture::ID, int>, char, pair_hash> FromFieldsToFil
     {{Texture::ID::Curve, 0}, 'J'},
     {{Texture::ID::Curve, 90}, 'K'},
     {{Texture::ID::Curve, 180}, 'L'},
-    {{Texture::ID::Curve, 270}, 'M'},
-    {{Texture::ID::Default, 0}, 'N'}
+    {{Texture::ID::Curve, 270}, 'M'}
 };

@@ -54,10 +54,13 @@ add_executable(UrbanMotion
     src/imgui/Manager.cpp
     src/imgui/Window.cpp
     src/imgui/Panel.cpp
+    src/imgui/GameScreen.cpp
     src/imgui/DropTargetWindow.cpp
     src/imgui/WelcomeScreen.cpp
     src/imgui/RotationTransform.cpp
+    src/imgui/GameScreen.cpp
     src/components/Map.cpp
+    src/components/ListOfVehicle.cpp
     src/components/Fields.cpp
     src/filestorage/MapFile.cpp
     src/filestorage/mapper.cpp
