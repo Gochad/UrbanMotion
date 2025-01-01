@@ -2,15 +2,14 @@
 #include "Fields.h"
 
 void ListOfVehicle::addVehicle(std::shared_ptr<Vehicle> vehicle) {
-    // Ensure we are not adding a vehicle at the same position
-    auto it = std::find_if(vehicles.begin(), vehicles.end(),
-                           [&vehicle](const std::shared_ptr<Vehicle>& v) {
-                               return v->getX() == vehicle->getX() && v->getY() == vehicle->getY();
-                           });
-    
-    if (it == vehicles.end()) {
-        vehicles.push_back(vehicle); // Directly push the shared pointer
-    } 
+    for (const auto& v : vehicles) {
+        if (v->getX() == vehicle->getX() && v->getY() == vehicle->getY()) {
+            std::cerr << "Error: A vehicle with the same coordinates already exists at (" 
+                      << vehicle->getX() << ", " << vehicle->getY() << ")" << std::endl;
+            return;
+        }
+    }
+    vehicles.push_back(vehicle);
 }
 
 void ListOfVehicle::removeVehicle(int x, int y) {

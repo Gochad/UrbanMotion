@@ -4,6 +4,7 @@
 #include "imgui.h"
 #include "../components/Map.h"
 #include "../components/ListOfVehicle.h"
+#include "../components/Fields.h"
 
 GameScreen::GameScreen(int width, int height, int yOffset, Map* map)
     : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0), map(map) {
@@ -68,30 +69,30 @@ void GameScreen::draw(std::function<void()> onSaveClick, Map* map) {
 
     ImGui::End();
 }
-void GameScreen::setPositionWithoutVehicle(Texture::ID id, int selectedX, int selectedY, Map* map){
-        std::shared_ptr<Vehicle> vehicle;
-        if (id == Texture::ID::Car) {
-            vehicle = std::make_shared<Car>(selectedY, selectedX, 0);
-            map->grid[selectedX][selectedY]->setCar(false, *std::dynamic_pointer_cast<Car>(vehicle));
-        } else if (id == Texture::ID::Bike) {
-            vehicle = std::make_shared<Bike>(selectedY, selectedX, 0);
-            map->grid[selectedX][selectedY]->setBike(false, *std::dynamic_pointer_cast<Bike>(vehicle));
-        } else if (id == Texture::ID::Motorcycle) {
-            vehicle = std::make_shared<Motorcycle>(selectedY, selectedX, 0);
-            map->grid[selectedX][selectedY]->setMotorcycle(false, *std::dynamic_pointer_cast<Motorcycle>(vehicle));
-        }
+void GameScreen::setPositionWithoutVehicle(Texture::ID id, int selectedX, int selectedY, Map* map) {
+    std::unique_ptr<Vehicle> vehicle;
+    if (id == Texture::ID::Car) {
+        vehicle = std::make_unique<Car>(selectedY, selectedX, 0);
+        map->grid[selectedX][selectedY]->setVehicle(false, std::move(vehicle)); // Move the unique_ptr
+    } else if (id == Texture::ID::Bike) {
+        vehicle = std::make_unique<Bike>(selectedY, selectedX, 0);
+        map->grid[selectedX][selectedY]->setVehicle(false, std::move(vehicle)); // Move the unique_ptr
+    } else if (id == Texture::ID::Motorcycle) {
+        vehicle = std::make_unique<Motorcycle>(selectedY, selectedX, 0);
+        map->grid[selectedX][selectedY]->setVehicle(false, std::move(vehicle)); // Move the unique_ptr
+    }
 }
 
-void GameScreen::setPositionWithVehicle(Texture::ID id, int selectedX, int selectedY, Map* map){
-        std::shared_ptr<Vehicle> vehicle;
-        if (id == Texture::ID::Car) {
-            vehicle = std::make_shared<Car>(selectedY, selectedX, 0);
-            map->grid[selectedX][selectedY]->setCar(true, *std::dynamic_pointer_cast<Car>(vehicle));
-        } else if (id == Texture::ID::Bike) {
-            vehicle = std::make_shared<Bike>(selectedY, selectedX, 0);
-            map->grid[selectedX][selectedY]->setBike(true, *std::dynamic_pointer_cast<Bike>(vehicle));
-        } else if (id == Texture::ID::Motorcycle) {
-            vehicle = std::make_shared<Motorcycle>(selectedY, selectedX, 0);
-            map->grid[selectedX][selectedY]->setMotorcycle(true, *std::dynamic_pointer_cast<Motorcycle>(vehicle));
-        }
+void GameScreen::setPositionWithVehicle(Texture::ID id, int selectedX, int selectedY, Map* map) {
+    std::unique_ptr<Vehicle> vehicle; // Use unique_ptr instead of shared_ptr
+    if (id == Texture::ID::Car) {
+        vehicle = std::make_unique<Car>(selectedY, selectedX, 0);
+        map->grid[selectedX][selectedY]->setVehicle(true, std::move(vehicle)); // Move the unique_ptr
+    } else if (id == Texture::ID::Bike) {
+        vehicle = std::make_unique<Bike>(selectedY, selectedX, 0);
+        map->grid[selectedX][selectedY]->setVehicle(true, std::move(vehicle)); // Move the unique_ptr
+    } else if (id == Texture::ID::Motorcycle) {
+        vehicle = std::make_unique<Motorcycle>(selectedY, selectedX, 0);
+        map->grid[selectedX][selectedY]->setVehicle(true, std::move(vehicle)); // Move the unique_ptr
+    }
 }

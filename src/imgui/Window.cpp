@@ -85,11 +85,10 @@ void Window::renderGameScreen() {
         map->draw(&imgui_context);
     }
 
-        gameScreen->setListOfVehicle(map->listOfVehicle);              
-        gameScreen->draw([]() { std::cout << "Game started" << std::endl; }, map);
-        map->draw(&imgui_context);
+    gameScreen->setListOfVehicle(map->listOfVehicle);
 
-    
+    gameScreen->draw([]() { std::cout << "Game started" << std::endl; }, map);
+    map->draw(&imgui_context);
 }
 void Window::renderFrame(bool mapInitialized) {
     if (!mapInitialized) {

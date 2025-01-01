@@ -6,6 +6,7 @@
 #include "../texture/Manager.h"
 #include "../components/Map.h" 
 #include "../components/ListOfVehicle.h" 
+#include "../components/Fields.h"
 
 class GameScreen {
 public:

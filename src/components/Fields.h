@@ -2,11 +2,10 @@
 #define FIELDS_H
 
 #include <iostream>
+#include <memory>
 #include "../imgui/IDraw.h"
 #include "../imgui/Point.h"
 #include "../texture/Manager.h"
-
-class Vehicle;
 
 class Vehicle {
 public:
@@ -16,39 +15,16 @@ public:
 
     virtual ~Vehicle() = default;
 
-    virtual void move() = 0;
-    void moveUp(){
-        x--;
-    }
-    void moveDown(){
-        x++;
-    }
-    void moveLeft(){
-        y--;
-    }
-    void moveRight(){
-        y++;
-    }
-    void setPosition(const Point& pos) {
-        position = pos;
-    }
-
-    void setID(Texture::ID id) {
-        textureID = id;
-    }
-    Texture::ID getID() const {
-        return textureID;
-    }
-
-    Point getPosition() const {
-        return position;
-    }
-    int getX() const {
-        return x;
-    }
-    int getY() const {
-        return y;
-    }
+    void moveUp();
+    void moveDown();
+    void moveLeft();
+    void moveRight();
+    void setPosition(const Point&);
+    void setID(Texture::ID);
+    Texture::ID getID() const;
+    Point getPosition() const;
+    int getX() const;
+    int getY() const;
 
     Point position;
     Texture::ID textureID;
@@ -56,35 +32,22 @@ public:
     int x, y;
 };
 
-// Define derived classes of Vehicle
 class Car : public Vehicle {
 public:
     Car(int x, int y, int rotationDegrees = 0)
         : Vehicle(Texture::ID::Car, x, y, rotationDegrees) {}
-
-    void move() override {
-        std::cout << "Car is moving" << std::endl;
-    }
 };
 
 class Bike : public Vehicle {
 public:
     Bike(int x, int y, int rotationDegrees = 0)
         : Vehicle(Texture::ID::Default, x, y, rotationDegrees) {}
-
-    void move() override {
-        std::cout << "Bike is moving" << std::endl;
-    }
 };
 
 class Motorcycle : public Vehicle {
 public:
     Motorcycle(int x, int y, int rotationDegrees = 0)
         : Vehicle(Texture::ID::Default, x, y, rotationDegrees) {}
-
-    void move() override {
-        std::cout << "Motorcycle is moving" << std::endl;
-    }
 };
 
 class Field {
@@ -92,84 +55,79 @@ public:
     virtual ~Field() = default;
 
     Field() 
-        : textureID(Texture::ID::Default), rotation(0), 
-          car(0, 0), bike(0, 0), motorcycle(0, 0) {}
+        : textureID(Texture::ID::Default), rotation(0), vehicle(nullptr) {}
 
     Field(Texture::ID id, int rotationDegrees = 0) 
-        : textureID(id), rotation(rotationDegrees), 
-          car(0, 0), bike(0, 0), motorcycle(0, 0) {}
+        : textureID(id), rotation(rotationDegrees), vehicle(nullptr) {}
 
     Texture::ID idVehicle;
     bool hasVehicle = false;
-    Car car;
-    Bike bike;
-    Motorcycle motorcycle;
-
+    std::unique_ptr<Vehicle> vehicle;
     Texture::ID textureID;
     int rotation;
 
     void draw(IDraw* context, const Point& min, const Point& max) const;
 
-    bool isOccupied() const {
-        return hasVehicle;
-    }
+    bool isOccupied() const;
 
-    void setCar(bool occupied, const Car& v) {
-        hasVehicle = occupied;
-        idVehicle = Texture::ID::Car;
-        car = v;
-    }
-    void setBike(bool occupied, const Bike& v) {
-        hasVehicle = occupied;
-        idVehicle = Texture::ID::Bike;
-        bike = v;
-    }
-    void setMotorcycle(bool occupied, const Motorcycle& v) {
-        hasVehicle = occupied;
-        idVehicle = Texture::ID::Motorcycle;
-        motorcycle = v;
-    }
+    void setVehicle(bool occupied, std::shared_ptr<Vehicle> vehicle);
 };
 
-class Building : public Field {
+template<typename T>
+class Street : public Field {
 public:
-    Building(int rotationDegrees = 0)
-        : Field(Texture::ID::Building, rotationDegrees) {}
+    Street(Texture::ID id, int rotationDegrees = 0)
+        : Field(id, rotationDegrees) {}
 };
 
-class Grass : public Field {
+template<typename T>
+class NonStreet : public Field {
 public:
-    Grass(int rotationDegrees = 0)
-        : Field(Texture::ID::Grass, rotationDegrees) {}
+    NonStreet(Texture::ID id, int rotationDegrees = 0)
+        : Field(id, rotationDegrees) {}
+
 };
 
-class Intersection : public Field {
-public:
-    Intersection(int rotationDegrees = 0)
-        : Field(Texture::ID::Intersection, rotationDegrees) {}
-};
-
-class Road : public Field {
+// Przykłady konkretnych pól
+class Road : public Street<Road> {
 public:
     Road(int rotationDegrees = 0)
-        : Field(Texture::ID::Road, rotationDegrees) {}
+        : Street(Texture::ID::Road, rotationDegrees) {}
 };
 
-class Crossroad : public Field {
+class Crossroad : public Street<Crossroad> {
 public:
     Crossroad(int rotationDegrees = 0)
-        : Field(Texture::ID::Crossroad, rotationDegrees) {}
+        : Street(Texture::ID::Crossroad, rotationDegrees) {}
 };
 
-class Curve : public Field {
+class Grass : public NonStreet<Grass> {
+public:
+    Grass(int rotationDegrees = 0)
+        : NonStreet(Texture::ID::Grass, rotationDegrees) {}
+};
+
+class Building : public NonStreet<Building> {
+public:
+    Building(int rotationDegrees = 0)
+        : NonStreet(Texture::ID::Building, rotationDegrees) {}
+};
+
+class Intersection : public Street<Crossroad>  {
+public:
+    Intersection(int rotationDegrees = 0)
+        : Street(Texture::ID::Intersection, rotationDegrees) {}
+};
+
+class Curve : public Street<Crossroad>  {
 public:
     Curve(int rotationDegrees = 0)
-        : Field(Texture::ID::Curve, rotationDegrees) {}
-};
-class Default : public Field {
-public:
-    Default(int rotationDegrees = 0)
-        : Field<VehicleBase>(Texture::ID::Default, rotationDegrees) {}
+        : Street(Texture::ID::Curve, rotationDegrees) {}
 };
 
+class Default :public NonStreet<Grass> {
+public:
+    Default(int rotationDegrees = 0)
+        : NonStreet(Texture::ID::Default, rotationDegrees) {}
+};
 #endif // FIELDS_H
