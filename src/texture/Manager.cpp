@@ -55,7 +55,7 @@ namespace Texture {
         return textures;
     }
     std::ostream& operator<<(std::ostream& os, const ID& id) {
-        os << static_cast<int>(id); // Assuming you want to print the integer value of the enum
+        os << static_cast<int>(id);
         return os;
     }
 }
