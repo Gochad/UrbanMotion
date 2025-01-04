@@ -5,6 +5,16 @@
 #include <iostream>
 #include "../texture/Manager.h"
 
+constexpr std::array<ImVec2, 4> getDefaultUVs()
+{
+    return {
+        ImVec2{0.0f, 0.0f},
+        ImVec2{1.0f, 0.0f},
+        ImVec2{1.0f, 1.0f},
+        ImVec2{0.0f, 1.0f}
+    };
+}
+
 class Draw : public IDraw {
 private:
     ImDrawList* draw_list_;
@@ -18,12 +28,7 @@ public:
         RotationTransform transform(center, size, rotationDegrees);
         auto transformedVertices = transform.getTransformedVertices();
 
-        ImVec2 uvs[4] = {
-            ImVec2(0.0f, 0.0f),
-            ImVec2(1.0f, 0.0f),
-            ImVec2(1.0f, 1.0f),
-            ImVec2(0.0f, 1.0f)
-        };
+        constexpr auto uvs = getDefaultUVs();
 
         draw_list_->AddImageQuad(
             reinterpret_cast<void*>(static_cast<intptr_t>(textureid)),
