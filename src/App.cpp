@@ -1,14 +1,14 @@
 #include "App.h"
 #include <iostream>
 
-App::App(int grid_size, int square_size)
-    : grid_size(grid_size), square_size(square_size), is_initialized(false) {}
+App::App()
+    : is_initialized(false) {}
 
 App::~App() {
     shutdown();
 }
 
-void App::initializeMap(const std::string& map_id) {
+void App::initializeMap(int grid_size, int square_size, const std::string& map_id) {
     if (map_id == "new") {
         map = std::make_unique<Map>(grid_size, grid_size, square_size);
     } else {
@@ -19,7 +19,13 @@ void App::initializeMap(const std::string& map_id) {
 }
 
 bool App::init() {
-    appWindow = std::make_unique<Window>(grid_size * square_size, grid_size * square_size + 100);
+    constexpr int grid_size = 10;
+    constexpr int square_size = 50;
+
+    constexpr int window_width = grid_size * square_size;
+    constexpr int window_height = grid_size * square_size + 100;
+
+    appWindow = std::make_unique<Window>(window_width, window_height);    
     if (!appWindow->init()) return false;
 
     mapfile = std::make_unique<MapFile>();
@@ -27,7 +33,7 @@ bool App::init() {
 
     appWindow->setMapInitializationCallback([this, &mapID](const std::string& map_id) {
         try {
-            initializeMap(map_id);
+            initializeMap(grid_size, square_size, map_id);
             mapID = map_id;
             map_initialized = true;
         } catch (const std::exception& e) {

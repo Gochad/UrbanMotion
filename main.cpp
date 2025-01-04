@@ -2,10 +2,7 @@
 #include <iostream>
 
 int main() {
-    int grid_size = 10;
-    int square_size = 50;
-
-    App app(grid_size, square_size);
+    App app;
 
     if (!app.init()) {
         std::cerr << "Failed to initialize the application.";
