@@ -47,10 +47,9 @@ int Map::showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Field
         } else if (id == Texture::ID::Motorcycle) {
             vehicle = std::make_shared<Motorcycle>(selectedY, selectedX, 0);
         }
+        listOfVehicle.addVehicle(vehicle);
 
         grid[selectedY][selectedX]->setVehicle(true, vehicle);
-
-        listOfVehicle.addVehicle(vehicle);
     } else {
         grid[selectedY][selectedX] = std::make_shared<Field>(*field);
     }

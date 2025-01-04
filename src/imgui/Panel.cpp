@@ -39,7 +39,7 @@ void Panel::draw(std::function<void()> onSaveClick, Map* map) {
     
     ImDrawList* drawList = ImGui::GetWindowDrawList();
     ImGui::NewLine();
-    
+
     if (!mapSaved) {
         for (const auto& [key, fieldFactory] : FromFileToFields) {
             auto field = fieldFactory();
