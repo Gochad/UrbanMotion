@@ -4,15 +4,18 @@
 WelcomeScreen::WelcomeScreen(const std::vector<std::string>& maps)
     : available_maps(maps), map_selected(false), selected_map_id("") {}
 
+constexpr ImVec2 computeWindowPos(int app_width, int app_height, const ImVec2& size) {
+    return ImVec2((app_width - size.x) / 2, (app_height - size.y) / 2);
+}
+
 void WelcomeScreen::render(
-    int app_window_width, int app_window_height,
+    int app_window_width, 
+    int app_window_height,
     std::function<void(const std::string&)> onMapSelected) {
 
-    ImVec2 window_size(300, 200);
-    ImVec2 window_pos(
-        (app_window_width - window_size.x) / 2,
-        (app_window_height - window_size.y) / 2
-    );
+    constexpr ImVec2 window_size(300, 200);
+
+    ImVec2 window_pos = computeWindowPos(app_window_width, app_window_height, window_size);
 
     ImGui::SetNextWindowSize(window_size);
     ImGui::SetNextWindowPos(window_pos);
