@@ -13,17 +13,17 @@ using FieldMatrix = std::vector<std::vector<std::shared_ptr<Field>>>;
 
 class MapFile {
 private:
-    std::string filename;
     Handler<std::string> fileHandler;
-    std::vector<std::string> data;
-    FieldMatrix fieldMatrix;
+    std::unordered_map<std::string, FieldMatrix> maps;
 
 public:
     MapFile();
     MapFile(const std::string& mapID);
     ~MapFile();
 
-    FieldMatrix loadMap();
-    void saveMap();
-    void setFieldMatrix(const FieldMatrix& newFieldMatrix);
+    FieldMatrix getMap(std::string mapID);
+    void saveMaps();
+    void setFieldMatrix(std::string mapID, const FieldMatrix& newFieldMatrix);
+    FieldMatrix parseMapData(const std::vector<std::string>& data);
+    void loadAllMaps();
 };

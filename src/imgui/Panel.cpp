@@ -41,56 +41,56 @@ void Panel::draw(std::function<void()> onSaveClick, Map* map) {
     ImGui::NewLine();
     if (!mapSaved) {
 
-    for (const auto& [key, fieldFactory] : FromFileToFields) {
-        auto field = fieldFactory();
-        Texture::ID textureID = field->textureID;
-        ImGui::PushID((std::to_string(key)).c_str());
+        for (const auto& [key, fieldFactory] : FromFileToFields) {
+            auto field = fieldFactory();
+            Texture::ID textureID = field->textureID;
+            ImGui::PushID((std::to_string(key)).c_str());
 
-        ImVec2 size = ImVec2(50, 50);
+            ImVec2 size = ImVec2(50, 50);
 
-        ImVec2 cursorPos = ImGui::GetCursorScreenPos();
-        ImVec2 center = ImVec2(cursorPos.x + size.x * 0.5f, cursorPos.y + size.y * 0.5f);
+            ImVec2 cursorPos = ImGui::GetCursorScreenPos();
+            ImVec2 center = ImVec2(cursorPos.x + size.x * 0.5f, cursorPos.y + size.y * 0.5f);
 
-        RotationTransform transform(center, size, field->rotation);
-        auto transformedVertices = transform.getTransformedVertices();
+            RotationTransform transform(center, size, field->rotation);
+            auto transformedVertices = transform.getTransformedVertices();
 
-        ImVec2 uv[4] = {
-            ImVec2(0.0f, 0.0f),
-            ImVec2(1.0f, 0.0f),
-            ImVec2(1.0f, 1.0f),
-            ImVec2(0.0f, 1.0f)
-        };
+            ImVec2 uv[4] = {
+                ImVec2(0.0f, 0.0f),
+                ImVec2(1.0f, 0.0f),
+                ImVec2(1.0f, 1.0f),
+                ImVec2(0.0f, 1.0f)
+            };
 
-        drawList->AddImageQuad(
-            reinterpret_cast<void*>(static_cast<intptr_t>(textureID)),
-            transformedVertices[0],
-            transformedVertices[1],
-            transformedVertices[2],
-            transformedVertices[3],
-            uv[0], uv[1], uv[2], uv[3]
-        );
+            drawList->AddImageQuad(
+                reinterpret_cast<void*>(static_cast<intptr_t>(textureID)),
+                transformedVertices[0],
+                transformedVertices[1],
+                transformedVertices[2],
+                transformedVertices[3],
+                uv[0], uv[1], uv[2], uv[3]
+            );
 
-        ImGui::SetCursorScreenPos(cursorPos);
-        ImGui::InvisibleButton("Tile", size);
+            ImGui::SetCursorScreenPos(cursorPos);
+            ImGui::InvisibleButton("Tile", size);
 
-        if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
-            auto copiedField = field.get();
-            ImGui::SetDragDropPayload("FIELD", copiedField, sizeof(decltype(copiedField)));
-            ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(textureID)), size, uv[0], uv[2]);
+            if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID)) {
+                Field* copiedField = field.get();
 
-            ImGui::EndDragDropSource();
+                ImGui::SetDragDropPayload("FIELD", copiedField, sizeof(Field));
+                ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(textureID)), size, uv[0], uv[2]);
+
+                ImGui::EndDragDropSource();
+            }
+
+            ImGui::PopID();
+            ImGui::SameLine();
         }
-
-        ImGui::PopID();
-        ImGui::SameLine();
-    }
     } else {
         ImGui::Text("Map has been saved. Vehicles are now visible.");
     }
 
     ImGui::Separator();
 
-    // Render vehicles only if the map has been saved
     if (mapSaved) {
         ImGui::Text("Vehicles");
 

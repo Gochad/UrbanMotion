@@ -28,6 +28,8 @@ public:
     bool init();
     void run();
     void shutdown();
+
+    static constexpr int computeWindowSize(int grid_size, int square_size);
 };
 
 #endif // APP_H

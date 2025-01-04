@@ -19,20 +19,25 @@ void DropTargetWindow::render(Draw* imgui_context, int vehicleCount) {
     ImGui::InvisibleButton("FullScreenDropTarget", ImGui::GetIO().DisplaySize);
 
     ImVec2 mapPos(0, 0);
-
     if (ImGui::BeginDragDropTarget()) {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TEXTURE_INDEX")) {
-            int textureIndex = *(const int*)payload->Data;
-             Field* field = static_cast<Field*>(payload->Data);          
-                ImVec2 mousePos = ImGui::GetMousePos();
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FIELD")) {
+            Field* field = static_cast<Field*>(payload->Data);
+            ImVec2 mousePos = ImGui::GetMousePos();
 
-                int gridX = static_cast<int>((mousePos.x - mapPos.x) / map->getSquareSize());
-                int gridY = static_cast<int>((mousePos.y - mapPos.y) / map->getSquareSize());
-                map->showChangeTilePanel(imgui_context, gridX, gridY, field, static_cast<Texture::ID>(textureIndex));
-
-            map->showChangeTilePanel(imgui_context, gridX, gridY, field,  static_cast<Texture::ID>(textureIndex));
+            int gridX = static_cast<int>((mousePos.x - mapPos.x) / map->getSquareSize());
+            int gridY = static_cast<int>((mousePos.y - mapPos.y) / map->getSquareSize());
+            map->showChangeTilePanel(imgui_context, gridX, gridY, field, field->textureID);
         }
-        ImGui::EndDragDropTarget();
+        else if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TEXTURE_INDEX")) {
+            int textureIndex = *(const int*)payload->Data;
+            ImVec2 mousePos = ImGui::GetMousePos();
+
+            int gridX = static_cast<int>((mousePos.x - mapPos.x) / map->getSquareSize());
+            int gridY = static_cast<int>((mousePos.y - mapPos.y) / map->getSquareSize());
+            
+            map->showChangeTilePanel(imgui_context, gridX, gridY, nullptr, static_cast<Texture::ID>(textureIndex));
+        }
     }
+
     ImGui::End();
 }

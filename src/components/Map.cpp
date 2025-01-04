@@ -33,11 +33,11 @@ int Map::showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Field
     Point min(selectedX * square_size, selectedY * square_size);
     Point max((selectedX + 1) * square_size, (selectedY + 1) * square_size);
 
-    if ((id == Texture::ID::Car || id == Texture::ID::Bike || id == Texture::ID::Motorcycle) && 
+    if (field == nullptr && 
         listOfVehicle.size() >= 3) {
         std::cout << "You can't add more than 3 vehicles" << std::endl;
         return -1;
-    } else if ((id == Texture::ID::Car || id == Texture::ID::Bike || id == Texture::ID::Motorcycle) && listOfVehicle.size() < 3) {
+    } else if (field == nullptr && listOfVehicle.size() < 3) {
         std::shared_ptr<Vehicle> vehicle;
 
         if (id == Texture::ID::Car) {
@@ -52,7 +52,7 @@ int Map::showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Field
 
         listOfVehicle.addVehicle(vehicle);
     } else {
-        grid[selectedY][selectedX]->textureID = id;
+        grid[selectedY][selectedX] = std::make_shared<Field>(*field);
     }
 
     grid[selectedY][selectedX]->draw(context, min, max);
