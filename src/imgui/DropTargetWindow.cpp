@@ -8,13 +8,7 @@ DropTargetWindow::DropTargetWindow(IMap* map)
 void DropTargetWindow::render(Draw* imgui_context, int vehicleCount) {
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
-    ImGui::Begin("DropTargetWindow", NULL,
-                 ImGuiWindowFlags_NoTitleBar |
-                 ImGuiWindowFlags_NoResize |
-                 ImGuiWindowFlags_NoMove |
-                 ImGuiWindowFlags_NoScrollbar |
-                 ImGuiWindowFlags_NoBringToFrontOnFocus |
-                 ImGuiWindowFlags_NoBackground);
+    ImGui::Begin("DropTargetWindow", NULL, DropTargetWindowFlags);
 
     ImGui::InvisibleButton("FullScreenDropTarget", ImGui::GetIO().DisplaySize);
 

@@ -5,6 +5,14 @@
 #include <iostream>
 #include "../texture/Manager.h"
 
+constexpr ImGuiWindowFlags DropTargetWindowFlags = 
+          ImGuiWindowFlags_NoTitleBar 
+        | ImGuiWindowFlags_NoResize
+        | ImGuiWindowFlags_NoMove
+        | ImGuiWindowFlags_NoScrollbar
+        | ImGuiWindowFlags_NoBringToFrontOnFocus
+        | ImGuiWindowFlags_NoBackground;
+
 constexpr std::array<ImVec2, 4> getDefaultUVs()
 {
     return {

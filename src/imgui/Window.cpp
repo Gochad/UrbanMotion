@@ -4,6 +4,11 @@
 #include <imgui_impl_glfw.h>
 #include "GameScreen.h"
 
+namespace {
+    inline constexpr int kHeightOffset = 100;
+    inline constexpr const char* kWindowTitle = "Urban Motion";
+}
+
 Window::Window(int width, int height)
     : width(width), height(height), window(nullptr) {}
 
@@ -21,9 +26,9 @@ bool Window::init() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    height += 100;
+    height += kHeightOffset;
 
-    window = glfwCreateWindow(width, height, "Urban Motion", NULL, NULL);
+    window = glfwCreateWindow(width, height, kWindowTitle, NULL, NULL);
     if (!window) {
         std::cerr << "Failed to create GLFW window!" << std::endl;
         glfwTerminate();

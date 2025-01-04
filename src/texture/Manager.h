@@ -26,6 +26,24 @@ namespace Texture {
         Motorcycle
     };
 
+    struct TextureInfo {
+        Texture::ID id;
+        const char* filename;
+    };
+
+    constexpr TextureInfo textureFiles[] = {
+        { Texture::ID::Building,    "building.png"    },
+        { Texture::ID::Grass,       "grass.png"       },
+        { Texture::ID::Intersection,"intersection.png"},
+        { Texture::ID::Road,        "road.png"        },
+        { Texture::ID::Crossroad,   "crossroad.png"   },
+        { Texture::ID::Curve,       "curve.png"       },
+        { Texture::ID::Default,     "default.png"     },
+        { Texture::ID::Car,         "car.png"         },
+        { Texture::ID::Bike,        "bike.png"        },
+        { Texture::ID::Motorcycle,  "motorcycle.png"  }
+    };
+
     using MAP = std::map<ID, int>;
 
     class Manager {
