@@ -2,12 +2,12 @@
 AbstractProgrammingProject
 
 Techniques:
-- [ ] abstract classes and interfaces
-- [ ] polymorphism
-- [ ] templates and generic programming
+- [x] abstract classes and interfaces
+- [x] polymorphism
+- [x] templates and generic programming
 - [ ] template metaprogramming - TMP
 - [ ] concepts and constraints
-- [ ] compile-time computations
+- [x] compile-time computations
 - [ ] static polymorphism - CRTP
 - [ ] type traits and SFINAE
 
