@@ -44,13 +44,13 @@ public:
 class Bike : public Vehicle {
 public:
     Bike(int x, int y, int rotationDegrees = 0)
-        : Vehicle(Texture::ID::Default, x, y, rotationDegrees) {}
+        : Vehicle(Texture::ID::Bike, x, y, rotationDegrees) {}
 };
 
 class Motorcycle : public Vehicle {
 public:
     Motorcycle(int x, int y, int rotationDegrees = 0)
-        : Vehicle(Texture::ID::Default, x, y, rotationDegrees) {}
+        : Vehicle(Texture::ID::Motorcycle, x, y, rotationDegrees) {}
 };
 
 class Field {

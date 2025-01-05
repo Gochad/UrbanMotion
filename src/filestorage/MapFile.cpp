@@ -3,25 +3,35 @@
 #include <iostream>
 
 MapFile::MapFile() {
-    filename = "map" + fileHandler.getNextAvailableFile() + ".txt";
-
-    std::cout << "New filemap " << filename << std::endl;
-}
-
-MapFile::MapFile(const std::string& mapID) {
-    filename = "map" + mapID + ".txt";
-    data = fileHandler.load(filename);
-
-    if (data.empty()) {
-        throw std::runtime_error("Map file is empty or not found");
-    }
+    loadAllMaps();
 }
 
 MapFile::~MapFile() {
-    saveMap();
+    saveMaps();
 }
 
-FieldMatrix MapFile::loadMap() {
+void MapFile::loadAllMaps() {
+    std::vector<std::string> mapsIDs = {"1"};
+    
+    for (const auto& mapID : mapsIDs) {
+        FieldMatrix fieldMatrix;
+        std::vector<std::string> data = fileHandler.load("map" + mapID + ".txt");
+        fieldMatrix = parseMapData(data);
+        maps[mapID] = fieldMatrix;
+    }
+}
+FieldMatrix MapFile::getMap(std::string mapID) {
+    auto it = maps.find(mapID);
+    if (it != maps.end()) {
+        return it->second;
+    } else {
+        throw std::runtime_error("Map ID not found: " + mapID);
+    }
+}
+
+FieldMatrix MapFile::parseMapData(const std::vector<std::string>& data) {
+    FieldMatrix fieldMatrix;
+
     for (const auto& row : data) {
         std::vector<std::shared_ptr<Field>> fieldRow;
         for (char cell : row) {
@@ -54,28 +64,29 @@ struct FieldKeyHash {
     }
 };
 
-void MapFile::saveMap() {
-    data.clear();
+void MapFile::saveMaps() {
+    std::vector<std::string> data;
 
-    for (const auto& row : fieldMatrix) {
-        std::string rowString;
-        for (const auto& field : row) {
-            auto key = std::make_pair(field->textureID, field->rotation);
+    for (const auto& [mapID, fieldMatrix] : maps) {
+        for (const auto& row : fieldMatrix) {
+            std::string rowString;
+            for (const auto& field : row) {
+                auto key = std::make_pair(field->textureID, field->rotation);
 
-            auto it = FromFieldsToFile.find(key);
-            if (it != FromFieldsToFile.end()) {
-                rowString += it->second;
-            } else {
-                throw std::runtime_error("Texture ID and rotation not found in ReverseMapper");
+                auto it = FromFieldsToFile.find(key);
+                if (it != FromFieldsToFile.end()) {
+                    rowString += it->second;
+                } else {
+                    throw std::runtime_error("Texture ID and rotation not found in ReverseMapper");
+                }
             }
+            data.push_back(rowString);
         }
-        data.push_back(rowString);
-    }
 
-    fileHandler.save(filename, data);
-    std::cout << "Map has been saved to " << filename << std::endl;
+        fileHandler.save("map" + mapID + ".txt", data);
+    }
 }
 
-void MapFile::setFieldMatrix(const FieldMatrix& newFieldMatrix) {
-    fieldMatrix = newFieldMatrix;
+void MapFile::setFieldMatrix(std::string mapID, const FieldMatrix& newFieldMatrix) {
+    maps[mapID] = newFieldMatrix;
 }

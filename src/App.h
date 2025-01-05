@@ -10,8 +10,6 @@
 
 class App {
 private:
-    int grid_size;
-    int square_size;
     std::unique_ptr<Window> appWindow;
     std::unique_ptr<Manager> imguiManager;
     std::unique_ptr<Map> map;
@@ -20,14 +18,16 @@ private:
     bool is_initialized;
     bool map_initialized;
 
-    void initializeMap(const std::string& map_id);
+    void initializeMap(int grid_size, int square_size, const std::string& map_id);
 
 public:
-    App(int grid_size, int square_size);
+    App();
     ~App();
     bool init();
     void run();
     void shutdown();
+
+    static constexpr int computeWindowSize(int grid_size, int square_size);
 };
 
 #endif // APP_H

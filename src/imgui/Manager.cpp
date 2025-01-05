@@ -13,11 +13,13 @@ bool Manager::init() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
 
+    constexpr const char* glsl_version = "#version 150";
+
     if (!ImGui_ImplGlfw_InitForOpenGL(window, true)) {
         std::cerr << "Failed to initialize ImGui GLFW backend" << std::endl;
         return false;
     }
-    if (!ImGui_ImplOpenGL3_Init("#version 150")) {
+    if (!ImGui_ImplOpenGL3_Init(glsl_version)) {
         std::cerr << "Failed to initialize ImGui OpenGL backend" << std::endl;
         return false;
     }

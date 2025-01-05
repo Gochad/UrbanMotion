@@ -73,26 +73,26 @@ void GameScreen::setPositionWithoutVehicle(Texture::ID id, int selectedX, int se
     std::unique_ptr<Vehicle> vehicle;
     if (id == Texture::ID::Car) {
         vehicle = std::make_unique<Car>(selectedY, selectedX, 0);
-        map->grid[selectedX][selectedY]->setVehicle(false, std::move(vehicle)); // Move the unique_ptr
+        map->grid[selectedX][selectedY]->setVehicle(false, std::move(vehicle));
     } else if (id == Texture::ID::Bike) {
         vehicle = std::make_unique<Bike>(selectedY, selectedX, 0);
-        map->grid[selectedX][selectedY]->setVehicle(false, std::move(vehicle)); // Move the unique_ptr
+        map->grid[selectedX][selectedY]->setVehicle(false, std::move(vehicle));
     } else if (id == Texture::ID::Motorcycle) {
         vehicle = std::make_unique<Motorcycle>(selectedY, selectedX, 0);
-        map->grid[selectedX][selectedY]->setVehicle(false, std::move(vehicle)); // Move the unique_ptr
+        map->grid[selectedX][selectedY]->setVehicle(false, std::move(vehicle));
     }
 }
 
 void GameScreen::setPositionWithVehicle(Texture::ID id, int selectedX, int selectedY, Map* map) {
-    std::unique_ptr<Vehicle> vehicle; // Use unique_ptr instead of shared_ptr
+    std::unique_ptr<Vehicle> vehicle;
     if (id == Texture::ID::Car) {
         vehicle = std::make_unique<Car>(selectedY, selectedX, 0);
-        map->grid[selectedX][selectedY]->setVehicle(true, std::move(vehicle)); // Move the unique_ptr
+        map->grid[selectedX][selectedY]->setVehicle(true, std::move(vehicle));
     } else if (id == Texture::ID::Bike) {
         vehicle = std::make_unique<Bike>(selectedY, selectedX, 0);
-        map->grid[selectedX][selectedY]->setVehicle(true, std::move(vehicle)); // Move the unique_ptr
+        map->grid[selectedX][selectedY]->setVehicle(true, std::move(vehicle));
     } else if (id == Texture::ID::Motorcycle) {
         vehicle = std::make_unique<Motorcycle>(selectedY, selectedX, 0);
-        map->grid[selectedX][selectedY]->setVehicle(true, std::move(vehicle)); // Move the unique_ptr
+        map->grid[selectedX][selectedY]->setVehicle(true, std::move(vehicle));
     }
 }
