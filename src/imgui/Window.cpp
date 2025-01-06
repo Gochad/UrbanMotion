@@ -79,7 +79,9 @@ void Window::renderMapAndPanel() {
     }
 
     if (panel) {
-        panel->draw([]() { std::cout << "Save map" << std::endl; }, map);
+        panel->draw([this]() { 
+            mapSaveCallback();
+        }, map);
     }
 }
 
