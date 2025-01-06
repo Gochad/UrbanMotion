@@ -34,6 +34,8 @@ public:
     void setMapInitializationCallback(std::function<void(const std::string&)> callback);
     void setMapSaveCallback(std::function<void()> callback);
 
+    void takeScreenshot(const std::string& filename);
+
     void setCounter(int value);
 private:
     GLFWwindow* window;
