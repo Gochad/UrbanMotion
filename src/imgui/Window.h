@@ -5,6 +5,7 @@
 #include "GameScreen.h"
 #include "WelcomeScreen.h"
 #include "DropTargetWindow.h"
+#include "OpenGLScreenshotHandler.h"
 #include "../components/Map.h"
 #include <GLFW/glfw3.h>
 #include <memory>
@@ -44,6 +45,8 @@ private:
     std::unique_ptr<WelcomeScreen> welcomeScreen;
     std::unique_ptr<DropTargetWindow> dropTargetWindow;
     Map* map;
+
+    std::unique_ptr<ScreenshotHandler> screenshotHandler;
 
     std::function<void(const std::string&)> mapInitializationCallback;
     std::function<void()> mapSaveCallback;

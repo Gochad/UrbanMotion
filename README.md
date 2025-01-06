@@ -9,7 +9,7 @@ Techniques:
 - [ ] concepts and constraints
 - [x] compile-time computations
 - [ ] static polymorphism - CRTP
-- [ ] type traits and SFINAE
+- [x] type traits and SFINAE
 
 ## how to run locally
 1. `mkdir build`

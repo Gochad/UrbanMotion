@@ -4,9 +4,6 @@
 #include <imgui_impl_glfw.h>
 #include "GameScreen.h"
 
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image_write.h"
-
 namespace {
     inline constexpr int kHeightOffset = 100;
     inline constexpr const char* kWindowTitle = "Urban Motion";
@@ -44,6 +41,8 @@ bool Window::init() {
     welcomeScreen = std::make_unique<WelcomeScreen>(std::vector<std::string>{"1", "2", "3"});
     dropTargetWindow = nullptr;
     gameScreen = std::make_unique<GameScreen>(width, 200, height - 200, map);
+    screenshotHandler = ScreenshotHandler::create<OpenGLScreenshotHandler>(width, height);
+
     return true;
 }
 
@@ -85,7 +84,7 @@ void Window::renderMapAndPanel() {
         panel->draw([this]() { 
             mapSaveCallback();
         }, [this]() { 
-            takeScreenshot("screenshot.png");
+            screenshotHandler->takeScreenshot();
         }, map);
     }
 }
@@ -147,24 +146,4 @@ void Window::setDropTargetWindow(std::unique_ptr<DropTargetWindow> newDrop) {
 }
 void Window::setCounter(int value) {
     vehicleCount = value;
-}
-
-void Window::takeScreenshot(const std::string& filename) {
-    int screenshotWidth = width;
-    int screenshotHeight = height;
-    std::vector<unsigned char> pixels(screenshotWidth * screenshotHeight * 3);
-
-    glReadBuffer(GL_FRONT);
-    glReadPixels(0, 0, screenshotWidth, screenshotHeight, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
-
-    // Odwrócenie obrazu w osi Y (OpenGL używa układu od dołu do góry)
-    for (int y = 0; y < screenshotHeight / 2; ++y) {
-        for (int x = 0; x < screenshotWidth * 3; ++x) {
-            std::swap(pixels[y * screenshotWidth * 3 + x], pixels[(screenshotHeight - y - 1) * screenshotWidth * 3 + x]);
-        }
-    }
-
-    // Zapis do PNG
-    stbi_write_png(filename.c_str(), screenshotWidth, screenshotHeight, 3, pixels.data(), screenshotWidth * 3);
-    std::cout << "Screenshot saved to " << filename << std::endl;
 }
