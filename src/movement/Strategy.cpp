@@ -1,12 +1,16 @@
 #include "Strategy.h"
 #include <map>
 
-void BFSStrategy::move(Texture::ID id, int startX, int startY, Map* map, int endX, int endY) const {
+void BFSStrategy::move(std::shared_ptr<Vehicle> v, Map* map, int endX, int endY) const {
     std::queue<std::pair<int, int>> queue;
     std::vector<std::vector<bool>> visited(map->grid.size(), std::vector<bool>(map->grid[0].size(), false));
     std::map<std::pair<int, int>, std::pair<int, int>> parent;
 
+    int startX = static_cast<int>(v->getX());
+    int startY = static_cast<int>(v->getY());
+
     queue.push({startX, startY});
+
     visited[startX][startY] = true;
 
     int directions[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
@@ -38,19 +42,19 @@ void BFSStrategy::move(Texture::ID id, int startX, int startY, Map* map, int end
         auto [px, py] = parent[current];
         current = {px, py};
     }
-    map->grid[endX][endY]->setVehicle(true, nullptr);
+    map->grid[endX][endY]->setVehicle(true, v);
 
     for (const auto& vehicle : map->listOfVehicle.get()) {
-        if (vehicle->getID() == id) {
+        if (vehicle->getID() == v->getID()) {
             vehicle->setPosition({static_cast<float>(endX), static_cast<float>(endY)});
             break;
         }
     }
 }
 
-void SequentialStrategy::move(Texture::ID id, int startX, int startY, Map* map, int endX, int endY) const {
-    int currentX = startX;
-    int currentY = startY;
+void SequentialStrategy::move(std::shared_ptr<Vehicle> v, Map* map, int endX, int endY) const {
+    int currentX = v->getX();
+    int currentY = v->getY();
 
     while (currentX != endX) {
         int step = (endX > currentX) ? 1 : -1;

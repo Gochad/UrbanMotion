@@ -66,7 +66,7 @@ void GameScreen::draw(std::function<void()> onSaveClick, Map* map) {
         ImGui::SameLine();
 
         if (ImGui::Button("Move to End")) {
-            movementController.moveVehicle(id, vehicle->getX(), vehicle->getY(), map, 9, 9);
+            movementController.moveVehicle(vehicle, map, 9, 9);
         }
 
         ImGui::Separator();

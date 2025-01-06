@@ -6,17 +6,17 @@
 class Strategy {
 public:
     virtual ~Strategy() = default;
-    virtual void move(Texture::ID id, int startX, int startY, Map* map, int endX, int endY) const = 0;
+    virtual void move(std::shared_ptr<Vehicle>, Map* map, int endX, int endY) const = 0;
 };
 
 class BFSStrategy : public Strategy {
 public:
-    void move(Texture::ID id, int startX, int startY, Map* map, int endX, int endY) const override;
+    void move(std::shared_ptr<Vehicle>, Map* map, int endX, int endY) const override;
 };
 
 class SequentialStrategy : public Strategy {
 public:
-    void move(Texture::ID id, int startX, int startY, Map* map, int endX, int endY) const override;
+    void move(std::shared_ptr<Vehicle>, Map* map, int endX, int endY) const override;
 };
 
 template <typename T>

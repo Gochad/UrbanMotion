@@ -6,7 +6,7 @@
 class Controller {
 public:
     Controller(std::unique_ptr<Strategy> strategy);
-    void moveVehicle(Texture::ID id, int startX, int startY, Map* map, int endX, int endY);
+    void moveVehicle(std::shared_ptr<Vehicle> vehicle, Map* map, int endX, int endY);
 
     template <typename Strategy, typename... Args>
     void setStrategy(Args&&... args);
