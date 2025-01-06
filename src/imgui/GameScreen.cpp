@@ -7,7 +7,8 @@
 #include "../components/Fields.h"
 
 GameScreen::GameScreen(int width, int height, int yOffset, Map* map)
-    : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0), map(map) {
+    : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0), map(map), 
+    movementController(std::make_unique<BFSStrategy>()) {
     Texture::Manager* textureManager = new Texture::Manager;
     std::map<Texture::ID, int> textureMap = textureManager->loadTextures();
     auto lastElement = *textureMap.rbegin();
@@ -34,7 +35,6 @@ void GameScreen::draw(std::function<void()> onSaveClick, Map* map) {
     ImGui::Begin("Game Screen");
     for (const auto& vehicle : listOfVehicle.get()) {
         Texture::ID id = vehicle->getID();
-        ImGui::Text("Vehicle ID: %d", id);
         ImGui::Text("Position: (%d, %d)", vehicle->getX(), vehicle->getY());
 
         if (vehicle->getX() > 0 && ImGui::Button("Up")) {
@@ -62,6 +62,11 @@ void GameScreen::draw(std::function<void()> onSaveClick, Map* map) {
             setPositionWithoutVehicle(id, vehicle->getX(), vehicle->getY(), map);
             vehicle->moveRight();
             setPositionWithVehicle(id, vehicle->getX(), vehicle->getY(), map);
+        }
+        ImGui::SameLine();
+
+        if (ImGui::Button("Move to End")) {
+            movementController.moveVehicle(id, vehicle->getX(), vehicle->getY(), map, 9, 9);
         }
 
         ImGui::Separator();
