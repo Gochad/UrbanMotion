@@ -39,7 +39,7 @@ public:
     }
 
     void save(const std::string& filename, const std::vector<T>& data) {
-        std::ofstream file(filename);
+        std::ofstream file(filename, std::ios::trunc);
         if (!file.is_open()) throw std::runtime_error("Unable to open file for writing");
 
         for (const auto& value : data) {

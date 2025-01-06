@@ -65,9 +65,8 @@ struct FieldKeyHash {
 };
 
 void MapFile::saveMaps() {
-    std::vector<std::string> data;
-
     for (const auto& [mapID, fieldMatrix] : maps) {
+        std::vector<std::string> data; 
         for (const auto& row : fieldMatrix) {
             std::string rowString;
             for (const auto& field : row) {
