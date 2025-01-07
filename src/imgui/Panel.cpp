@@ -25,7 +25,7 @@ int Panel::getSelectedTexture() const {
 bool Panel::isFinalMapSaved() const {
     return finalMapSaved;
 }
-void Panel::draw(std::function<void()> onSaveClick, Map* map) {
+void Panel::draw(std::function<void()> onSaveClick, std::function<void()> takeScreenshot, Map* map) {
     ImGui::SetNextWindowPos(ImVec2(0, yOffset));
     ImGui::SetNextWindowSize(ImVec2(width, height));
 
@@ -35,6 +35,10 @@ void Panel::draw(std::function<void()> onSaveClick, Map* map) {
     if (ImGui::Button("Save")) {
         onSaveClick();
         mapSaved = true;
+    }
+    
+    if (ImGui::Button("Screenshot")) {
+        takeScreenshot();
     }
     
     ImDrawList* drawList = ImGui::GetWindowDrawList();

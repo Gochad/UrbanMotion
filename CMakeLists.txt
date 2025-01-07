@@ -59,6 +59,7 @@ add_executable(UrbanMotion
     src/imgui/WelcomeScreen.cpp
     src/imgui/RotationTransform.cpp
     src/imgui/GameScreen.cpp
+    src/imgui/OpenGLScreenshotHandler.cpp
     src/components/Map.cpp
     src/components/ListOfVehicle.cpp
     src/components/Fields.cpp

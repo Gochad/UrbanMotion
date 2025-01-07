@@ -8,9 +8,23 @@
 #include <regex>
 #include <set>
 #include <vector>
+#include <type_traits>
+
+template <typename T, typename = void>
+struct is_streamable : std::false_type {};
 
 template <typename T>
-class Handler {
+struct is_streamable<T, std::void_t<decltype(std::declval<std::istream&>() >> std::declval<T&>(),
+                                      std::declval<std::ostream&>() << std::declval<const T&>())>> : std::true_type {};
+
+template <typename T>
+inline constexpr bool is_streamable_v = is_streamable<T>::value;
+
+template <typename T, typename Enable = void>
+class Handler;
+
+template <typename T>
+class Handler<T, std::enable_if_t<is_streamable_v<T>>> {
 public:
     std::vector<T> load(const std::string& filename) {
         std::vector<T> data;
@@ -25,7 +39,7 @@ public:
     }
 
     void save(const std::string& filename, const std::vector<T>& data) {
-        std::ofstream file(filename);
+        std::ofstream file(filename, std::ios::trunc);
         if (!file.is_open()) throw std::runtime_error("Unable to open file for writing");
 
         for (const auto& value : data) {
@@ -62,6 +76,11 @@ public:
 
         return "map" + std::to_string(nextNumber) + ".txt";
     }
+};
+
+template <typename T>
+class Handler<T, std::enable_if_t<!is_streamable_v<T>>> {
+    static_assert(is_streamable_v<T>, "Handler can only be instantiated with streamable types.");
 };
 
 #endif // HANDLER_H

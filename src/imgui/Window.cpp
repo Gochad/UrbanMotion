@@ -41,6 +41,8 @@ bool Window::init() {
     welcomeScreen = std::make_unique<WelcomeScreen>(std::vector<std::string>{"1", "2", "3"});
     dropTargetWindow = nullptr;
     gameScreen = std::make_unique<GameScreen>(width, 200, height - 200, map);
+    screenshotHandler = ScreenshotHandler::create<OpenGLScreenshotHandler>(width, height);
+
     return true;
 }
 
@@ -79,7 +81,11 @@ void Window::renderMapAndPanel() {
     }
 
     if (panel) {
-        panel->draw([]() { std::cout << "Save map" << std::endl; }, map);
+        panel->draw([this]() { 
+            mapSaveCallback();
+        }, [this]() { 
+            screenshotHandler->takeScreenshot();
+        }, map);
     }
 }
 

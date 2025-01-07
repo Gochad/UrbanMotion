@@ -9,7 +9,7 @@
 class Panel {
 public:
     Panel(int width, int height, int yOffset);
-    void draw(std::function<void()>, Map* map);
+    void draw(std::function<void()>, std::function<void()>, Map* map);
     int getSelectedTexture() const;
     bool isFinalMapSaved() const;
 
