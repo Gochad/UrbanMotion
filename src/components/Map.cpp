@@ -41,12 +41,25 @@ int Map::showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Field
         std::shared_ptr<Vehicle> vehicle;
 
         if (id == Texture::ID::Car) {
+            if(!checkingRoad(grid[selectedY][selectedX])) {
+                std::cout << "You can't add a field on a square with a vehicle" << std::endl;
+            return -1;
+            }
             vehicle = std::make_shared<Car>(selectedY, selectedX, 0);
         } else if (id == Texture::ID::Bike) {
+            if(!checkingRoad(grid[selectedY][selectedX])) {
+                std::cout << "You can't add a field on a square with a vehicle" << std::endl;
+            return -1;
+            }
             vehicle = std::make_shared<Bike>(selectedY, selectedX, 0);
         } else if (id == Texture::ID::Motorcycle) {
+            if(!checkingRoad(grid[selectedY][selectedX])) {
+                std::cout << "You can't add a field on a square with a vehicle" << std::endl;
+            return -1;
+            }
             vehicle = std::make_shared<Motorcycle>(selectedY, selectedX, 0);
         }
+        
         listOfVehicle.addVehicle(vehicle);
 
         grid[selectedY][selectedX]->setVehicle(true, vehicle);
@@ -63,4 +76,8 @@ int Map::getSquareSize() {
 }
 FieldMatrix Map::getFieldMatrix() {
     return grid;
+}
+
+bool Map::checkingRoad(std::shared_ptr<Field> field) {
+    return field->getID() == Texture::ID::Road || field->getID() == Texture::ID::Crossroad || field->getID() == Texture::ID::Curve || field->getID() == Texture::ID::Intersection;
 }

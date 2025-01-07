@@ -97,7 +97,7 @@ void Window::renderGameScreen() {
     }
 
     gameScreen->setListOfVehicle(map->listOfVehicle);
-
+    gameScreen->setGrid(map->getFieldMatrix());
     gameScreen->draw([]() { std::cout << "Game started" << std::endl; }, map);
     map->draw(&imgui_context);
 }

@@ -24,7 +24,7 @@ public:
     ListOfVehicle listOfVehicle;
     FieldMatrix getGrid();
     FieldMatrix grid;
-
+    bool checkingRoad(std::shared_ptr<Field> field);
     FieldMatrix getFieldMatrix();
 
 private:

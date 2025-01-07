@@ -38,6 +38,12 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glm)
 
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/refs/tags/release-1.11.0.zip
+)
+FetchContent_MakeAvailable(googletest)
+
 set(IMGUI_SOURCES
     ${imgui_SOURCE_DIR}/imgui.cpp
     ${imgui_SOURCE_DIR}/imgui_draw.cpp
@@ -77,8 +83,37 @@ target_include_directories(UrbanMotion PRIVATE
     ${imgui_SOURCE_DIR}/backends 
     ${glad_SOURCE_DIR}/include
     ${stb_SOURCE_DIR}
+    ${glfw_SOURCE_DIR}/include
 )
 
 target_compile_definitions(UrbanMotion PRIVATE IMGUI_IMPL_OPENGL_LOADER_GLAD)
 
 target_link_libraries(UrbanMotion PRIVATE glfw OpenGL::GL stb_image glm)
+
+# Włącz testy
+enable_testing()
+
+# Dodaj testy jednostkowe
+add_executable(WindowTest
+    tests/WindowTest.cpp
+    src/imgui/Window.cpp
+    src/imgui/Panel.cpp
+    src/imgui/GameScreen.cpp
+    src/imgui/DropTargetWindow.cpp
+    src/imgui/WelcomeScreen.cpp
+    src/imgui/OpenGLScreenshotHandler.cpp
+)
+target_include_directories(WindowTest PRIVATE 
+    ${imgui_SOURCE_DIR} 
+    ${imgui_SOURCE_DIR}/backends 
+    ${glad_SOURCE_DIR}/include
+    ${stb_SOURCE_DIR}
+    ${glfw_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/tests
+    ${googletest_SOURCE_DIR}/include
+    ${googletest_BINARY_DIR}
+)
+target_link_libraries(WindowTest gtest_main gmock_main glfw OpenGL::GL stb_image glm)
+
+include(GoogleTest)
+gtest_discover_tests(WindowTest)
