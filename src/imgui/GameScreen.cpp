@@ -79,7 +79,7 @@ void GameScreen::draw(std::function<void()> onSaveClick, Map* map) {
         }
         ImGui::SameLine();
 
-        if (vehicle->getY() < map->grid[0].size() - 1 && ImGui::Button("Right")) {
+        if (vehicle->getY() < map->grid.size() - 1 && ImGui::Button("Right")) {
             setPositionWithoutVehicle(id, vehicle->getX(), vehicle->getY(), map);
             vehicle->moveRight();
             setPositionWithVehicle(id, vehicle->getX(), vehicle->getY(), map);
