@@ -94,16 +94,12 @@ target_link_libraries(UrbanMotion PRIVATE glfw OpenGL::GL stb_image glm)
 enable_testing()
 
 # Dodaj testy jednostkowe
-add_executable(WindowTest
-    tests/WindowTest.cpp
-    src/imgui/Window.cpp
-    src/imgui/Panel.cpp
-    src/imgui/GameScreen.cpp
-    src/imgui/DropTargetWindow.cpp
-    src/imgui/WelcomeScreen.cpp
-    src/imgui/OpenGLScreenshotHandler.cpp
+add_executable(ListOfVehicleTest
+    tests/ListOfVehicleTest.cpp
+    src/components/ListOfVehicle.cpp
+    src/components/Fields.cpp
 )
-target_include_directories(WindowTest PRIVATE 
+target_include_directories(ListOfVehicleTest PRIVATE 
     ${imgui_SOURCE_DIR} 
     ${imgui_SOURCE_DIR}/backends 
     ${glad_SOURCE_DIR}/include
@@ -113,7 +109,7 @@ target_include_directories(WindowTest PRIVATE
     ${googletest_SOURCE_DIR}/include
     ${googletest_BINARY_DIR}
 )
-target_link_libraries(WindowTest gtest_main gmock_main glfw OpenGL::GL stb_image glm)
+target_link_libraries(ListOfVehicleTest gtest_main gmock_main glfw OpenGL::GL stb_image glm)
 
 include(GoogleTest)
-gtest_discover_tests(WindowTest)
+gtest_discover_tests(ListOfVehicleTest)
