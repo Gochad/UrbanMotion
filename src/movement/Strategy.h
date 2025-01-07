@@ -6,17 +6,17 @@
 class Strategy {
 public:
     virtual ~Strategy() = default;
-    virtual void move(std::shared_ptr<Vehicle>, Map* map, int endX, int endY) const = 0;
+    virtual std::vector<std::pair<int, int>> calculatePath(std::shared_ptr<Vehicle> v, Map* map, int endX, int endY) const = 0;
 };
 
 class BFSStrategy : public Strategy {
 public:
-    void move(std::shared_ptr<Vehicle>, Map* map, int endX, int endY) const override;
+    std::vector<std::pair<int, int>> calculatePath(std::shared_ptr<Vehicle> v, Map* map, int endX, int endY) const override;
 };
 
 class SequentialStrategy : public Strategy {
 public:
-    void move(std::shared_ptr<Vehicle>, Map* map, int endX, int endY) const override;
+    std::vector<std::pair<int, int>> calculatePath(std::shared_ptr<Vehicle> v, Map* map, int endX, int endY) const override;
 };
 
 template <typename T>

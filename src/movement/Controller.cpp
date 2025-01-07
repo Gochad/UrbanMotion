@@ -5,6 +5,6 @@ Controller::Controller(std::unique_ptr<Strategy> strategy)
 
 void Controller::moveVehicle(std::shared_ptr<Vehicle> vehicle, Map* map, int endX, int endY) {
     if (strategy) {
-        strategy->move(vehicle, map, endX, endY);
+        strategy->calculatePath(vehicle, map, endX, endY);
     }
 }
