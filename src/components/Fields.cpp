@@ -23,6 +23,10 @@ void Field::setVehicle(bool occupied, std::shared_ptr<Vehicle> vehicle) {
     idVehicle = Texture::ID::Motorcycle;
   }
 }
+
+bool Field::isRoad() const {
+    return textureID == Texture::ID::Road || textureID == Texture::ID::Intersection || textureID == Texture::ID::Crossroad || textureID == Texture::ID::Curve;
+}
         
 void Vehicle::setPosition(const Point& pos) { position = pos; }
 void Vehicle::setID(Texture::ID id) { textureID = id; }

@@ -74,6 +74,8 @@ public:
     bool isOccupied() const;
 
     void setVehicle(bool occupied, std::shared_ptr<Vehicle> vehicle);
+
+    bool isRoad() const;
 };
 
 class Building : public Field {
