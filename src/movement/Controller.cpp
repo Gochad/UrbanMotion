@@ -3,8 +3,10 @@
 Controller::Controller(std::unique_ptr<Strategy> strategy)
     : strategy(std::move(strategy)) {}
 
-void Controller::moveVehicle(std::shared_ptr<Vehicle> vehicle, Map* map, int endX, int endY) {
+std::vector<std::pair<int, int>> Controller::calculatePath(std::shared_ptr<Vehicle> v, Map* map, int endX, int endY) {
     if (strategy) {
-        strategy->calculatePath(vehicle, map, endX, endY);
+        return strategy->calculatePath(v, map, endX, endY);
     }
+
+    return {};
 }

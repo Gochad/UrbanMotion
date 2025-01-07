@@ -6,7 +6,7 @@
 class Controller {
 public:
     Controller(std::unique_ptr<Strategy> strategy);
-    void moveVehicle(std::shared_ptr<Vehicle> vehicle, Map* map, int endX, int endY);
+    std::vector<std::pair<int, int>> calculatePath(std::shared_ptr<Vehicle> v, Map* map, int endX, int endY);
 
     template <typename Strategy, typename... Args>
     void setStrategy(Args&&... args);

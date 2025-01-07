@@ -21,7 +21,8 @@ public:
     void setPositionWithVehicle(Texture::ID id, int x, int y, Map* map);
     ListOfVehicle getListOfVehicle();
     Map* map;
-    Controller movementController;
+    std::unique_ptr<Strategy> movementController;
+
 private:
     int width;
     int height;
