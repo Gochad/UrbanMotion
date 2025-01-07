@@ -63,8 +63,6 @@ add_executable(UrbanMotion
     src/components/Map.cpp
     src/components/ListOfVehicle.cpp
     src/components/Fields.cpp
-    src/movement/Strategy.cpp
-    src/movement/Controller.cpp
     src/filestorage/MapFile.cpp
     src/filestorage/mapper.cpp
     src/texture/Manager.cpp

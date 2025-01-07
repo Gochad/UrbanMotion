@@ -7,7 +7,6 @@
 #include "../components/Map.h" 
 #include "../components/ListOfVehicle.h" 
 #include "../components/Fields.h"
-#include "../movement/Controller.h"
 
 class GameScreen {
 public:
@@ -21,7 +20,6 @@ public:
     void setPositionWithVehicle(Texture::ID id, int x, int y, Map* map);
     ListOfVehicle getListOfVehicle();
     Map* map;
-    std::unique_ptr<Strategy> movementController;
 
 private:
     int width;
