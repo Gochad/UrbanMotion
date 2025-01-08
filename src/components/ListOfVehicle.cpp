@@ -13,7 +13,7 @@ void ListOfVehicle::addVehicle(std::shared_ptr<Vehicle> vehicle) {
 }
 
 void ListOfVehicle::removeVehicle(int x, int y) {
-    auto it = std::remove_if(vehicles.begin(), vehicles.end(),
+    auto it = remove_if(vehicles.begin(), vehicles.end(),
                              [x, y](const std::shared_ptr<Vehicle>& v) {
                                  return v->getX() == x && v->getY() == y;
                              });
