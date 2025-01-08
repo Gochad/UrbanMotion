@@ -27,10 +27,10 @@ jobs:
             libglfw3-dev \
             libglew-dev \
             libglm-dev \
-            libxinerama-dev \  # Install the Xinerama development package
+            libxinerama-dev \
             cmake \
             g++ \
-            git
+            git || { echo "Installation failed"; exit 1; }  # Add error handling
 
       - name: Configure project
         run: |
