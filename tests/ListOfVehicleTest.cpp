@@ -1,23 +1,23 @@
-//#include <gtest/gtest.h>
-//#include "../src/components/ListOfVehicle.h"
-//#include "../src/components/Fields.h"
-//#include <memory>
-//
-//class ListOfVehicleTest : public ::testing::Test {
-//protected:
-//    void SetUp() override {
-//        listOfVehicle = std::make_unique<ListOfVehicle>();
-//    }
-//
-//    std::unique_ptr<ListOfVehicle> listOfVehicle;
-//};
-//
-//TEST_F(ListOfVehicleTest, addVehicle) {
-//    auto vehicle = std::make_shared<Vehicle>(Texture::ID::Car, 1, 1, 0); // Use a valid Texture::ID
-//    listOfVehicle->addVehicle(vehicle);
-//    EXPECT_EQ(listOfVehicle->size(), 1);
-//}
-//
+#include <gtest/gtest.h>
+#include "../src/components/ListOfVehicle.h"
+#include "../src/components/Fields.h"
+#include <memory>
+
+class ListOfVehicleTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        listOfVehicle = std::make_unique<ListOfVehicle>();
+    }
+
+    std::unique_ptr<ListOfVehicle> listOfVehicle;
+};
+
+TEST_F(ListOfVehicleTest, addVehicle) {
+    auto vehicle = std::make_shared<Vehicle>(Texture::ID::Car, 1, 1, 0); // Use a valid Texture::ID
+    listOfVehicle->addVehicle(vehicle);
+    EXPECT_EQ(listOfVehicle->size(), 1);
+}
+
 //TEST_F(ListOfVehicleTest, AddDuplicateVehicle) {
 //    auto vehicle1 = std::make_shared<Vehicle>(Texture::ID::Car, 1, 0);
 //    auto vehicle2 = std::make_shared<Vehicle>(Texture::ID::Car, 1, 0);
