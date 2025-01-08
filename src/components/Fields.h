@@ -26,8 +26,8 @@ public:
     Texture::ID getID() const; 
 
     Point getPosition() const;
-    int getX() const;
-    int getY() const;
+    int getX();
+    int getY();
 
     Point position;
     Texture::ID textureID;

@@ -36,8 +36,8 @@ void Vehicle::setID(Texture::ID id) { textureID = id; }
 Texture::ID Vehicle::getID() const { return textureID; }
 
 Point Vehicle::getPosition() const { return position; }
-int Vehicle::getX() const { return x; }
-int Vehicle::getY() const { return y; }
+int Vehicle::getX()  { return x; }
+int Vehicle::getY()  { return y; }
 void Vehicle::moveUp() { x--; }
 void Vehicle::moveDown() { x++; }
 void Vehicle::moveLeft() { y--; }
