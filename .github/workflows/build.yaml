@@ -27,6 +27,7 @@ jobs:
             libglfw3-dev \
             libglew-dev \
             libglm-dev \
+            libxinerama-dev \  # Install the Xinerama development package
             cmake \
             g++ \
             git
