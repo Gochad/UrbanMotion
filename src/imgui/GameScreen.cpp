@@ -56,7 +56,6 @@ void GameScreen::draw(std::function<void()> onSaveClick, Map* map) {
 
     for (const auto& vehicle : listOfVehicle.get()) {
         Texture::ID id = vehicle->getID();
-        ImGui::Text("Vehicle ID: %d", id);
         ImGui::Text("Position: (%d, %d)", vehicle->getX(), vehicle->getY());
 
         if (checkingRoad(map->grid[vehicle->getX()-1][vehicle->getY()]) && vehicle->getX() > 0 && ImGui::Button("Up")) {
