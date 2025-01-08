@@ -5,6 +5,8 @@
 #include "../components/Map.h"
 #include "../components/ListOfVehicle.h"
 #include "../components/Fields.h"
+#include <thread>
+#include <chrono>
 
 GameScreen::GameScreen(int width, int height, int yOffset, Map* map)
     : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0), map(map), 
@@ -36,6 +38,9 @@ void GameScreen::draw(std::function<void()> onSaveClick, Map* map) {
     ImGui::SetNextWindowPos(ImVec2(0, yOffset));
     ImGui::SetNextWindowSize(ImVec2(width, height));
     ImGui::Begin("Game Screen");
+    static std::map<std::shared_ptr<Vehicle>, std::vector<std::pair<int, int>>> vehiclePaths;
+    static std::map<std::shared_ptr<Vehicle>, size_t> vehicleStepIndices;
+    static std::string currentStrategy = "Sequential";
 
     if (ImGui::RadioButton("Sequential", currentStrategy == "Sequential")) {
         currentStrategy = "Sequential";
