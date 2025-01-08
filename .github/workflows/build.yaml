@@ -23,14 +23,17 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            build-essential \
-            libglfw3-dev \
-            libglew-dev \
-            libglm-dev \
-            libxinerama-dev \
-            cmake \
-            g++ \
-            git || { echo "Installation failed"; exit 1; }  # Add error handling
+          build-essential \
+          libglfw3-dev \
+          libglew-dev \
+          libglm-dev \
+          libxinerama-dev \
+          libxcursor-dev \
+          libxi-dev \
+          libxrandr-dev \
+          cmake \
+          g++ \
+          git
 
       - name: Configure project
         run: |
