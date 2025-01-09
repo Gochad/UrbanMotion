@@ -46,22 +46,7 @@ namespace Texture {
 
     using MAP = std::map<ID, int>;
 
-    inline std::ostream& operator<<(std::ostream& os, const ID& id) {
-        switch (id) {
-            case ID::Default: os << "Default"; break;
-            case ID::Car: os << "Car"; break;
-            case ID::Bike: os << "Bike"; break;
-            case ID::Motorcycle: os << "Motorcycle"; break;
-            case ID::Building: os << "Building"; break;
-            case ID::Grass: os << "Grass"; break;
-            case ID::Intersection: os << "Intersection"; break;
-            case ID::Road: os << "Road"; break;
-            case ID::Crossroad: os << "Crossroad"; break;
-            case ID::Curve: os << "Curve"; break;
-            default: os << "Unknown"; break;
-        }
-        return os;
-    }
+    std::ostream& operator<<(std::ostream& os, const ID& id) ;
     class Manager {
     public:
         Manager();
