@@ -14,22 +14,22 @@ protected:
 
 TEST_F(VehicleTest, MoveUp) {
     vehicle->moveUp();
-    EXPECT_EQ(vehicle->getY(), 0);
+    EXPECT_EQ(vehicle->getX(), 0);
 }
 
 TEST_F(VehicleTest, MoveDown) {
     vehicle->moveDown();
-    EXPECT_EQ(vehicle->getY(), 2);
+    EXPECT_EQ(vehicle->getX(), 2);
 }
 
 TEST_F(VehicleTest, MoveLeft) {
     vehicle->moveLeft();
-    EXPECT_EQ(vehicle->getX(), 0);
+    EXPECT_EQ(vehicle->getY(), 0);
 }
 
 TEST_F(VehicleTest, MoveRight) {
     vehicle->moveRight();
-    EXPECT_EQ(vehicle->getX(), 2);
+    EXPECT_EQ(vehicle->getY(), 2);
 }
 
 TEST_F(VehicleTest, SetPosition) {
