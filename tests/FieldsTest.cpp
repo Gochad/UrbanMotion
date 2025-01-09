@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../src/components/Fields.h"
+#include "../src/texture/Manager.h"
 #include <memory>
 
 class VehicleTest : public ::testing::Test {
