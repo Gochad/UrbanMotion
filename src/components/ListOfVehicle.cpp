@@ -19,7 +19,7 @@ size_t ListOfVehicle::size() const {
 
 void ListOfVehicle::printAllVehicles() const {
     for (const auto& vehicle : vehicles) {
-        std::cout << "Vehicle at (" << vehicle->getX() << ", " << vehicle->getY() << ")" << std::endl;
+        std::cout << vehicle->getX() << ", " << vehicle->getY() << std::endl; // Ensure this matches expected output.
     }
 }
 
