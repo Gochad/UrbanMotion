@@ -32,13 +32,6 @@ TEST_F(VehicleTest, MoveRight) {
     EXPECT_EQ(vehicle->getY(), 2);
 }
 
-// TEST_F(VehicleTest, SetPosition) {
-//     Point newPos(2, 2);
-//     vehicle->setPosition(newPos);
-//     EXPECT_EQ(vehicle->getX(), 2);
-//     EXPECT_EQ(vehicle->getY(), 2);
-// }
-
 TEST_F(VehicleTest, SetID) {
     vehicle->setID(Texture::ID::Bike);
     EXPECT_EQ(vehicle->getID(), Texture::ID::Bike);
