@@ -41,22 +41,22 @@ int Map::showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Field
         std::shared_ptr<Vehicle> vehicle;
 
         if (id == Texture::ID::Car) {
-//            if(!checkingRoad(grid[selectedY][selectedX])) {
-//                std::cout << "You can't add a field on a square with a vehicle" << std::endl;
-//            return -1;
-//            }
+           if(!checkingRoad(grid[selectedY][selectedX])) {
+               std::cout << "You can't add a field on a square with a vehicle" << std::endl;
+           return -1;
+           }
             vehicle = std::make_shared<Car>(selectedY, selectedX, 0);
         } else if (id == Texture::ID::Bike) {
-//            if(!checkingRoad(grid[selectedY][selectedX])) {
-//                std::cout << "You can't add a field on a square with a vehicle" << std::endl;
-//            return -1;
-//            }
+           if(!checkingRoad(grid[selectedY][selectedX])) {
+               std::cout << "You can't add a field on a square with a vehicle" << std::endl;
+           return -1;
+           }
             vehicle = std::make_shared<Bike>(selectedY, selectedX, 0);
         } else if (id == Texture::ID::Motorcycle) {
-//            if(!checkingRoad(grid[selectedY][selectedX])) {
-//                std::cout << "You can't add a field on a square with a vehicle" << std::endl;
-//            return -1;
-//            }
+           if(!checkingRoad(grid[selectedY][selectedX])) {
+               std::cout << "You can't add a field on a square with a vehicle" << std::endl;
+           return -1;
+           }
             vehicle = std::make_shared<Motorcycle>(selectedY, selectedX, 0);
         }
         
