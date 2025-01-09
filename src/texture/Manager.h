@@ -46,7 +46,6 @@ namespace Texture {
 
     using MAP = std::map<ID, int>;
 
-    std::ostream& operator<<(std::ostream& os, const ID& id) ;
     class Manager {
     public:
         Manager();
@@ -56,7 +55,7 @@ namespace Texture {
         MAP loadTextures();
         void clear();
     };
-        std::ostream& operator<<(std::ostream& os, const ID& id);
+        // std::ostream& operator<<(std::ostream& os, const ID& id);
 
 }
 
