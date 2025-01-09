@@ -111,5 +111,23 @@ target_include_directories(ListOfVehicleTest PRIVATE
 )
 target_link_libraries(ListOfVehicleTest gtest_main gmock_main glfw OpenGL::GL stb_image glm)
 
+add_executable(FieldsTest
+    tests/FieldsTest.cpp
+    src/components/Fields.cpp
+)
+target_include_directories(FieldsTest PRIVATE 
+    ${imgui_SOURCE_DIR} 
+    ${imgui_SOURCE_DIR}/backends 
+    ${glad_SOURCE_DIR}/include
+    ${stb_SOURCE_DIR}
+    ${glfw_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/tests
+    ${googletest_SOURCE_DIR}/include
+    ${googletest_BINARY_DIR}
+)
+
+target_link_libraries(FieldsTest gtest_main gmock_main glfw OpenGL::GL stb_image glm)
+
 include(GoogleTest)
 gtest_discover_tests(ListOfVehicleTest)
+gtest_discover_tests(FieldsTest)

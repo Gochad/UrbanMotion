@@ -31,32 +31,6 @@ TEST_F(ListOfVehicleTest, PrintAllVehicles) {
     EXPECT_NE(output.find("2, 0"), std::string::npos); // Adjusted expected output
 }
 
-//TEST_F(ListOfVehicleTest, RemoveVehicle) {
-//    auto vehicle = std::make_shared<Vehicle>(Texture::ID::Car, 1, 0);
-//    listOfVehicle->addVehicle(vehicle);
-//    listOfVehicle->removeVehicle(1, 1);
-//    EXPECT_EQ(listOfVehicle->size(), 0);
-//}
-//
-//TEST_F(ListOfVehicleTest, RemoveNonExistentVehicle) {
-//    auto vehicle = std::make_shared<Vehicle>(Texture::ID::Car, 1, 0);
-//    listOfVehicle->addVehicle(vehicle);
-//    listOfVehicle->removeVehicle(2, 2);
-//    EXPECT_EQ(listOfVehicle->size(), 1);
-//}
-//
-//TEST_F(ListOfVehicleTest, PrintAllVehicles) {
-//    auto vehicle1 = std::make_shared<Vehicle>(Texture::ID::Car, 1, 0);
-//    auto vehicle2 = std::make_shared<Vehicle>(Texture::ID::Car, 2, 0);
-//    listOfVehicle->addVehicle(vehicle1);
-//    listOfVehicle->addVehicle(vehicle2);
-//    testing::internal::CaptureStdout();
-//    listOfVehicle->printAllVehicles();
-//    std::string output = testing::internal::GetCapturedStdout();
-//    EXPECT_NE(output.find("1, 1"), std::string::npos);
-//    EXPECT_NE(output.find("2, 2"), std::string::npos);
-//}
-
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
