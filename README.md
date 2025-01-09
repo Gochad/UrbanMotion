@@ -45,7 +45,13 @@ classDiagram
         + int width
         + int height
         + void* getWindow()
-        + void renderFrame()
+        + void renderFrame(bool mapInitialized)
+        + void setMapInitializationCallback(std::function<void(const std::string&)> callback)
+        + void setMapSaveCallback(std::function<void()> callback)
+        + void setMap(Map* newMap)
+        + void setDropTargetWindow(std::unique_ptr<DropTargetWindow> newDrop)
+        + void setCounter(int value)
+        + void shutdown()
     }
 
     class ImguiManager {
@@ -58,7 +64,7 @@ classDiagram
     class Panel {
         + Panel(int width, int height, int y_offset)
         + void setTextureRange(int max_texture_id)
-        + void draw(void(*saveCallback)())
+        + void draw(void(*saveCallback)(), void(*screenshotCallback)(), Map* map)
     }
 
     class TextureManager {
@@ -73,7 +79,10 @@ classDiagram
     class Map {
         + Map(int grid_width, int grid_height, int square_size, MapFile* mapfile, std::map<TextureID, int> textureMap)
         + void draw(Draw* draw_context)
-        + void showChangeTilePanel(Draw* draw_context, int gridX, int gridY, Field* field)
+        + int showChangeTilePanel(Draw* draw_context, int gridX, int gridY, Field* field, Texture::ID id)
+        + int getSquareSize()
+        + FieldMatrix getFieldMatrix()
+        + bool checkingRoad(std::shared_ptr<Field> field)
     }
 
     class RotationTransform {
@@ -88,6 +97,41 @@ classDiagram
     class Field {
         + int textureId
         + bool isObstacle
+        + void draw(Draw* context, const Point& min, const Point& max) const
+        + Texture::ID getID()
+        + void setVehicle(bool occupied, std::shared_ptr<Vehicle> vehicle)
+        + bool hasVehicle() const
+    }
+
+    class Vehicle {
+        + Vehicle(Texture::ID id, int selectedX, int selectedY, int rotationDegrees = 0)
+        + void moveUp()
+        + void moveDown()
+        + void moveLeft()
+        + void moveRight()
+        + void setPosition(const Point& pos)
+        + void setID(Texture::ID id)
+        + Texture::ID getID() const
+        + Point getPosition() const
+        + int getX() const
+        + int getY() const
+        - Point position
+        - Texture::ID textureID
+        - int rotation
+        - int x, y
+    }
+
+    class Car {
+        + Car(int x, int y, int rotationDegrees = 0)
+    }
+
+    class ListOfVehicle {
+        + void addVehicle(std::shared_ptr<Vehicle> vehicle)
+        + void removeVehicle(int x, int y)
+        + size_t size() const
+        + void printAllVehicles() const
+        + const std::vector<std::shared_ptr<Vehicle>>& get() const
+        - std::vector<std::shared_ptr<Vehicle>> vehicles
     }
 
     App --> Window : appWindow
@@ -98,5 +142,8 @@ classDiagram
     App --> TextureManager : textureManager
     Map --> RotationTransform : uses
     Map --> Field : contains
+    Map --> ListOfVehicle : contains
+    ListOfVehicle --> Vehicle : contains
+    Vehicle <|-- Car
     App o-- ImGui : "uses ImGui functions"
 ```
