@@ -25,7 +25,7 @@ TEST_F(VehicleTest, MoveDown) {
 TEST_F(VehicleTest, MoveLeft) {
     vehicle->moveLeft();
     EXPECT_EQ(vehicle->getY(), 0);
-}abiezychuedk/only-by-road
+}
 
 TEST_F(VehicleTest, MoveRight) {
     vehicle->moveRight();
