@@ -1,5 +1,6 @@
 #pragma once
 #include <unordered_map>
+#include <functional>
 #include <utility>
 #include "../texture/Manager.h"
 #include "../components/Fields.h"

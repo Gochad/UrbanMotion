@@ -26,8 +26,8 @@ public:
     Texture::ID getID() const; 
 
     Point getPosition() const;
-    int getX() const;
-    int getY() const;
+    int getX();
+    int getY();
 
     Point position;
     Texture::ID textureID;
@@ -70,7 +70,7 @@ public:
     int rotation;
 
     void draw(IDraw* context, const Point& min, const Point& max) const;
-
+    Texture::ID getID();
     bool isOccupied() const;
 
     void setVehicle(bool occupied, std::shared_ptr<Vehicle> vehicle);

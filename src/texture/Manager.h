@@ -55,7 +55,6 @@ namespace Texture {
         MAP loadTextures();
         void clear();
     };
-        std::ostream& operator<<(std::ostream& os, const ID& id);
 
 }
 

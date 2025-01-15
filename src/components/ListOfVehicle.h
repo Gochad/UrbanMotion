@@ -10,7 +10,6 @@ using FieldMatrix = std::vector<std::vector<std::shared_ptr<Field>>>;
 class ListOfVehicle {
 public:
     void addVehicle(std::shared_ptr<Vehicle>  vehicle);
-    void removeVehicle(int x, int y);
     void printAllVehicles() const;
     size_t size() const;
     const std::vector<std::shared_ptr<Vehicle>>& get() const;

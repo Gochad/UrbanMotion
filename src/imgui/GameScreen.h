@@ -9,12 +9,14 @@
 #include "../components/Fields.h"
 #include "../movement/Controller.h"
 
+using FieldMatrix = std::vector<std::vector<std::shared_ptr<Field>>>;
+
 class GameScreen {
 public:
     GameScreen(int width, int height, int yOffset, Map* map);
     void draw(std::function<void()>, Map* map);
     int getSelectedTexture() const;
-
+    void setGrid(FieldMatrix fieldMatrix);
     void setTextureRange(int range);
     void setListOfVehicle(ListOfVehicle listOfVehicle);
     void setPositionWithoutVehicle(Texture::ID id, int x, int y, Map* map);
@@ -22,6 +24,7 @@ public:
     ListOfVehicle getListOfVehicle();
     Map* map;
     std::unique_ptr<Strategy> movementController;
+    bool checkingRoad(std::shared_ptr<Field> field);
 
 private:
     int width;
@@ -30,4 +33,5 @@ private:
     ListOfVehicle listOfVehicle;
     int textureRange;
     int selectedTextureIndex;
+    FieldMatrix grid;
 };

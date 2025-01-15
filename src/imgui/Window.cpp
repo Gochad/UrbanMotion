@@ -90,6 +90,7 @@ void Window::renderMapAndPanel() {
 }
 
 void Window::renderGameScreen() {
+    std::cout<<"Game started"<<std::endl;
     ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
     Draw imgui_context(draw_list);
     if (map) {
@@ -97,7 +98,7 @@ void Window::renderGameScreen() {
     }
 
     gameScreen->setListOfVehicle(map->listOfVehicle);
-
+    gameScreen->setGrid(map->getFieldMatrix());
     gameScreen->draw([]() { std::cout << "Game started" << std::endl; }, map);
     map->draw(&imgui_context);
 }

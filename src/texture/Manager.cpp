@@ -49,8 +49,4 @@ namespace Texture {
         return textures;
     }
 
-    std::ostream& operator<<(std::ostream& os, const ID& id) {
-        os << static_cast<int>(id);
-        return os;
-    }
 }

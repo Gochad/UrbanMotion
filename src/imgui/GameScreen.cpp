@@ -1,12 +1,12 @@
 #include "GameScreen.h"
 #include <iostream>
 #include <map>
-#include <thread>
-#include <chrono>
 #include "imgui.h"
 #include "../components/Map.h"
 #include "../components/ListOfVehicle.h"
 #include "../components/Fields.h"
+#include <thread>
+#include <chrono>
 
 GameScreen::GameScreen(int width, int height, int yOffset, Map* map)
     : width(width), height(height), yOffset(yOffset), selectedTextureIndex(0), map(map), 
@@ -31,16 +31,16 @@ int GameScreen::getSelectedTexture() const {
 ListOfVehicle GameScreen::getListOfVehicle(){
     return listOfVehicle;
 }
-
+void GameScreen::setGrid(FieldMatrix fieldMatrix){
+    this->grid = fieldMatrix;
+}
 void GameScreen::draw(std::function<void()> onSaveClick, Map* map) {
-    static std::map<std::shared_ptr<Vehicle>, std::vector<std::pair<int, int>>> vehiclePaths;
-    static std::map<std::shared_ptr<Vehicle>, size_t> vehicleStepIndices;
-
-    static std::string currentStrategy = "Sequential";
-
     ImGui::SetNextWindowPos(ImVec2(0, yOffset));
     ImGui::SetNextWindowSize(ImVec2(width, height));
     ImGui::Begin("Game Screen");
+    static std::map<std::shared_ptr<Vehicle>, std::vector<std::pair<int, int>>> vehiclePaths;
+    static std::map<std::shared_ptr<Vehicle>, size_t> vehicleStepIndices;
+    static std::string currentStrategy = "Sequential";
 
     if (ImGui::RadioButton("Sequential", currentStrategy == "Sequential")) {
         currentStrategy = "Sequential";
@@ -58,28 +58,28 @@ void GameScreen::draw(std::function<void()> onSaveClick, Map* map) {
         Texture::ID id = vehicle->getID();
         ImGui::Text("Position: (%d, %d)", vehicle->getX(), vehicle->getY());
 
-        if (vehicle->getX() > 0 && ImGui::Button("Up")) {
+        if (checkingRoad(map->grid[vehicle->getX()-1][vehicle->getY()]) && vehicle->getX() > 0 && ImGui::Button("Up")) {
             setPositionWithoutVehicle(id, vehicle->getX(), vehicle->getY(), map);
             vehicle->moveUp();
             setPositionWithVehicle(id, vehicle->getX(), vehicle->getY(), map);
         }
         ImGui::SameLine();
 
-        if (vehicle->getX() < map->grid.size() - 1 && ImGui::Button("Down")) {
+        if (checkingRoad(map->grid[vehicle->getX()+1][vehicle->getY()]) && vehicle->getX() < map->grid.size()-1 && ImGui::Button("Down")) {
             setPositionWithoutVehicle(id, vehicle->getX(), vehicle->getY(), map);
             vehicle->moveDown();
             setPositionWithVehicle(id, vehicle->getX(), vehicle->getY(), map);
         }
         ImGui::SameLine();
 
-        if (vehicle->getY() > 0 && ImGui::Button("Left")) {
+        if (checkingRoad(map->grid[vehicle->getX()][vehicle->getY()-1]) && vehicle->getY() > 0 && ImGui::Button("Left")) {
             setPositionWithoutVehicle(id, vehicle->getX(), vehicle->getY(), map);
             vehicle->moveLeft();
             setPositionWithVehicle(id, vehicle->getX(), vehicle->getY(), map);
         }
         ImGui::SameLine();
 
-        if (vehicle->getY() < map->grid.size() - 1 && ImGui::Button("Right")) {
+        if (checkingRoad(map->grid[vehicle->getX()][vehicle->getY()+1]) && vehicle->getY() < map->grid.size()-1 && ImGui::Button("Right")) {
             setPositionWithoutVehicle(id, vehicle->getX(), vehicle->getY(), map);
             vehicle->moveRight();
             setPositionWithVehicle(id, vehicle->getX(), vehicle->getY(), map);
@@ -137,4 +137,7 @@ void GameScreen::setPositionWithVehicle(Texture::ID id, int selectedX, int selec
         vehicle = std::make_unique<Motorcycle>(selectedY, selectedX, 0);
         map->grid[selectedX][selectedY]->setVehicle(true, std::move(vehicle));
     }
+}
+bool GameScreen::checkingRoad(std::shared_ptr<Field> field) {
+    return field->getID() == Texture::ID::Road || field->getID() == Texture::ID::Crossroad || field->getID() == Texture::ID::Curve || field->getID() == Texture::ID::Intersection;
 }

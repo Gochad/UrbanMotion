@@ -1,4 +1,5 @@
 #include "mapper.h"
+#include <functional>
 
 template <typename T, int rotation = 0>
 std::shared_ptr<Field> createField() {

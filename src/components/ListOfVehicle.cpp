@@ -12,13 +12,6 @@ void ListOfVehicle::addVehicle(std::shared_ptr<Vehicle> vehicle) {
     vehicles.push_back(vehicle);
 }
 
-void ListOfVehicle::removeVehicle(int x, int y) {
-    auto it = std::remove_if(vehicles.begin(), vehicles.end(),
-                             [x, y](const std::shared_ptr<Vehicle>& v) {
-                                 return v->getX() == x && v->getY() == y;
-                             });
-    vehicles.erase(it, vehicles.end());
-}
 
 size_t ListOfVehicle::size() const {
     return vehicles.size();
@@ -26,7 +19,7 @@ size_t ListOfVehicle::size() const {
 
 void ListOfVehicle::printAllVehicles() const {
     for (const auto& vehicle : vehicles) {
-        std::cout << "Vehicle at (" << vehicle->getX() << ", " << vehicle->getY() << ")" << std::endl;
+        std::cout << vehicle->getX() << ", " << vehicle->getY() << std::endl; // Ensure this matches expected output.
     }
 }
 

@@ -38,6 +38,12 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glm)
 
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/refs/tags/release-1.11.0.zip
+)
+FetchContent_MakeAvailable(googletest)
+
 set(IMGUI_SOURCES
     ${imgui_SOURCE_DIR}/imgui.cpp
     ${imgui_SOURCE_DIR}/imgui_draw.cpp
@@ -77,8 +83,51 @@ target_include_directories(UrbanMotion PRIVATE
     ${imgui_SOURCE_DIR}/backends 
     ${glad_SOURCE_DIR}/include
     ${stb_SOURCE_DIR}
+    ${glfw_SOURCE_DIR}/include
 )
 
 target_compile_definitions(UrbanMotion PRIVATE IMGUI_IMPL_OPENGL_LOADER_GLAD)
 
 target_link_libraries(UrbanMotion PRIVATE glfw OpenGL::GL stb_image glm)
+
+# Włącz testy
+enable_testing()
+
+# Dodaj testy jednostkowe
+add_executable(ListOfVehicleTest
+    tests/ListOfVehicleTest.cpp
+    src/components/ListOfVehicle.cpp
+    src/components/Fields.cpp
+)
+target_include_directories(ListOfVehicleTest PRIVATE 
+    ${imgui_SOURCE_DIR} 
+    ${imgui_SOURCE_DIR}/backends 
+    ${glad_SOURCE_DIR}/include
+    ${stb_SOURCE_DIR}
+    ${glfw_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/tests
+    ${googletest_SOURCE_DIR}/include
+    ${googletest_BINARY_DIR}
+)
+target_link_libraries(ListOfVehicleTest gtest_main gmock_main glfw OpenGL::GL stb_image glm)
+
+add_executable(FieldsTest
+    tests/FieldsTest.cpp
+    src/components/Fields.cpp
+)
+target_include_directories(FieldsTest PRIVATE 
+    ${imgui_SOURCE_DIR} 
+    ${imgui_SOURCE_DIR}/backends 
+    ${glad_SOURCE_DIR}/include
+    ${stb_SOURCE_DIR}
+    ${glfw_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/tests
+    ${googletest_SOURCE_DIR}/include
+    ${googletest_BINARY_DIR}
+)
+
+target_link_libraries(FieldsTest gtest_main gmock_main glfw OpenGL::GL stb_image glm)
+
+include(GoogleTest)
+gtest_discover_tests(ListOfVehicleTest)
+gtest_discover_tests(FieldsTest)
