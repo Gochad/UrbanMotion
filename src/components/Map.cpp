@@ -33,44 +33,37 @@ int Map::showChangeTilePanel(IDraw* context, int selectedX, int selectedY, Field
     Point min(selectedX * square_size, selectedY * square_size);
     Point max((selectedX + 1) * square_size, (selectedY + 1) * square_size);
 
-    if (field == nullptr && 
-        listOfVehicle.size() >= 3) {
-        std::cout << "You can't add more than 3 vehicles" << std::endl;
+    if (listOfVehicle.size() >= 1) {  
+        std::cout << "You can only add 1 vehicle." << std::endl;
         return -1;
-    } else if (field == nullptr && listOfVehicle.size() < 3) {
+    }
+
+    if (field == nullptr) {
+        if (!checkingRoad(grid[selectedY][selectedX])) {
+            std::cout << "You can't place a vehicle on this tile." << std::endl;
+            return -1;
+        }
+
         std::shared_ptr<Vehicle> vehicle;
 
         if (id == Texture::ID::Car) {
-           if(!checkingRoad(grid[selectedY][selectedX])) {
-               std::cout << "You can't add a field on a square with a vehicle" << std::endl;
-           return -1;
-           }
             vehicle = std::make_shared<Car>(selectedY, selectedX, 0);
         } else if (id == Texture::ID::Bike) {
-           if(!checkingRoad(grid[selectedY][selectedX])) {
-               std::cout << "You can't add a field on a square with a vehicle" << std::endl;
-           return -1;
-           }
             vehicle = std::make_shared<Bike>(selectedY, selectedX, 0);
         } else if (id == Texture::ID::Motorcycle) {
-           if(!checkingRoad(grid[selectedY][selectedX])) {
-               std::cout << "You can't add a field on a square with a vehicle" << std::endl;
-           return -1;
-           }
             vehicle = std::make_shared<Motorcycle>(selectedY, selectedX, 0);
         }
-        
-        listOfVehicle.addVehicle(vehicle);
 
+        listOfVehicle.addVehicle(vehicle);
         grid[selectedY][selectedX]->setVehicle(true, vehicle);
     } else {
         grid[selectedY][selectedX] = std::make_shared<Field>(*field);
     }
 
     grid[selectedY][selectedX]->draw(context, min, max);
-
     return 1;
 }
+
 int Map::getSquareSize() {
     return square_size;
 }
