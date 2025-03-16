@@ -5,7 +5,7 @@ void Field::draw(IDraw* context, const Point& min, const Point& max) const {
 
     if (hasVehicle) {
         Texture::ID vehicleTextureID = idVehicle;
-        context->DrawTexture(min, max, vehicleTextureID, this->rotation);
+        context->DrawTexture(min, max, vehicleTextureID, 0);
     }
 }
 bool Field::isOccupied() const {
@@ -23,6 +23,11 @@ void Field::setVehicle(bool occupied, std::shared_ptr<Vehicle> vehicle) {
     idVehicle = Texture::ID::Motorcycle;
   }
 }
+
+std::shared_ptr<Vehicle> Field::getVehicle() {
+  return vehicle;
+}
+
 Texture::ID Field::getID() {
     return textureID;
 }   
