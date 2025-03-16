@@ -6,6 +6,7 @@
 #include "WelcomeScreen.h"
 #include "DropTargetWindow.h"
 #include "OpenGLScreenshotHandler.h"
+#include "../filestorage/MapReader.h"
 #include "../components/Map.h"
 #include <GLFW/glfw3.h>
 #include <memory>
