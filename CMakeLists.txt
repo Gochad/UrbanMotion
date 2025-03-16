@@ -90,10 +90,8 @@ target_compile_definitions(UrbanMotion PRIVATE IMGUI_IMPL_OPENGL_LOADER_GLAD)
 
 target_link_libraries(UrbanMotion PRIVATE glfw OpenGL::GL stb_image glm)
 
-# Włącz testy
 enable_testing()
 
-# Dodaj testy jednostkowe
 add_executable(ListOfVehicleTest
     tests/ListOfVehicleTest.cpp
     src/components/ListOfVehicle.cpp
