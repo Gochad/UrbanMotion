@@ -90,7 +90,6 @@ void Window::renderMapAndPanel() {
 }
 
 void Window::renderGameScreen() {
-    std::cout<<"Game started"<<std::endl;
     ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
     Draw imgui_context(draw_list);
     if (map) {

@@ -41,6 +41,7 @@ void GameScreen::draw(std::function<void()> onSaveClick, Map* map) {
     static std::map<std::shared_ptr<Vehicle>, std::vector<std::pair<int, int>>> vehiclePaths;
     static std::map<std::shared_ptr<Vehicle>, size_t> vehicleStepIndices;
     static std::string currentStrategy = "Sequential";
+    movementController = std::make_unique<SequentialStrategy>();
 
     if (ImGui::RadioButton("Sequential", currentStrategy == "Sequential")) {
         currentStrategy = "Sequential";
