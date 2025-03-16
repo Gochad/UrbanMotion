@@ -37,8 +37,10 @@ bool Window::init() {
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
+    std::vector<std::string> mapList = MapReader::getMapList();
+
     panel = std::make_unique<Panel>(width, 200, height - 200);
-    welcomeScreen = std::make_unique<WelcomeScreen>(std::vector<std::string>{"1", "2", "3"});
+    welcomeScreen = std::make_unique<WelcomeScreen>(mapList);
     dropTargetWindow = nullptr;
     gameScreen = std::make_unique<GameScreen>(width, 200, height - 200, map);
     screenshotHandler = ScreenshotHandler::create<OpenGLScreenshotHandler>(width, height);
@@ -90,7 +92,6 @@ void Window::renderMapAndPanel() {
 }
 
 void Window::renderGameScreen() {
-    std::cout<<"Game started"<<std::endl;
     ImDrawList* draw_list = ImGui::GetBackgroundDrawList();
     Draw imgui_context(draw_list);
     if (map) {
