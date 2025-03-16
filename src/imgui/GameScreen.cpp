@@ -59,32 +59,33 @@ void GameScreen::draw(std::function<void()> onSaveClick, Map* map) {
         Texture::ID id = vehicle->getID();
         ImGui::Text("Position: (%d, %d)", vehicle->getX(), vehicle->getY());
 
-        if (checkingRoad(map->grid[vehicle->getX()-1][vehicle->getY()]) && vehicle->getX() > 0 && ImGui::Button("Up")) {
+        if (checkingRoad(map->grid[vehicle->getX() - 1][vehicle->getY()]) && vehicle->getX() > 0 && ImGui::Button("Up")) {
             setPositionWithoutVehicle(id, vehicle->getX(), vehicle->getY(), map);
             vehicle->moveUp();
-            setPositionWithVehicle(id, vehicle->getX(), vehicle->getY(), map);
+            setPositionWithVehicle(id, vehicle->getX(), vehicle->getY(), map, vehicle);
         }
         ImGui::SameLine();
-
-        if (checkingRoad(map->grid[vehicle->getX()+1][vehicle->getY()]) && vehicle->getX() < map->grid.size()-1 && ImGui::Button("Down")) {
+        
+        if (checkingRoad(map->grid[vehicle->getX() + 1][vehicle->getY()]) && vehicle->getX() < map->grid.size() - 1 && ImGui::Button("Down")) {
             setPositionWithoutVehicle(id, vehicle->getX(), vehicle->getY(), map);
             vehicle->moveDown();
-            setPositionWithVehicle(id, vehicle->getX(), vehicle->getY(), map);
+            setPositionWithVehicle(id, vehicle->getX(), vehicle->getY(), map, vehicle);
         }
         ImGui::SameLine();
-
-        if (checkingRoad(map->grid[vehicle->getX()][vehicle->getY()-1]) && vehicle->getY() > 0 && ImGui::Button("Left")) {
+        
+        if (checkingRoad(map->grid[vehicle->getX()][vehicle->getY() - 1]) && vehicle->getY() > 0 && ImGui::Button("Left")) {
             setPositionWithoutVehicle(id, vehicle->getX(), vehicle->getY(), map);
             vehicle->moveLeft();
-            setPositionWithVehicle(id, vehicle->getX(), vehicle->getY(), map);
+            setPositionWithVehicle(id, vehicle->getX(), vehicle->getY(), map, vehicle);
         }
         ImGui::SameLine();
-
-        if (checkingRoad(map->grid[vehicle->getX()][vehicle->getY()+1]) && vehicle->getY() < map->grid.size()-1 && ImGui::Button("Right")) {
+        
+        if (checkingRoad(map->grid[vehicle->getX()][vehicle->getY() + 1]) && vehicle->getY() < map->grid.size() - 1 && ImGui::Button("Right")) {
             setPositionWithoutVehicle(id, vehicle->getX(), vehicle->getY(), map);
             vehicle->moveRight();
-            setPositionWithVehicle(id, vehicle->getX(), vehicle->getY(), map);
+            setPositionWithVehicle(id, vehicle->getX(), vehicle->getY(), map, vehicle);
         }
+
         ImGui::SameLine();
 
         if (ImGui::Button("Move to End")) {
@@ -99,12 +100,13 @@ void GameScreen::draw(std::function<void()> onSaveClick, Map* map) {
         if (!path.empty() && vehicleStepIndices[vehicle] < path.size() - 1) {
             auto [prevX, prevY] = path[vehicleStepIndices[vehicle]];
             map->grid[prevX][prevY]->setVehicle(false, nullptr);
-
+    
             ++vehicleStepIndices[vehicle];
             auto [x, y] = path[vehicleStepIndices[vehicle]];
-            map->grid[x][y]->setVehicle(true, vehicle);
+            
             vehicle->setPosition({x, y});
-
+            map->grid[x][y]->setVehicle(true, vehicle);
+    
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
         }
     }
@@ -113,32 +115,16 @@ void GameScreen::draw(std::function<void()> onSaveClick, Map* map) {
 }
 
 void GameScreen::setPositionWithoutVehicle(Texture::ID id, int selectedX, int selectedY, Map* map) {
-    std::unique_ptr<Vehicle> vehicle;
-    if (id == Texture::ID::Car) {
-        vehicle = std::make_unique<Car>(selectedY, selectedX, 0);
-        map->grid[selectedX][selectedY]->setVehicle(false, std::move(vehicle));
-    } else if (id == Texture::ID::Bike) {
-        vehicle = std::make_unique<Bike>(selectedY, selectedX, 0);
-        map->grid[selectedX][selectedY]->setVehicle(false, std::move(vehicle));
-    } else if (id == Texture::ID::Motorcycle) {
-        vehicle = std::make_unique<Motorcycle>(selectedY, selectedX, 0);
-        map->grid[selectedX][selectedY]->setVehicle(false, std::move(vehicle));
+    auto vehicle = map->grid[selectedX][selectedY]->getVehicle();
+    if (vehicle) {
+        map->grid[selectedX][selectedY]->setVehicle(false, nullptr);
     }
 }
 
-void GameScreen::setPositionWithVehicle(Texture::ID id, int selectedX, int selectedY, Map* map) {
-    std::unique_ptr<Vehicle> vehicle;
-    if (id == Texture::ID::Car) {
-        vehicle = std::make_unique<Car>(selectedY, selectedX, 0);
-        map->grid[selectedX][selectedY]->setVehicle(true, std::move(vehicle));
-    } else if (id == Texture::ID::Bike) {
-        vehicle = std::make_unique<Bike>(selectedY, selectedX, 0);
-        map->grid[selectedX][selectedY]->setVehicle(true, std::move(vehicle));
-    } else if (id == Texture::ID::Motorcycle) {
-        vehicle = std::make_unique<Motorcycle>(selectedY, selectedX, 0);
-        map->grid[selectedX][selectedY]->setVehicle(true, std::move(vehicle));
-    }
+void GameScreen::setPositionWithVehicle(Texture::ID id, int selectedX, int selectedY, Map* map, std::shared_ptr<Vehicle> vehicle) {
+    map->grid[selectedX][selectedY]->setVehicle(true, vehicle);
 }
+
 bool GameScreen::checkingRoad(std::shared_ptr<Field> field) {
     return field->getID() == Texture::ID::Road || field->getID() == Texture::ID::Crossroad || field->getID() == Texture::ID::Curve || field->getID() == Texture::ID::Intersection;
 }

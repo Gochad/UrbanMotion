@@ -74,6 +74,7 @@ public:
     bool isOccupied() const;
 
     void setVehicle(bool occupied, std::shared_ptr<Vehicle> vehicle);
+    std::shared_ptr<Vehicle> getVehicle();
 
     bool isRoad() const;
 };
