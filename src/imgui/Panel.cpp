@@ -37,6 +37,8 @@ void Panel::draw(std::function<void()> onSaveClick, std::function<void()> takeSc
         mapSaved = true;
     }
     
+    ImGui::SameLine(); 
+    
     if (ImGui::Button("Screenshot")) {
         takeScreenshot();
     }
